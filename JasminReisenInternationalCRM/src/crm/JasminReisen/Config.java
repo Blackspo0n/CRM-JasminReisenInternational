@@ -5,9 +5,9 @@ import java.awt.Font;
 
 public class Config {
 	
-	static private Color BACKGROUND = Color.blue;
+	static private Color BACKGROUND = Color.white;
 	static private Font FONT = new Font("Calibri Light", Font.PLAIN, 20);
-	static private Color FOREGROUND = Color.white;
+	static private Color FOREGROUND = Color.black;
 	
 	
 	public static Color getBACKGROUND() {
