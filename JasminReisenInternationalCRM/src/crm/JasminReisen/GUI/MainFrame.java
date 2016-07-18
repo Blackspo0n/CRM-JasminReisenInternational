@@ -142,8 +142,9 @@ public class MainFrame extends JFrame {
 		loginMenu.add(closeItem);
 
 		// Menü Items Stammdaten
-		JMenuItem coreDataItem = new JMenuItem("Stammdaten Pflege");
+		JMenuItem coreDataItem = new JMenuItem("Stammdatenpflege");
 		coreDataItem.setFont(Config.getFONT());
+		coreDataItem.addActionListener(new MainFrameListener(this));
 		JMenuItem coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
 		coreDataAnalyseItem.setFont(Config.getFONT());
 
