@@ -30,12 +30,8 @@ public class DbFunctions {
 			return null;
 			// throw new IllegalStateException(e);
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/Blackspo0n/CRM-JasminReisenInternational.git
 	}
-<<<<<<< HEAD
+
 	
 	public static void login (String username, String password)
 	{
@@ -58,7 +54,7 @@ public class DbFunctions {
 	
 	
 	
-=======
+
 
 	public static DefaultTableModel getFilteredCustomers(String name) {
 
@@ -91,6 +87,4 @@ public class DbFunctions {
 		return dtm;
 
 	}
-
->>>>>>> branch 'master' of https://github.com/Blackspo0n/CRM-JasminReisenInternational.git
 }
