@@ -85,7 +85,9 @@ public class MainFrame extends JFrame {
 
 		// JTextField
 		JTextField averageCustomerEffortField = new JTextField();
+		averageCustomerEffortField.setText("213" + " Euro");
 		averageCustomerEffortField.setEditable(false);
+		averageCustomerEffortField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageCustomerEffortField);
 
 		// Label
@@ -95,7 +97,9 @@ public class MainFrame extends JFrame {
 
 		// JTextField
 		JTextField averageTripDaysField = new JTextField();
+		averageTripDaysField.setText("4.5" + " Tage");
 		averageTripDaysField.setEditable(false);
+		averageTripDaysField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageTripDaysField);
 
 		// Label
@@ -105,7 +109,9 @@ public class MainFrame extends JFrame {
 
 		// JTextField
 		JTextField averageHotelStarsField = new JTextField();
+		averageHotelStarsField.setText("4" + " Sterne");
 		averageHotelStarsField.setEditable(false);
+		averageHotelStarsField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageHotelStarsField);
 
 		// Menü Leiste
@@ -136,8 +142,9 @@ public class MainFrame extends JFrame {
 		loginMenu.add(closeItem);
 
 		// Menü Items Stammdaten
-		JMenuItem coreDataItem = new JMenuItem("Stammdaten Pflege");
+		JMenuItem coreDataItem = new JMenuItem("Stammdatenpflege");
 		coreDataItem.setFont(Config.getFONT());
+		coreDataItem.addActionListener(new MainFrameListener(this));
 		JMenuItem coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
 		coreDataAnalyseItem.setFont(Config.getFONT());
 

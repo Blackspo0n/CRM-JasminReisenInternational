@@ -13,7 +13,7 @@ import crm.JasminReisen.GUI.MainFrame;
 public class Main {
 	
 	
-	private static Connection connection= null;
+	static Connection connection= null;
 	
 	public static void main(String[] args) 
 	{
