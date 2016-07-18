@@ -8,6 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import crm.JasminReisen.Config;
+import crm.JasminReisen.Listener.MainFrameListener;
 
 public class MainFrame extends JFrame {
 	
@@ -24,20 +25,28 @@ public class MainFrame extends JFrame {
 		setJMenuBar(menuBar);
 		
 		// Menü Reiter
-		JMenu customerMenu = new JMenu("Kunden");
-		menuBar.add(customerMenu);
+		JMenu loginMenu = new JMenu("Start");
+		menuBar.add(loginMenu);
 		
-		JMenu tripMenu = new JMenu("Reisen");
-		menuBar.add(tripMenu);
+		JMenu coreDataMenu = new JMenu("Stammdaten");
+		menuBar.add(coreDataMenu);
 		
-		// Menü Items für Kunden		
-		JMenuItem customerCoreData = new JMenuItem("Kunden Stammdaten");
-		customerMenu.add(customerCoreData);
+		// Menü Items Start
+		JMenuItem loginItem = new JMenuItem("Anmelden");
+		JMenuItem logoutItem = new JMenuItem("Abmelden");
+		JMenuItem closeItem = new JMenuItem("Beenden");
 		
-		// Menü Items für Reisen
-		JMenuItem tripCoreData = new JMenuItem("Reisen Stammdaten");
-		tripMenu.add(tripCoreData);
+		loginMenu.add(loginItem);
+		loginMenu.add(logoutItem);
+		loginMenu.addSeparator();
+		loginMenu.add(closeItem);
 		
+		// Menü Items Stammdaten
+		JMenuItem coreDataItem = new JMenuItem("Stammdaten Pflege");
+		JMenuItem coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
+		
+		coreDataMenu.add(coreDataItem);
+		coreDataMenu.add(coreDataAnalyseItem);
 		
 		
 		this.setVisible(true);
