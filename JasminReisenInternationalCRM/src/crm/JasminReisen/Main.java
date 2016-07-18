@@ -1,15 +1,13 @@
-package Functions;
+package crm.JasminReisen;
 
-import GUI.MainFrame;
+import crm.JasminReisen.GUI.MainFrame;
 
 public class Main {
 
 	public static void main(String[] args) {
-		
+
 		MainFrame mf = new MainFrame();
-		
-		
-		
+
 	}
 
 }

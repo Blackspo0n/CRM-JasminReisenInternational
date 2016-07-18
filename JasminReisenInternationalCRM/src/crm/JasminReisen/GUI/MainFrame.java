@@ -1,4 +1,4 @@
-package GUI;
+package crm.JasminReisen.GUI;
 
 import java.awt.GridLayout;
 
