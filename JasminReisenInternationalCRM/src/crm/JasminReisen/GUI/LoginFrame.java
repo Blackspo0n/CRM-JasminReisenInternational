@@ -59,6 +59,8 @@ public class LoginFrame extends JDialog
 		JButton loginButton = new JButton("Einloggen");
 		buttonPane.add(loginButton);
 		
+		loginButton.addActionListener(new LoginFrameListener(this));
+		
 		this.setVisible(true);
 	}
 }
