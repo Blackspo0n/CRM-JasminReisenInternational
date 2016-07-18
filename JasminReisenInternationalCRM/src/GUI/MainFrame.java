@@ -11,6 +11,8 @@ public class MainFrame extends JFrame {
 		this.setSize(800, 600);
 		this.setLayout(new GridLayout(8,3,0,0));
 		
+		
+		
 	}
 
 }
