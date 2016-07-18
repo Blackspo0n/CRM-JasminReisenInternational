@@ -14,9 +14,6 @@ public class LoginFrame extends JDialog
 	private JPanel contentPane;
 	private JPanel buttonPane;
 
-	public static void main(String[] args) {
-		LoginFrame lf = new LoginFrame(new JFrame());
-	}
 	
 	public LoginFrame(JFrame parent) {
 		super(parent);
@@ -59,7 +56,7 @@ public class LoginFrame extends JDialog
 		JButton loginButton = new JButton("Einloggen");
 		buttonPane.add(loginButton);
 		
-		loginButton.addActionListener(new LoginFrameListener(this));
+		//loginButton.addActionListener(new LoginFrameListener(this));
 		
 		this.setVisible(true);
 	}
