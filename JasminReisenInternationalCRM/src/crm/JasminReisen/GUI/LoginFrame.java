@@ -9,8 +9,10 @@ import java.awt.Toolkit;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class LoginFrame extends JDialog {
+public class LoginFrame extends JDialog 
+{
 	private JPanel contentPane;
+	private JPanel buttonPane;
 
 	public static void main(String[] args) {
 		LoginFrame lf = new LoginFrame(new JFrame());
@@ -18,34 +20,44 @@ public class LoginFrame extends JDialog {
 	
 	public LoginFrame(JFrame parent) {
 		super(parent);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		setResizable(false);
 		setTitle("Anmeldung");
-		setSize(450, 274);
+		setSize(350, 114);
 		
         Dimension windowSize = this.getSize();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(screenSize.width/2 - windowSize.width/2, screenSize.height/2 - windowSize.height/2);
 
+		this.setLayout(new BorderLayout());
 		
-		contentPane = (JPanel)this.getContentPane();
+		buttonPane = new  JPanel();
+		this.add(buttonPane, BorderLayout.SOUTH);
+		
+		contentPane =  new JPanel(new GridLayout(2,2,6,3));
+		
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(0, 2, 6, 3));
+		this.add(contentPane, BorderLayout.CENTER);
+				
 
 		JLabel labelUser = new JLabel();
 		labelUser.setText("Benutzername:");
 		contentPane.add(labelUser);
 
+		JTextField txtUser = new JTextField();
+		contentPane.add(txtUser);
+		
 		JLabel labelPassword = new JLabel();
 		labelPassword.setText("Password:");
 		contentPane.add(labelPassword);
 
-		JTextField txtUser = new JTextField();
-		contentPane.add(txtUser);
-
 		JPasswordField txtPassword = new JPasswordField();
-		contentPane.add(txtPassword);
+		contentPane.add(txtPassword);	
+		
+		JButton loginButton = new JButton("Einloggen");
+		buttonPane.add(loginButton);
 		
 		this.setVisible(true);
 	}
