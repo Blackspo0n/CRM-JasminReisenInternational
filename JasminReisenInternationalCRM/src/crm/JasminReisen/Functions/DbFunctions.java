@@ -18,7 +18,7 @@ public class DbFunctions
 		{
 			connection=DriverManager.getConnection(
 					"jdbc:mysql://"+ipAdresse+":"+port + "/" + db +"?useSSL=false", benutzerName, passwort);
-		statement = connection.createStatement();
+			statement = connection.createStatement();
 		
 		return connection;
 		
