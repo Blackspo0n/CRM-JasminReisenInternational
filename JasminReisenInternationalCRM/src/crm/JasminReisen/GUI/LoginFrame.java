@@ -34,39 +34,50 @@ public class LoginFrame extends JDialog
 		setTitle("Anmeldung");
 		setModal(true);
 		this.setLayout(new BorderLayout());
+		this.setBackground(Config.getBACKGROUND());
 		
 		mainFrame = parent;
 		buttonPane = new  JPanel();
 		gridpane = new JPanel(new GridLayout(2,2,6,3));
 		gridpane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		gridpane.setBackground(Config.getBACKGROUND());
+		buttonPane.setBackground(Config.getBACKGROUND());
 		
 		add(gridpane, BorderLayout.CENTER);
 		add(buttonPane, BorderLayout.SOUTH);
 				
 		labelUser = new JLabel();
 		labelUser.setText("Benutzername:");
+		labelUser.setFont(Config.getFONT());
 		gridpane.add(labelUser);
 
 		txtUser = new JTextField();
+		txtUser.setFont(Config.getFONT());
 		gridpane.add(txtUser);
 		
 		labelPassword = new JLabel();
 		labelPassword.setText("Password:");
+		labelPassword.setFont(Config.getFONT());
 		gridpane.add(labelPassword);
 
 		txtPassword = new JPasswordField();
+		txtPassword.setFont(Config.getFONT());
 		gridpane.add(txtPassword);	
 		
 		resetButton = new JButton("Zurücksetzen");
+		resetButton.setFont(Config.getFONT());
+		resetButton.setBackground(Config.getBACKGROUND());
 		buttonPane.add(resetButton);
 	
 		loginButton = new JButton("Einloggen");
+		loginButton.setFont(Config.getFONT());
+		loginButton.setBackground(Config.getBACKGROUND());
 		buttonPane.add(loginButton);
 		
 		loginButton.addActionListener(new LoginFrameListener(this));
 		resetButton.addActionListener(new LoginFrameListener(this));
 		
-		setSize(350, 114);
+		setSize(350, 140);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

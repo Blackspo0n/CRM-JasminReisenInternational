@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,12 +14,44 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
+import crm.JasminReisen.Functions.DateLabelFormatter;
 import crm.JasminReisen.Functions.DbFunctions;
+import crm.JasminReisen.Listener.CustomerEntryFrameListener;
 import crm.JasminReisen.models.Kunde;
 
 public class CustomerEntryFrame extends JFrame {
 	private Kunde customerContext;
 	private boolean isNew = false;
+	private JPanel southPanel;
+	private JPanel centerPanel;
+	private JPanel northPanel;
+	private JLabel header;
+	private JLabel customerVorname;
+	private JTextField txtCustomerVorName;
+	private JLabel customerName;
+	private JTextField txtCustomerName;
+	private JLabel customerStreet;
+	private JTextField txtStreet;
+	private JLabel customerPLZ;
+	private JTextField txtPLZ;
+	private JLabel customerTown;
+	private JTextField txtOrt;
+	private JLabel customerCountry;
+	private JTextField txtCountry;
+	private JLabel customerTelephone;
+	private JTextField txtTelephone;
+	private JLabel customerAdress;
+	private JTextField txtAdress;
+	private JLabel customerDate;
+	private SqlDateModel model;
+	private JDatePanelImpl datePanel;
+	private JDatePickerImpl datePicker;
+	private JButton cancleButton;
+	private JButton saveButton;
 	
 	public static void main(String[] args) {
 		new CustomerEntryFrame(new Kunde(21,"Name", "Vorname", "", "", "", "", "", "", null));
@@ -40,87 +73,90 @@ public class CustomerEntryFrame extends JFrame {
 		setTitle("Kunden neu anlegen");
 		
 		
-		JPanel centerPanel = new JPanel();
+		centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new GridLayout(0,2,6,6));
 		centerPanel.setBorder(new EmptyBorder(0,10,0,10));
 		
-		JPanel southPanel = new JPanel();
+		southPanel = new JPanel();
 		add(southPanel, BorderLayout.SOUTH);
 		
-		JPanel northPanel = new JPanel();
+		northPanel = new JPanel();
 		add(northPanel, BorderLayout.NORTH);
 		northPanel.setAlignmentX(LEFT_ALIGNMENT);
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		JLabel header = new JLabel();
+		header = new JLabel();
 		header.setHorizontalAlignment(SwingConstants.LEFT);
 		header.setFont(new Font("Calibri Light", Font.BOLD, 24));
 		northPanel.add(header);
 		
-		JLabel customerVorname = new JLabel("Vorname:");
+		customerVorname = new JLabel("Vorname:");
 		centerPanel.add(customerVorname);
 		
-		JTextField txtCustomerVorName = new JTextField();
+		txtCustomerVorName = new JTextField();
 		centerPanel.add(txtCustomerVorName);
 
-		JLabel customerName = new JLabel("Nachname:");
+		customerName = new JLabel("Nachname:");
 		centerPanel.add(customerName);
 		
-		JTextField txtCustomerName = new JTextField();
+		txtCustomerName = new JTextField();
 		centerPanel.add(txtCustomerName);
 		
 
-		JLabel customerStreet = new JLabel("Straﬂe:");
+		customerStreet = new JLabel("Straﬂe:");
 		centerPanel.add(customerStreet);
 		
-		JTextField txtStreet = new JTextField();
+		txtStreet = new JTextField();
 		centerPanel.add(txtStreet);
 		
-		JLabel customerPLZ = new JLabel("Postleitzahl:");
+		customerPLZ = new JLabel("Postleitzahl:");
 		centerPanel.add(customerPLZ);
 		
-		JTextField txtPLZ = new JTextField();
+		txtPLZ = new JTextField();
 		centerPanel.add(txtPLZ);
 
-		JLabel customerTown = new JLabel("Ort:");
+		customerTown = new JLabel("Ort:");
 		centerPanel.add(customerTown);
 		
-		JTextField txtOrt = new JTextField();
+		txtOrt = new JTextField();
 		centerPanel.add(txtOrt);
 
-		JLabel customerCountry = new JLabel("Land");
+		customerCountry = new JLabel("Land");
 		centerPanel.add(customerCountry);
 		
-		JTextField txtCountry = new JTextField();
+		txtCountry = new JTextField();
 		centerPanel.add(txtCountry);
 		
-		JLabel customerTelephone = new JLabel("Telefon");
+		customerTelephone = new JLabel("Telefon");
 		centerPanel.add(customerTelephone);
 
-		JTextField txtTelephone = new JTextField();
+		txtTelephone = new JTextField();
 		centerPanel.add(txtTelephone);
 		
-		JLabel customerAdress = new JLabel("E-Mail Adresse");
+		customerAdress = new JLabel("E-Mail Adresse");
 		centerPanel.add(customerAdress);
 
-		JTextField txtAdress = new JTextField();
+		txtAdress = new JTextField();
 		centerPanel.add(txtAdress);
 		
-		JLabel customerDate = new JLabel("Geburtsdatum");
+		customerDate = new JLabel("Geburtsdatum");
 		centerPanel.add(customerDate);
 
-		JTextField txtDate = new JTextField();
-		centerPanel.add(txtDate);	
+		model = new SqlDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		datePanel = new JDatePanelImpl(model, p);
+
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		centerPanel.add(datePicker);
 		
-		
-		
-		
-		
-		JButton cancleButton = new JButton("Abbrechen");
+		cancleButton = new JButton("Abbrechen");
 		southPanel.add(cancleButton);
 		
-		JButton saveButton = new JButton("");
+		saveButton = new JButton("");
 		if(customerContext.getKundennummer() == 0) {
 			saveButton.setText("Anlegen");
 			header.setText("Neuen Benutzer anlegen:");
@@ -139,10 +175,236 @@ public class CustomerEntryFrame extends JFrame {
 			txtTelephone.setText(customer.getTelefon());
 			txtAdress.setText(customer.getTelefon());
 			
-			if(customer.getGebDat() != null) txtDate.setText(customer.getGebDat().toString());
+			if(customer.getGebDat() != null) datePicker.getModel().setDate(customer.getGebDat().getYear(), customer.getGebDat().getMonth(), customer.getGebDat().getDay());
 		}
+		saveButton.addActionListener(new CustomerEntryFrameListener(this));
+		cancleButton.addActionListener(new CustomerEntryFrameListener(this));
 		
 		southPanel.add(saveButton);
 		setVisible(true);
+	}
+
+	public Kunde getCustomerContext() {
+		return customerContext;
+	}
+
+	public void setCustomerContext(Kunde customerContext) {
+		this.customerContext = customerContext;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
+	public JPanel getSouthPanel() {
+		return southPanel;
+	}
+
+	public void setSouthPanel(JPanel southPanel) {
+		this.southPanel = southPanel;
+	}
+
+	public JPanel getCenterPanel() {
+		return centerPanel;
+	}
+
+	public void setCenterPanel(JPanel centerPanel) {
+		this.centerPanel = centerPanel;
+	}
+
+	public JPanel getNorthPanel() {
+		return northPanel;
+	}
+
+	public void setNorthPanel(JPanel northPanel) {
+		this.northPanel = northPanel;
+	}
+
+	public JLabel getHeader() {
+		return header;
+	}
+
+	public void setHeader(JLabel header) {
+		this.header = header;
+	}
+
+	public JLabel getCustomerVorname() {
+		return customerVorname;
+	}
+
+	public void setCustomerVorname(JLabel customerVorname) {
+		this.customerVorname = customerVorname;
+	}
+
+	public JTextField getTxtCustomerVorName() {
+		return txtCustomerVorName;
+	}
+
+	public void setTxtCustomerVorName(JTextField txtCustomerVorName) {
+		this.txtCustomerVorName = txtCustomerVorName;
+	}
+
+	public JLabel getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(JLabel customerName) {
+		this.customerName = customerName;
+	}
+
+	public JTextField getTxtCustomerName() {
+		return txtCustomerName;
+	}
+
+	public void setTxtCustomerName(JTextField txtCustomerName) {
+		this.txtCustomerName = txtCustomerName;
+	}
+
+	public JLabel getCustomerStreet() {
+		return customerStreet;
+	}
+
+	public void setCustomerStreet(JLabel customerStreet) {
+		this.customerStreet = customerStreet;
+	}
+
+	public JTextField getTxtStreet() {
+		return txtStreet;
+	}
+
+	public void setTxtStreet(JTextField txtStreet) {
+		this.txtStreet = txtStreet;
+	}
+
+	public JLabel getCustomerPLZ() {
+		return customerPLZ;
+	}
+
+	public void setCustomerPLZ(JLabel customerPLZ) {
+		this.customerPLZ = customerPLZ;
+	}
+
+	public JTextField getTxtPLZ() {
+		return txtPLZ;
+	}
+
+	public void setTxtPLZ(JTextField txtPLZ) {
+		this.txtPLZ = txtPLZ;
+	}
+
+	public JLabel getCustomerTown() {
+		return customerTown;
+	}
+
+	public void setCustomerTown(JLabel customerTown) {
+		this.customerTown = customerTown;
+	}
+
+	public JTextField getTxtOrt() {
+		return txtOrt;
+	}
+
+	public void setTxtOrt(JTextField txtOrt) {
+		this.txtOrt = txtOrt;
+	}
+
+	public JLabel getCustomerCountry() {
+		return customerCountry;
+	}
+
+	public void setCustomerCountry(JLabel customerCountry) {
+		this.customerCountry = customerCountry;
+	}
+
+	public JTextField getTxtCountry() {
+		return txtCountry;
+	}
+
+	public void setTxtCountry(JTextField txtCountry) {
+		this.txtCountry = txtCountry;
+	}
+
+	public JLabel getCustomerTelephone() {
+		return customerTelephone;
+	}
+
+	public void setCustomerTelephone(JLabel customerTelephone) {
+		this.customerTelephone = customerTelephone;
+	}
+
+	public JTextField getTxtTelephone() {
+		return txtTelephone;
+	}
+
+	public void setTxtTelephone(JTextField txtTelephone) {
+		this.txtTelephone = txtTelephone;
+	}
+
+	public JLabel getCustomerAdress() {
+		return customerAdress;
+	}
+
+	public void setCustomerAdress(JLabel customerAdress) {
+		this.customerAdress = customerAdress;
+	}
+
+	public JTextField getTxtAdress() {
+		return txtAdress;
+	}
+
+	public void setTxtAdress(JTextField txtAdress) {
+		this.txtAdress = txtAdress;
+	}
+
+	public JLabel getCustomerDate() {
+		return customerDate;
+	}
+
+	public void setCustomerDate(JLabel customerDate) {
+		this.customerDate = customerDate;
+	}
+
+	public SqlDateModel getModel() {
+		return model;
+	}
+
+	public void setModel(SqlDateModel model) {
+		this.model = model;
+	}
+
+	public JDatePanelImpl getDatePanel() {
+		return datePanel;
+	}
+
+	public void setDatePanel(JDatePanelImpl datePanel) {
+		this.datePanel = datePanel;
+	}
+
+	public JDatePickerImpl getDatePicker() {
+		return datePicker;
+	}
+
+	public void setDatePicker(JDatePickerImpl datePicker) {
+		this.datePicker = datePicker;
+	}
+
+	public JButton getCancleButton() {
+		return cancleButton;
+	}
+
+	public void setCancleButton(JButton cancleButton) {
+		this.cancleButton = cancleButton;
+	}
+
+	public JButton getSaveButton() {
+		return saveButton;
+	}
+
+	public void setSaveButton(JButton saveButton) {
+		this.saveButton = saveButton;
 	}
 }

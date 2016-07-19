@@ -85,6 +85,22 @@ public class DbFunctions {
 		return userList;
 		
 	}
+	public static List<String> getVehicleList() {
+		List<String> vehicleList = new ArrayList<String>();
+		
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Transportmittel");
+			
+			while (rs.next()) {
+				vehicleList.add(rs.getString("Name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return vehicleList;
+	}
 	
 	public static boolean createCostumer(Kunde customer) throws SQLException {
 
@@ -104,7 +120,26 @@ public class DbFunctions {
 		return false;
 		
 	}
-	public void saveCostumer(Kunde customer) {
+	public static boolean saveCostumer(Kunde customer) throws SQLException {
+		if(customer == null) throw new SQLException("Customer cannot be null");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String sql = "UPDATE Kunden SET "
+					+ "Name = '" + customer.getName() + "',"
+					+ "Vorname = '" +  customer.getVorname() + "',"
+					+ "Strasse = '" +  customer.getStrasse() + "',"
+					+ "PLZ = '" + customer.getPLZ() + "',"
+					+ "Ort = '" + customer.getOrt() + "',"
+					+ "Land = '" + customer.getLand() + "',"
+					+ "Telefon = '" + customer.getTelefon() + "',"
+					+ "EMail = '" + customer.getEMail() + "',"
+					+ "GebDat = '" + ((customer.getGebDat() != null) ? sdf.format(customer.getGebDat()) : "\\N")+ "' WHERE Kundennummer = " + customer.getKundennummer();
+		
+		System.out.println(sql);
+		if(statement.executeUpdate(sql) != 0) {
+			return true;
+		}
+		return false;
 	}
 	
 }
