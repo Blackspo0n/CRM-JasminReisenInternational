@@ -7,6 +7,13 @@ public class Config {
 	
 	static private Color BACKGROUND = Color.white;
 	static private Font FONT = new Font("Calibri Light", Font.PLAIN, 20);
+	static private Font HEADLINE = new Font("Calibri Light", Font.BOLD, 22);
+	public static Font getHEADLINE() {
+		return HEADLINE;
+	}
+	public static void setHEADLINE(Font hEADLINE) {
+		HEADLINE = hEADLINE;
+	}
 	static private Color FOREGROUND = Color.black;
 	
 	
