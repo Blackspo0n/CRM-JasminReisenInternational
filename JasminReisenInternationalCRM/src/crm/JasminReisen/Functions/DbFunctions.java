@@ -67,6 +67,37 @@ public class DbFunctions {
 
 	}
 	
+	public static DefaultTableModel getFilteredTrips(String name) {
+
+		String col[] = { "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag", "Kundennummer" };
+		DefaultTableModel dtm = new DefaultTableModel(col, 0);
+
+		try {
+			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name LIKE '%" + name + "%'");
+			while (rs.next()) {
+				Object[] objs = new Object[10];
+				objs[0] = rs.getString("Name");
+				objs[1] = rs.getString("Vorname");
+				objs[2] = rs.getString("Strasse");
+				objs[3] = rs.getString("PLZ");
+				objs[4] = rs.getString("Ort");
+				objs[5] = rs.getString("Land");
+				objs[6] = rs.getString("Telefon");
+				objs[7] = rs.getString("EMail");
+				Date geburtstag = rs.getDate("GebDat");
+				if (geburtstag != null) {
+					objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
+				}
+				objs[9] = rs.getString("Kundennummer");
+				dtm.addRow(objs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dtm;
+
+	}
+	
 	public static List<User> getUserList() {
 		List<User> userList = new ArrayList<User>();
 		
@@ -92,7 +123,7 @@ public class DbFunctions {
 		try {
 			statement = connection.createStatement();
 			rs = statement.executeQuery("SELECT * FROM Transportmittel");
-			
+			vehicleList.add("");
 			while (rs.next()) {
 				vehicleList.add(rs.getString("Name"));
 			}

@@ -109,8 +109,6 @@ public class MainFrame extends JFrame {
 		lastPanel = new JPanel();
 		lastPanel.setBackground(Config.getBACKGROUND());
 
-		// Label
-
 		averageCustomerEffort = new JLabel("Durchschnittlicher Kundenaufwand pro Tag", SwingConstants.CENTER);
 		averageCustomerEffort.setFont(Config.getFONT());
 		averageCustomerEffort.setEnabled(true);
@@ -175,7 +173,7 @@ public class MainFrame extends JFrame {
 		coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
 		coreDataAnalyseItem.setFont(Config.getFONT());
 
-		// Men� Action Listener
+		// Menue Action Listener
 		loginItem.addActionListener(new MainFrameListener(this));
 		logoutItem.addActionListener(new MainFrameListener(this));
 		closeItem.addActionListener(new MainFrameListener(this));
@@ -403,12 +401,12 @@ public class MainFrame extends JFrame {
 			northPanel.setVisible(true);
 			eastPanel.setVisible(true);
 			logoutItem.setVisible(true);
+			loginItem.setVisible(false);
 			westPanel.setVisible(true);
 			coreDataItem.setVisible(true);
 			coreDataAnalyseItem.setVisible(true);
 			System.out.println("Logged In");
 		} else {
-
 			imageWest.setText("");
 			imageNorth.setText("");
 			imageEast.setText("");
@@ -416,6 +414,7 @@ public class MainFrame extends JFrame {
 			averageTripDaysField.setText("");
 			averageHotelStarsField.setText("");
 			coreDataMenu.setEnabled(false);
+			loginItem.setVisible(true);
 			logoutItem.setVisible(false);
 			northPanel.setVisible(false);
 			eastPanel.setVisible(false);

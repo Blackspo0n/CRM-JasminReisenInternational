@@ -66,12 +66,10 @@ public class LoginFrame extends JDialog
 		
 		resetButton = new JButton("Zurücksetzen");
 		resetButton.setFont(Config.getFONT());
-		resetButton.setBackground(Config.getBACKGROUND());
 		buttonPane.add(resetButton);
 	
 		loginButton = new JButton("Einloggen");
 		loginButton.setFont(Config.getFONT());
-		loginButton.setBackground(Config.getBACKGROUND());
 		buttonPane.add(loginButton);
 		
 		loginButton.addActionListener(new LoginFrameListener(this));
