@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -22,6 +23,7 @@ import javax.swing.SwingConstants;
 
 import crm.JasminReisen.Config;
 import crm.JasminReisen.Listener.MainFrameListener;
+import crm.JasminReisen.models.User;
 
 public class MainFrame extends JFrame {
 
@@ -51,7 +53,11 @@ public class MainFrame extends JFrame {
 	private JMenuItem closeItem;
 	private JMenuItem coreDataItem;
 	private JMenuItem coreDataAnalyseItem;
-
+	
+	private List<User> cachedUserList;
+	private User loggedUser;
+	
+	
 	public MainFrame() {
 
 		setSize(1200, 800);
