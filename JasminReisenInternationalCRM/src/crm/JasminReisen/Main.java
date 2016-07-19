@@ -18,8 +18,6 @@ public class Main {
 		
 		DbFunctions.connect("193.175.199.130", "CRM", "3306", "whs", "whs2016");
 		
-		
-		
 		new MainFrame();
 
 	}

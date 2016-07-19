@@ -43,8 +43,8 @@ public class MainFrame extends JFrame {
 
 		// Images
 		try {
-			BufferedImage imageLeft = ImageIO.read(new File("images/links.jpeg"));
-			BufferedImage imageRight = ImageIO.read(new File("images/rechts.jpeg"));
+			BufferedImage imageLeft = ImageIO.read(new File("images/links2.jpg"));
+			BufferedImage imageRight = ImageIO.read(new File("images/rechts2.jpg"));
 			BufferedImage imageTop = ImageIO.read(new File("images/jasmin2.png"));
 			
 			JPanel northPanel = new JPanel();
