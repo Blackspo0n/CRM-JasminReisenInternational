@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -22,76 +23,103 @@ import javax.swing.SwingConstants;
 
 import crm.JasminReisen.Config;
 import crm.JasminReisen.Listener.MainFrameListener;
+import crm.JasminReisen.models.User;
 
 public class MainFrame extends JFrame {
 
+	private JPanel westPanel;
+	private BufferedImage imageLeft;
+	private BufferedImage imageRight;
+	private BufferedImage imageTop;
+	private JPanel northPanel;
+	private JLabel imageWest;
+	private JPanel eastPanel;
+	private JLabel imageNorth;
+	private JLabel imageEast;
+	private JPanel centerPanel;
+	private JPanel firstPanel;
+	private JPanel lastPanel;
+	private JLabel averageCustomerEffort;
+	private JTextField averageCustomerEffortField;
+	private JLabel averageTripDays;
+	private JTextField averageTripDaysField;
+	private JLabel averageHotelStars;
+	private JTextField averageHotelStarsField;
+	private JMenuBar menuBar;
+	private JMenu loginMenu;
+	private JMenu coreDataMenu;
+	private JMenuItem loginItem;
+	private JMenuItem logoutItem;
+	private JMenuItem closeItem;
+	private JMenuItem coreDataItem;
+	private JMenuItem coreDataAnalyseItem;
+	
+	private List<User> cachedUserList;
+	private User loggedUser;
+	
+	
 	public MainFrame() {
 
-		this.setSize(1200, 800);
-		this.setTitle("Jasmin Reisen International - Customer Relationship Management");
-		Dimension windowSize = this.getSize();
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(screenSize.width / 2 - windowSize.width / 2, screenSize.height / 2 - windowSize.height / 2);
-		this.setResizable(false);
-		this.setBackground(Config.getBACKGROUND());
-		this.setLayout(new BorderLayout());
-
-		// Panels
-		JPanel westPanel = new JPanel();
+		setSize(1200, 800);
+		setTitle("Jasmin Reisen International - Customer Relationship Management");
+		setResizable(false);
+		setBackground(Config.getBACKGROUND());
+		setLayout(new BorderLayout());
+		setLocationRelativeTo(null);
+		
+		westPanel = new JPanel();
 		westPanel.setSize(200, 600);
-		this.add(westPanel, BorderLayout.WEST);
+		add(westPanel, BorderLayout.WEST);
 
 		// Images
 		try {
+
 			imageLeft = ImageIO.read(new File("images/links2.jpg"));
 			imageRight = ImageIO.read(new File("images/rechts2.jpg"));
 			imageTop = ImageIO.read(new File("images/jasmin2.png"));
 			
-			JPanel northPanel = new JPanel();
-			this.add(northPanel, BorderLayout.NORTH);
+			northPanel = new JPanel();
+			add(northPanel, BorderLayout.NORTH);
 			
-			// westPanel Label for image
-			JLabel imageWest = new JLabel(new ImageIcon(imageLeft));
+			imageWest = new JLabel(new ImageIcon(imageLeft));
 			westPanel.add(imageWest);
 			westPanel.setBackground(Config.getBACKGROUND());
 
-			JPanel eastPanel = new JPanel();
+			eastPanel = new JPanel();
 			eastPanel.setSize(200, 600);
 			eastPanel.setBackground(Config.getBACKGROUND());
 			
 			
-			JLabel imageNorth = new JLabel(new ImageIcon(imageTop));
+			imageNorth = new JLabel(new ImageIcon(imageTop));
 			northPanel.add(imageNorth);
 
-			this.add(eastPanel, BorderLayout.EAST);
+			add(eastPanel, BorderLayout.EAST);
 
-			// eastPanel Label for image
-			JLabel imageEast = new JLabel(new ImageIcon(imageRight));
+			imageEast = new JLabel(new ImageIcon(imageRight));
 			eastPanel.add(imageEast);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		JPanel centerPanel = new JPanel();
+		centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(8, 1, 30, 15));
 		centerPanel.setBackground(Config.getBACKGROUND());
 		this.add(centerPanel, BorderLayout.CENTER);
 
-		JPanel firstPanel = new JPanel();
+		firstPanel = new JPanel();
 		firstPanel.setBackground(Config.getBACKGROUND());
 		centerPanel.add(firstPanel);
 
-		JPanel lastPanel = new JPanel();
+		lastPanel = new JPanel();
 		lastPanel.setBackground(Config.getBACKGROUND());
 
 		// Label
 
-		JLabel averageCustomerEffort = new JLabel("Durchschnittlicher Kundenaufwand pro Tag", SwingConstants.CENTER);
+		averageCustomerEffort = new JLabel("Durchschnittlicher Kundenaufwand pro Tag", SwingConstants.CENTER);
 		averageCustomerEffort.setFont(Config.getFONT());
 		centerPanel.add(averageCustomerEffort);
 
-		// JTextField
-		JTextField averageCustomerEffortField = new JTextField();
+		averageCustomerEffortField = new JTextField();
 		averageCustomerEffortField.setFont(Config.getFONT());
 		averageCustomerEffortField.setHorizontalAlignment(JLabel.CENTER);
 		averageCustomerEffortField.setText("213" + " Euro");
@@ -99,13 +127,11 @@ public class MainFrame extends JFrame {
 		averageCustomerEffortField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageCustomerEffortField);
 
-		// Label
-		JLabel averageTripDays = new JLabel("Durchschnittliche Reisetage", SwingConstants.CENTER);
+		averageTripDays = new JLabel("Durchschnittliche Reisetage", SwingConstants.CENTER);
 		averageTripDays.setFont(Config.getFONT());
 		centerPanel.add(averageTripDays);
 
-		// JTextField
-		JTextField averageTripDaysField = new JTextField();
+		averageTripDaysField = new JTextField();
 		averageTripDaysField.setFont(Config.getFONT());
 		averageTripDaysField.setHorizontalAlignment(JLabel.CENTER);
 		averageTripDaysField.setText("4.5" + " Tage");
@@ -113,13 +139,11 @@ public class MainFrame extends JFrame {
 		averageTripDaysField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageTripDaysField);
 
-		// Label
-		JLabel averageHotelStars = new JLabel("Durchschnittliche Hotelsterne", SwingConstants.CENTER);
+		averageHotelStars = new JLabel("Durchschnittliche Hotelsterne", SwingConstants.CENTER);
 		averageHotelStars.setFont(Config.getFONT());
 		centerPanel.add(averageHotelStars);
 
-		// JTextField
-		JTextField averageHotelStarsField = new JTextField();
+		averageHotelStarsField = new JTextField();
 		averageHotelStarsField.setFont(Config.getFONT());
 		averageHotelStarsField.setHorizontalAlignment(JLabel.CENTER);
 		averageHotelStarsField.setText("4" + " Sterne");
@@ -127,26 +151,23 @@ public class MainFrame extends JFrame {
 		averageHotelStarsField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageHotelStarsField);
 
-		// Menü Leiste
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		menuBar.setFont(Config.getFONT());
 		setJMenuBar(menuBar);
 
-		// Menü Reiter
-		JMenu loginMenu = new JMenu("Start");
+		loginMenu = new JMenu("Start");
 		loginMenu.setFont(Config.getFONT());
 		menuBar.add(loginMenu);
 
-		JMenu coreDataMenu = new JMenu("Stammdaten");
+		coreDataMenu = new JMenu("Stammdaten");
 		coreDataMenu.setFont(Config.getFONT());
 		menuBar.add(coreDataMenu);
 
-		// Menü Items Start
-		JMenuItem loginItem = new JMenuItem("Anmelden");
+		loginItem = new JMenuItem("Anmelden");
 		loginItem.setFont(Config.getFONT());
-		JMenuItem logoutItem = new JMenuItem("Abmelden");
+		logoutItem = new JMenuItem("Abmelden");
 		logoutItem.setFont(Config.getFONT());
-		JMenuItem closeItem = new JMenuItem("Beenden");
+		closeItem = new JMenuItem("Beenden");
 		closeItem.setFont(Config.getFONT());
 
 		loginMenu.add(loginItem);
@@ -154,11 +175,10 @@ public class MainFrame extends JFrame {
 		loginMenu.addSeparator();
 		loginMenu.add(closeItem);
 
-		// Menü Items Stammdaten
-		JMenuItem coreDataItem = new JMenuItem("Stammdatenpflege");
+		coreDataItem = new JMenuItem("Stammdatenpflege");
 		coreDataItem.setFont(Config.getFONT());
 		coreDataItem.addActionListener(new MainFrameListener(this));
-		JMenuItem coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
+		coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
 		coreDataAnalyseItem.setFont(Config.getFONT());
 
 		// Menü Action Listener
@@ -168,11 +188,208 @@ public class MainFrame extends JFrame {
 
 		coreDataMenu.add(coreDataItem);
 		coreDataMenu.add(coreDataAnalyseItem);
-
 		centerPanel.add(lastPanel);
 
-		this.setVisible(true);
-
+		setVisible(true);
 	}
 
+	public JPanel getWestPanel() {
+		return westPanel;
+	}
+
+	public void setWestPanel(JPanel westPanel) {
+		this.westPanel = westPanel;
+	}
+
+	public BufferedImage getImageLeft() {
+		return imageLeft;
+	}
+
+	public void setImageLeft(BufferedImage imageLeft) {
+		this.imageLeft = imageLeft;
+	}
+
+	public BufferedImage getImageRight() {
+		return imageRight;
+	}
+
+	public void setImageRight(BufferedImage imageRight) {
+		this.imageRight = imageRight;
+	}
+
+	public BufferedImage getImageTop() {
+		return imageTop;
+	}
+
+	public void setImageTop(BufferedImage imageTop) {
+		this.imageTop = imageTop;
+	}
+
+	public JPanel getNorthPanel() {
+		return northPanel;
+	}
+
+	public void setNorthPanel(JPanel northPanel) {
+		this.northPanel = northPanel;
+	}
+
+	public JLabel getImageWest() {
+		return imageWest;
+	}
+
+	public void setImageWest(JLabel imageWest) {
+		this.imageWest = imageWest;
+	}
+
+	public JPanel getEastPanel() {
+		return eastPanel;
+	}
+
+	public void setEastPanel(JPanel eastPanel) {
+		this.eastPanel = eastPanel;
+	}
+
+	public JLabel getImageNorth() {
+		return imageNorth;
+	}
+
+	public void setImageNorth(JLabel imageNorth) {
+		this.imageNorth = imageNorth;
+	}
+
+	public JLabel getImageEast() {
+		return imageEast;
+	}
+
+	public void setImageEast(JLabel imageEast) {
+		this.imageEast = imageEast;
+	}
+
+	public JPanel getCenterPanel() {
+		return centerPanel;
+	}
+
+	public void setCenterPanel(JPanel centerPanel) {
+		this.centerPanel = centerPanel;
+	}
+
+	public JPanel getFirstPanel() {
+		return firstPanel;
+	}
+
+	public void setFirstPanel(JPanel firstPanel) {
+		this.firstPanel = firstPanel;
+	}
+
+	public JPanel getLastPanel() {
+		return lastPanel;
+	}
+
+	public void setLastPanel(JPanel lastPanel) {
+		this.lastPanel = lastPanel;
+	}
+
+	public JLabel getAverageCustomerEffort() {
+		return averageCustomerEffort;
+	}
+
+	public void setAverageCustomerEffort(JLabel averageCustomerEffort) {
+		this.averageCustomerEffort = averageCustomerEffort;
+	}
+
+	public JTextField getAverageCustomerEffortField() {
+		return averageCustomerEffortField;
+	}
+
+	public void setAverageCustomerEffortField(JTextField averageCustomerEffortField) {
+		this.averageCustomerEffortField = averageCustomerEffortField;
+	}
+
+	public JLabel getAverageTripDays() {
+		return averageTripDays;
+	}
+
+	public void setAverageTripDays(JLabel averageTripDays) {
+		this.averageTripDays = averageTripDays;
+	}
+
+	public JTextField getAverageTripDaysField() {
+		return averageTripDaysField;
+	}
+
+	public void setAverageTripDaysField(JTextField averageTripDaysField) {
+		this.averageTripDaysField = averageTripDaysField;
+	}
+
+	public JLabel getAverageHotelStars() {
+		return averageHotelStars;
+	}
+
+	public void setAverageHotelStars(JLabel averageHotelStars) {
+		this.averageHotelStars = averageHotelStars;
+	}
+
+	public JTextField getAverageHotelStarsField() {
+		return averageHotelStarsField;
+	}
+
+	public void setAverageHotelStarsField(JTextField averageHotelStarsField) {
+		this.averageHotelStarsField = averageHotelStarsField;
+	}
+
+	public JMenu getLoginMenu() {
+		return loginMenu;
+	}
+
+	public void setLoginMenu(JMenu loginMenu) {
+		this.loginMenu = loginMenu;
+	}
+
+	public JMenu getCoreDataMenu() {
+		return coreDataMenu;
+	}
+
+	public void setCoreDataMenu(JMenu coreDataMenu) {
+		this.coreDataMenu = coreDataMenu;
+	}
+
+	public JMenuItem getLoginItem() {
+		return loginItem;
+	}
+
+	public void setLoginItem(JMenuItem loginItem) {
+		this.loginItem = loginItem;
+	}
+
+	public JMenuItem getLogoutItem() {
+		return logoutItem;
+	}
+
+	public void setLogoutItem(JMenuItem logoutItem) {
+		this.logoutItem = logoutItem;
+	}
+
+	public JMenuItem getCloseItem() {
+		return closeItem;
+	}
+
+	public void setCloseItem(JMenuItem closeItem) {
+		this.closeItem = closeItem;
+	}
+
+	public JMenuItem getCoreDataItem() {
+		return coreDataItem;
+	}
+
+	public void setCoreDataItem(JMenuItem coreDataItem) {
+		this.coreDataItem = coreDataItem;
+	}
+
+	public JMenuItem getCoreDataAnalyseItem() {
+		return coreDataAnalyseItem;
+	}
+
+	public void setCoreDataAnalyseItem(JMenuItem coreDataAnalyseItem) {
+		this.coreDataAnalyseItem = coreDataAnalyseItem;
+	}
 }
