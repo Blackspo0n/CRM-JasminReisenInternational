@@ -6,11 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
 import crm.JasminReisen.Main;
+import crm.JasminReisen.models.User;
 
 public class DbFunctions {
 	private static Statement statement = null;
@@ -62,11 +65,7 @@ public class DbFunctions {
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			Connection connection = connect("193.175.199.130", "CRM", "3306", "whs", "whs2016"); // ANZUPASSEN,
-																									// CONNECTION!
-			Statement statement = connection.createStatement(); // ANZUPASSEN,
-																// CONNECTION!
-			ResultSet rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name =" + name);
+			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name = '" + name + "'");
 			while (rs.next()) {
 				Object[] objs = new Object[9];
 				objs[0] = rs.getString("Name");
@@ -74,17 +73,39 @@ public class DbFunctions {
 				objs[2] = rs.getString("Strasse");
 				objs[3] = rs.getString("PLZ");
 				objs[4] = rs.getString("Ort");
-				objs[5] = rs.getString("Land");
+//				objs[5] = rs.getString("Land");
 				objs[6] = rs.getString("Telefon");
 				objs[7] = rs.getString("EMail");
 				Date geburtstag = rs.getDate("GebDat");
-				objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
+				if (geburtstag != null) {
+					objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
+				}
 				dtm.addRow(objs);
 			}
 		} catch (Exception e) {
-			System.err.println(e);
+			e.printStackTrace();
 		}
 		return dtm;
 
+	}
+	}
+	
+	public static List<User> getUserList() {
+		List<User> userList = new ArrayList<User>();
+		
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Benutzer");
+			
+			while (rs.next()) {
+				userList.add(new User( rs.getInt("BenutzerId"), rs.getString("BenutzerName"), rs.getString("Passwort")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userList;
+		
 	}
 }

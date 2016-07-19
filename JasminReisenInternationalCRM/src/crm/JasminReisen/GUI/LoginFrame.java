@@ -1,66 +1,130 @@
 package crm.JasminReisen.GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import crm.JasminReisen.Config;
+import crm.JasminReisen.Listener.MainFrameListener;
+import crm.JasminReisen.models.User;
 import crm.JasminReisen.Listener.LoginFrameListener;
 
 public class LoginFrame extends JDialog 
 {
-	private JPanel contentPane;
+	private JPanel gridpane;
 	private JPanel buttonPane;
-
+	private JLabel labelUser;
+	private JLabel labelPassword;
+	private JTextField txtUser;
+	private JPasswordField txtPassword;
+	private JButton loginButton;
+	private MainFrame mainFrame;
+	private JButton resetButton;
 	
-	public LoginFrame(JFrame parent) {
+	public LoginFrame(MainFrame parent) {
 		super(parent);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setTitle("Anmeldung");
-		setSize(350, 114);
-		
-        Dimension windowSize = this.getSize();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(screenSize.width/2 - windowSize.width/2, screenSize.height/2 - windowSize.height/2);
-
+		setModal(true);
 		this.setLayout(new BorderLayout());
 		
+		mainFrame = parent;
 		buttonPane = new  JPanel();
-		this.add(buttonPane, BorderLayout.SOUTH);
+		gridpane = new JPanel(new GridLayout(2,2,6,3));
+		gridpane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		contentPane =  new JPanel(new GridLayout(2,2,6,3));
-		
-		
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.add(contentPane, BorderLayout.CENTER);
+		add(gridpane, BorderLayout.CENTER);
+		add(buttonPane, BorderLayout.SOUTH);
 				
-
-		JLabel labelUser = new JLabel();
+		labelUser = new JLabel();
 		labelUser.setText("Benutzername:");
-		contentPane.add(labelUser);
+		gridpane.add(labelUser);
 
-		JTextField txtUser = new JTextField();
-		contentPane.add(txtUser);
+		txtUser = new JTextField();
+		gridpane.add(txtUser);
 		
-		JLabel labelPassword = new JLabel();
+		labelPassword = new JLabel();
 		labelPassword.setText("Password:");
-		contentPane.add(labelPassword);
+		gridpane.add(labelPassword);
 
-		JPasswordField txtPassword = new JPasswordField();
-		contentPane.add(txtPassword);	
+		txtPassword = new JPasswordField();
+		gridpane.add(txtPassword);	
 		
-		JButton loginButton = new JButton("Einloggen");
+		resetButton = new JButton("Zurücksetzen");
+		buttonPane.add(resetButton);
+	
+		loginButton = new JButton("Einloggen");
 		buttonPane.add(loginButton);
 		
 		//loginButton.addActionListener(new LoginFrameListener(this));
+		resetButton.addActionListener(new LoginFrameListener(this));
 		
-		this.setVisible(true);
+		setSize(350, 114);
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
+
+	public MainFrame getMainFrame() {
+		return mainFrame;
+	}
+
+	public void setMainFrame(MainFrame mainFrame) {
+		this.mainFrame = mainFrame;
+	}
+
+	public JPanel getButtonPane() {
+		return buttonPane;
+	}
+
+	public void setButtonPane(JPanel buttonPane) {
+		this.buttonPane = buttonPane;
+	}
+
+	public JLabel getLabelUser() {
+		return labelUser;
+	}
+
+	public void setLabelUser(JLabel labelUser) {
+		this.labelUser = labelUser;
+	}
+
+	public JLabel getLabelPassword() {
+		return labelPassword;
+	}
+
+	public void setLabelPassword(JLabel labelPassword) {
+		this.labelPassword = labelPassword;
+	}
+
+	public JTextField getTxtUser() {
+		return txtUser;
+	}
+
+	public void setTxtUser(JTextField txtUser) {
+		this.txtUser = txtUser;
+	}
+
+	public JPasswordField getTxtPassword() {
+		return txtPassword;
+	}
+
+	public void setTxtPassword(JPasswordField txtPassword) {
+		this.txtPassword = txtPassword;
+	}
+
+	public JButton getLoginButton() {
+		return loginButton;
+	}
+
+	public void setLoginButton(JButton loginButton) {
+		this.loginButton = loginButton;
+	}
+	
 }
