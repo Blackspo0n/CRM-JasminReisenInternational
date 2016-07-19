@@ -21,13 +21,14 @@ public class LoginFrame extends JDialog
 	private JTextField txtUser;
 	private JPasswordField txtPassword;
 	private JButton loginButton;
-	private JFrame mainFrame;
+	
+	private MainFrame mainFrame;
 	
 	public static void main(String[] args) {
-		LoginFrame lf = new LoginFrame(new JFrame());
+		LoginFrame lf = new LoginFrame((MainFrame) new JFrame());
 	}
 	
-	public LoginFrame(JFrame parent) {
+	public LoginFrame(MainFrame parent) {
 		super(parent);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -69,11 +70,11 @@ public class LoginFrame extends JDialog
 		setVisible(true);
 	}
 
-	public JFrame getMainFrame() {
+	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
 
-	public void setMainFrame(JFrame mainFrame) {
+	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 

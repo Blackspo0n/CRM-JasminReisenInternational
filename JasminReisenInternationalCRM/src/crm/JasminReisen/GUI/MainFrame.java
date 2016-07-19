@@ -54,7 +54,6 @@ public class MainFrame extends JFrame {
 	private JMenuItem coreDataItem;
 	private JMenuItem coreDataAnalyseItem;
 	
-	private List<User> cachedUserList;
 	private User loggedUser;
 	
 	
@@ -391,5 +390,13 @@ public class MainFrame extends JFrame {
 
 	public void setCoreDataAnalyseItem(JMenuItem coreDataAnalyseItem) {
 		this.coreDataAnalyseItem = coreDataAnalyseItem;
+	}
+
+	public User getLoggedUser() {
+		return loggedUser;
+	}
+
+	public void setLoggedUser(User loggedUser) {
+		this.loggedUser = loggedUser;
 	}
 }

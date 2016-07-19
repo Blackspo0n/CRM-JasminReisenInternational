@@ -1,26 +1,37 @@
 package crm.JasminReisen.models;
 
 public class User {
-	private Integer UserID;
-	private String Username;
-	private String Password;
-	public Integer getUserID() {
-		return UserID;
-	}
-	public void setUserID(Integer userID) {
-		UserID = userID;
-	}
-	public String getUsername() {
-		return Username;
-	}
-	public void setUsername(String username) {
-		Username = username;
-	}
-	public String getPassword() {
-		return Password;
-	}
-	public void setPassword(String password) {
-		Password = password;
-	}
+	private Integer BenutzerId;
+	private String BenutzerName;
+	private String Passwort;
 	
+	public User(Integer benutzerId, String benutzerName, String passwort) {
+		BenutzerId = benutzerId;
+		BenutzerName = benutzerName;
+		Passwort = passwort;
+	}
+
+	public Integer getBenutzerId() {
+		return BenutzerId;
+	}
+
+	public void setBenutzerId(Integer benutzerId) {
+		BenutzerId = benutzerId;
+	}
+
+	public String getBenutzerName() {
+		return BenutzerName;
+	}
+
+	public void setBenutzerName(String benutzerName) {
+		BenutzerName = benutzerName;
+	}
+
+	public String getPasswort() {
+		return Passwort;
+	}
+
+	public void setPasswort(String passwort) {
+		Passwort = passwort;
+	}
 }
