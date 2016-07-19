@@ -38,25 +38,26 @@ public class DbFunctions {
 
 	public static DefaultTableModel getFilteredCustomers(String name) {
 
-		String col[] = { "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag" };
+		String col[] = { "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag", "Kundennummer" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name = '" + name + "'");
+			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name LIKE '%" + name + "%'");
 			while (rs.next()) {
-				Object[] objs = new Object[9];
+				Object[] objs = new Object[10];
 				objs[0] = rs.getString("Name");
 				objs[1] = rs.getString("Vorname");
 				objs[2] = rs.getString("Strasse");
 				objs[3] = rs.getString("PLZ");
 				objs[4] = rs.getString("Ort");
-//				objs[5] = rs.getString("Land");
+				objs[5] = rs.getString("Land");
 				objs[6] = rs.getString("Telefon");
 				objs[7] = rs.getString("EMail");
 				Date geburtstag = rs.getDate("GebDat");
 				if (geburtstag != null) {
 					objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
 				}
+				objs[9] = rs.getString("Kundennummer");
 				dtm.addRow(objs);
 			}
 		} catch (Exception e) {
@@ -83,6 +84,23 @@ public class DbFunctions {
 		
 		return userList;
 		
+	}
+	
+	public static List<String> getVehicleList() {
+		List<String> vehicleList = new ArrayList<String>();
+		
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Transportmittel");
+			
+			while (rs.next()) {
+				vehicleList.add(rs.getString("Name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return vehicleList;
 	}
 	
 }

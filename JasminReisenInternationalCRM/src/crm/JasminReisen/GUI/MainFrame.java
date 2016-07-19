@@ -404,6 +404,8 @@ public class MainFrame extends JFrame {
 			eastPanel.setVisible(true);
 			logoutItem.setVisible(true);
 			westPanel.setVisible(true);
+			coreDataItem.setVisible(true);
+			coreDataAnalyseItem.setVisible(true);
 			System.out.println("Logged In");
 		} else {
 
