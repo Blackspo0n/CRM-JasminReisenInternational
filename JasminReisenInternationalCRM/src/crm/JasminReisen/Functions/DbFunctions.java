@@ -3,13 +3,17 @@ package crm.JasminReisen.Functions;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
 import crm.JasminReisen.Main;
+import crm.JasminReisen.models.User;
 
 public class DbFunctions {
 	private static Statement statement = null;
@@ -61,5 +65,24 @@ public class DbFunctions {
 		return dtm;
 
 	}
-
+	
+	public static List<User> getUserList() {
+		List<User> userList = new ArrayList<User>();
+		
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Benutzer");
+			
+			while (rs.next()) {
+				userList.add(new User( rs.getInt("BenutzerId"), rs.getString("BenutzerName"), rs.getString("Passwort")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userList;
+		
+	}
+	
 }

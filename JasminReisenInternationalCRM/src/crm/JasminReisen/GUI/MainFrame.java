@@ -53,9 +53,7 @@ public class MainFrame extends JFrame {
 	private JMenuItem closeItem;
 	private JMenuItem coreDataItem;
 	private JMenuItem coreDataAnalyseItem;
-
-	private List<User> cachedUserList;
-	private User loggedUser = new User();
+	private User loggedUser;
 
 	public MainFrame() {
 
@@ -177,7 +175,7 @@ public class MainFrame extends JFrame {
 		coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
 		coreDataAnalyseItem.setFont(Config.getFONT());
 
-		// Menü Action Listener
+		// Menï¿½ Action Listener
 		loginItem.addActionListener(new MainFrameListener(this));
 		logoutItem.addActionListener(new MainFrameListener(this));
 		closeItem.addActionListener(new MainFrameListener(this));
@@ -390,6 +388,15 @@ public class MainFrame extends JFrame {
 		this.coreDataAnalyseItem = coreDataAnalyseItem;
 	}
 
+	public User getLoggedUser() {
+		return loggedUser;
+	}
+
+	public void setLoggedUser(User loggedUser) {
+		this.loggedUser = loggedUser;
+	}
+
+	
 	public void checkLoginState() {
 		if (loggedUser != null) {
 			coreDataMenu.setEnabled(true);

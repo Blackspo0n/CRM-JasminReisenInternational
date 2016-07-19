@@ -33,7 +33,5 @@ public class MainFrameListener implements ActionListener {
 			new CoreDataFrame();
 			break;
 		}
-
-	}
-
+	} 
 }
