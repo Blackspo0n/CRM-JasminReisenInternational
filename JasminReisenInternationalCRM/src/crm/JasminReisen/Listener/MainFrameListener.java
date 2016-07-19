@@ -9,10 +9,10 @@ import crm.JasminReisen.GUI.MainFrame;
 
 public class MainFrameListener implements ActionListener {
 
-	MainFrame mf;
+	MainFrame mainFrame;
 
 	public MainFrameListener(MainFrame mf) {
-		this.mf = mf;
+		this.mainFrame = mf;
 	}
 
 	@Override
@@ -23,10 +23,10 @@ public class MainFrameListener implements ActionListener {
 			System.exit(0);
 			break;
 		case "Anmelden":
-			new LoginFrame(mf); // nur als Test und bis anmelden fertig ist
+			new LoginFrame(mainFrame); // nur als Test und bis anmelden fertig ist
 			break;
 		case "Abmelden":
-			mf.dispose();
+			mainFrame.dispose();
 			new MainFrame(); // nur als Test und bis anmelden fertig ist
 			break;
 		case "Stammdatenpflege":

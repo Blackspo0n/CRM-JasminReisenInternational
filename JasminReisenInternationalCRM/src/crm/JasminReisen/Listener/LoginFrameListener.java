@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.LoginFrame;
+import crm.JasminReisen.GUI.MainFrame;
 
 public class LoginFrameListener implements ActionListener
 {
@@ -18,9 +20,11 @@ public class LoginFrameListener implements ActionListener
 	
 	public void actionPerformed (ActionEvent event)
 	{
-		JButton button = (JButton) event.getSource();
-		
-		
+		switch (event.getActionCommand()) {
+		case "Beenden":
+			break;
+		}
+
 	}
 	
 }
