@@ -3,11 +3,13 @@ package crm.JasminReisen.Listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.GUI.CoreDataFrame;
 
 public class CoreDataListener implements ActionListener {
 
 	CoreDataFrame cdf;
+	String sql;
 
 	public CoreDataListener(CoreDataFrame cdf) {
 		this.cdf = cdf;
@@ -25,9 +27,21 @@ public class CoreDataListener implements ActionListener {
 			cdf.getLandTextField().setText("");
 			cdf.getOrtTextField().setText("");
 			cdf.getTelefonTextField().setText("");
+			sql = "SELECT * FROM Kunden WHERE Name LIKE '%%' AND Vorname LIKE '%%' AND Strasse LIKE '%%' AND PLZ LIKE '%' AND Land LIKE '%%' AND Ort LIKE '%%' AND Telefon LIKE '%%' AND EMail LIKE '%%'";
+			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
+			cdf.getCustomerTable().repaint();
+			break;
+		case "Suchen":
+			sql = "SELECT * FROM Kunden WHERE Name LIKE '%" + cdf.getNameTextField().getText()
+					+ "%' AND Vorname LIKE '%" + cdf.getVornameTextField().getText() + "%' AND Strasse LIKE '%"
+					+ cdf.getStrasseTextField().getText() + "%' AND PLZ LIKE '" + cdf.getPlzTextField().getText()
+					+ "%' AND Land LIKE '%" + cdf.getLandTextField().getText() + "%' AND Ort LIKE '%"
+					+ cdf.getOrtTextField().getText() + "%' AND Telefon LIKE '%" + cdf.getTelefonTextField().getText()
+					+ "%' AND EMail LIKE '%" + cdf.getMailTextField().getText() + "%'";
+			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
+			cdf.getCustomerTable().repaint();
 			break;
 		}
-
 	}
 
 }

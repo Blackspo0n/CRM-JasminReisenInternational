@@ -321,6 +321,7 @@ public class CoreDataFrame extends JDialog {
 		centerOfNorthOfCustomerPanel.add(headLineCustomer);
 
 		searchButton = new JButton("Suchen");
+		searchButton.addActionListener(new CoreDataListener(this));
 		searchButton.setFont(Config.getFONT());
 		centerOfNorthOfCustomerPanel.add(searchButton);
 
@@ -408,7 +409,6 @@ public class CoreDataFrame extends JDialog {
 		customerTable.setShowGrid(false);
 		customerTable.setFont(Config.getFONT());
 		customerTable.setBackground(Config.getBACKGROUND());
-		customerTable.setModel(DbFunctions.getFilteredCustomers(""));
 		customerTable.setAutoCreateRowSorter(true);
 		customerTable.setPreferredScrollableViewportSize(customerTable.getPreferredSize());
 		customerTable.setFillsViewportHeight(true);
