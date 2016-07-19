@@ -47,6 +47,7 @@ public class CoreDataFrame extends JFrame {
 		customerPanel.setFont(Config.getFONT());
 		customerPanel.setBackground(Config.getBACKGROUND());
 		customerPanel.setLayout(new BorderLayout());
+		customerPanel.setSize(1000, 400);
 		coreDataTab.addTab("Kunden", null, customerPanel, null);
 		
 		// Panel for North of Kunden
@@ -55,19 +56,23 @@ public class CoreDataFrame extends JFrame {
 		customerPanel.add(northPanelCustomer, BorderLayout.NORTH);
 		
 		// Panel for Center of Kunden
+		/*
 		JPanel centerPanelCustomer = new JPanel();
 		customerPanel.add(centerPanelCustomer, BorderLayout.CENTER);
+		*/
 		
 		//Table for Kunden
 		JTable customerTable = new JTable();		
 		JScrollPane customerScrollPane = new JScrollPane();
-		centerPanelCustomer.add(customerScrollPane);
+		customerPanel.add(customerScrollPane, BorderLayout.CENTER);
 		
-		customerTable = new JTable();
 		customerTable.setShowGrid(false);
 		customerTable.setFont(Config.getFONT());
 		customerTable.setModel(DbFunctions.getFilteredCustomers("Momper"));	
 		customerTable.setAutoCreateRowSorter(true);
+		customerTable.setPreferredScrollableViewportSize(customerTable.getPreferredSize());
+		customerTable.setFillsViewportHeight(true);
+		customerTable.setRowHeight(21);
 		customerScrollPane.setViewportView(customerTable);
 		
 		this.setVisible(true);
