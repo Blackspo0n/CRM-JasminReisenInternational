@@ -2,9 +2,11 @@ package crm.JasminReisen.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -19,6 +21,7 @@ public class CoreDataFrame extends JFrame {
 		
 		this.setSize(1200, 600);
 		this.setResizable(false);
+		this.setTitle("Stammdatenpflege");
 		this.setBackground(Config.getBACKGROUND());
 		Dimension windowSize = this.getSize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -54,12 +57,22 @@ public class CoreDataFrame extends JFrame {
 		JPanel northPanelCustomer = new JPanel();
 		northPanelCustomer.setSize(1200, 300);
 		customerPanel.add(northPanelCustomer, BorderLayout.NORTH);
+		northPanelCustomer.setLayout(new BorderLayout());
 		
-		// Panel for Center of Kunden
-		/*
-		JPanel centerPanelCustomer = new JPanel();
-		customerPanel.add(centerPanelCustomer, BorderLayout.CENTER);
-		*/
+		// Panel for North of North of Kunden (beste Bezeichnung)
+		JPanel northOfNorthOfCustomerPanel = new JPanel();
+		northOfNorthOfCustomerPanel.setSize(1200, 30);
+		northOfNorthOfCustomerPanel.setBackground(Config.getBACKGROUND());
+		northPanelCustomer.add(northOfNorthOfCustomerPanel);
+		
+		JLabel headLineCustomer = new JLabel("Filter");
+		headLineCustomer.setFont(Config.getFONT());
+		northOfNorthOfCustomerPanel.add(headLineCustomer, BorderLayout.CENTER);
+		
+		// Panel for Center of North of Kunden (beste Bezeichnung2)
+		JPanel centerOfNorthOfCustomerPanel = new JPanel();
+		centerOfNorthOfCustomerPanel.setLayout(new GridLayout(5,2,5,5));
+		
 		
 		//Table for Kunden
 		JTable customerTable = new JTable();		
