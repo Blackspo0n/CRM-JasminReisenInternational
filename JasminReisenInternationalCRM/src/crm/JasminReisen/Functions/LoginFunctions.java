@@ -18,8 +18,7 @@ public class LoginFunctions {
 		}
 		
 		for(User useritem: cachedUserList) {
-			if(user == useritem.getBenutzerName() && passwort == useritem.getPasswort()) {
-
+			if(user.equals(useritem.getBenutzerName()) && passwort.equals(useritem.getPasswort())) {
 				return useritem;
 			}
 		}

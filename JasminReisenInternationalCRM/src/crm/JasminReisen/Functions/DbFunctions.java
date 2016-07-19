@@ -70,7 +70,8 @@ public class DbFunctions {
 		List<User> userList = new ArrayList<User>();
 		
 		try {
-			rs = statement.executeQuery("SELECT * FROM benutzer");
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Benutzer");
 			
 			while (rs.next()) {
 				userList.add(new User( rs.getInt("BenutzerId"), rs.getString("BenutzerName"), rs.getString("Passwort")));

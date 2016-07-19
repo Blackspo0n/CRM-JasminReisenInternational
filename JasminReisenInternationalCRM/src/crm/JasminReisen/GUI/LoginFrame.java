@@ -1,32 +1,30 @@
 package crm.JasminReisen.GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import crm.JasminReisen.Config;
+import crm.JasminReisen.Listener.MainFrameListener;
+import crm.JasminReisen.models.User;
 import crm.JasminReisen.Listener.LoginFrameListener;
 
 public class LoginFrame extends JDialog 
 {
-	private JPanel contentPane;
+	private JPanel gridpane;
 	private JPanel buttonPane;
 	private JLabel labelUser;
 	private JLabel labelPassword;
 	private JTextField txtUser;
 	private JPasswordField txtPassword;
 	private JButton loginButton;
-	
 	private MainFrame mainFrame;
-	
-	public static void main(String[] args) {
-		LoginFrame lf = new LoginFrame((MainFrame) new JFrame());
-	}
+	private JButton resetButton;
 	
 	public LoginFrame(MainFrame parent) {
 		super(parent);
@@ -34,39 +32,42 @@ public class LoginFrame extends JDialog
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setTitle("Anmeldung");
-		setSize(350, 114);
-		setLayout(new BorderLayout());
-		setLocationRelativeTo(null);
+		setModal(true);
+		this.setLayout(new BorderLayout());
 		
 		mainFrame = parent;
-		
 		buttonPane = new  JPanel();
-		contentPane = new JPanel(new GridLayout(2,2,6,3));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		gridpane = new JPanel(new GridLayout(2,2,6,3));
+		gridpane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		add(contentPane, BorderLayout.CENTER);
+		add(gridpane, BorderLayout.CENTER);
 		add(buttonPane, BorderLayout.SOUTH);
 				
-
 		labelUser = new JLabel();
 		labelUser.setText("Benutzername:");
-		contentPane.add(labelUser);
+		gridpane.add(labelUser);
 
 		txtUser = new JTextField();
-		contentPane.add(txtUser);
+		gridpane.add(txtUser);
 		
 		labelPassword = new JLabel();
 		labelPassword.setText("Password:");
-		contentPane.add(labelPassword);
+		gridpane.add(labelPassword);
 
 		txtPassword = new JPasswordField();
-		contentPane.add(txtPassword);	
+		gridpane.add(txtPassword);	
 		
+		resetButton = new JButton("Zurücksetzen");
+		buttonPane.add(resetButton);
+	
 		loginButton = new JButton("Einloggen");
 		buttonPane.add(loginButton);
 		
 		loginButton.addActionListener(new LoginFrameListener(this));
+		resetButton.addActionListener(new LoginFrameListener(this));
 		
+		setSize(350, 114);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 
@@ -76,14 +77,6 @@ public class LoginFrame extends JDialog
 
 	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
-	}
-
-	public JPanel getContentPane() {
-		return contentPane;
-	}
-
-	public void setContentPane(JPanel contentPane) {
-		this.contentPane = contentPane;
 	}
 
 	public JPanel getButtonPane() {

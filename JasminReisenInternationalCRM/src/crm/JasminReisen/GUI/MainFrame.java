@@ -53,10 +53,8 @@ public class MainFrame extends JFrame {
 	private JMenuItem closeItem;
 	private JMenuItem coreDataItem;
 	private JMenuItem coreDataAnalyseItem;
-	
 	private User loggedUser;
-	
-	
+
 	public MainFrame() {
 
 		setSize(1200, 800);
@@ -65,7 +63,7 @@ public class MainFrame extends JFrame {
 		setBackground(Config.getBACKGROUND());
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
-		
+
 		westPanel = new JPanel();
 		westPanel.setSize(200, 600);
 		add(westPanel, BorderLayout.WEST);
@@ -76,10 +74,10 @@ public class MainFrame extends JFrame {
 			imageLeft = ImageIO.read(new File("images/links2.jpg"));
 			imageRight = ImageIO.read(new File("images/rechts2.jpg"));
 			imageTop = ImageIO.read(new File("images/jasmin2.png"));
-			
+
 			northPanel = new JPanel();
 			add(northPanel, BorderLayout.NORTH);
-			
+
 			imageWest = new JLabel(new ImageIcon(imageLeft));
 			westPanel.add(imageWest);
 			westPanel.setBackground(Config.getBACKGROUND());
@@ -87,8 +85,7 @@ public class MainFrame extends JFrame {
 			eastPanel = new JPanel();
 			eastPanel.setSize(200, 600);
 			eastPanel.setBackground(Config.getBACKGROUND());
-			
-			
+
 			imageNorth = new JLabel(new ImageIcon(imageTop));
 			northPanel.add(imageNorth);
 
@@ -116,12 +113,12 @@ public class MainFrame extends JFrame {
 
 		averageCustomerEffort = new JLabel("Durchschnittlicher Kundenaufwand pro Tag", SwingConstants.CENTER);
 		averageCustomerEffort.setFont(Config.getFONT());
+		averageCustomerEffort.setEnabled(true);
 		centerPanel.add(averageCustomerEffort);
 
 		averageCustomerEffortField = new JTextField();
 		averageCustomerEffortField.setFont(Config.getFONT());
 		averageCustomerEffortField.setHorizontalAlignment(JLabel.CENTER);
-		averageCustomerEffortField.setText("213" + " Euro");
 		averageCustomerEffortField.setEditable(false);
 		averageCustomerEffortField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageCustomerEffortField);
@@ -133,7 +130,6 @@ public class MainFrame extends JFrame {
 		averageTripDaysField = new JTextField();
 		averageTripDaysField.setFont(Config.getFONT());
 		averageTripDaysField.setHorizontalAlignment(JLabel.CENTER);
-		averageTripDaysField.setText("4.5" + " Tage");
 		averageTripDaysField.setEditable(false);
 		averageTripDaysField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageTripDaysField);
@@ -145,7 +141,6 @@ public class MainFrame extends JFrame {
 		averageHotelStarsField = new JTextField();
 		averageHotelStarsField.setFont(Config.getFONT());
 		averageHotelStarsField.setHorizontalAlignment(JLabel.CENTER);
-		averageHotelStarsField.setText("4" + " Sterne");
 		averageHotelStarsField.setEditable(false);
 		averageHotelStarsField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageHotelStarsField);
@@ -180,7 +175,7 @@ public class MainFrame extends JFrame {
 		coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
 		coreDataAnalyseItem.setFont(Config.getFONT());
 
-		// Menü Action Listener
+		// Menï¿½ Action Listener
 		loginItem.addActionListener(new MainFrameListener(this));
 		logoutItem.addActionListener(new MainFrameListener(this));
 		closeItem.addActionListener(new MainFrameListener(this));
@@ -189,6 +184,7 @@ public class MainFrame extends JFrame {
 		coreDataMenu.add(coreDataAnalyseItem);
 		centerPanel.add(lastPanel);
 
+		checkLoginState();
 		setVisible(true);
 	}
 
@@ -399,6 +395,7 @@ public class MainFrame extends JFrame {
 	public void setLoggedUser(User loggedUser) {
 		this.loggedUser = loggedUser;
 	}
+
 	
 	public void checkLoginState() {
 		if (loggedUser != null) {

@@ -34,8 +34,11 @@ public class LoginFrameListener implements ActionListener
 			}
 			else {
 				JOptionPane.showMessageDialog(this.loginframe, "Der Login war nicht erfolgreich. Bitte überprüfen Sie Ihre Anmeldedaten.", "Login", JOptionPane.ERROR_MESSAGE);
-				
 			}
+			break;
+		case "Zurücksetzen":
+			loginframe.getTxtUser().setText("");
+			loginframe.getTxtPassword().setText("");
 			break;
 		}
 	}
