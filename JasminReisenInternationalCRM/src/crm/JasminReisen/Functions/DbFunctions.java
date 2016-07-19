@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import crm.JasminReisen.Main;
+import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.User;
 
 public class DbFunctions {
@@ -83,6 +84,27 @@ public class DbFunctions {
 		
 		return userList;
 		
+	}
+	
+	public static boolean createCostumer(Kunde customer) throws SQLException {
+
+		if(customer == null) throw new SQLException("Customer cannot be null");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String sql = "INSERT INTO Kunden (Name, Vorname, Strasse, PLZ, Ort, Land, Telefon, EMail, GebDat)"
+				+ "VALUES ('"
+				+ customer.getName() + "','" +  customer.getVorname() + "','" +  customer.getStrasse() + "','" + customer.getPLZ()
+				+ "','" + customer.getOrt() + "','" + customer.getLand() + "','" + customer.getTelefon() + "','" + customer.getEMail()
+				+ "','" + ((customer.getGebDat() != null) ? sdf.format(customer.getGebDat()) : "\\N")+ "')";
+		
+		if(statement.executeUpdate(sql) != 0) {
+			return true;
+		}
+		return false;
+		
+	}
+	public void saveCostumer(Kunde customer) {
 	}
 	
 }
