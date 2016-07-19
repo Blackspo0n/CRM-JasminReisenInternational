@@ -38,7 +38,7 @@ public class DbFunctions {
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			rs = statement.executeQuery("SELECT * FROM Kunden");
+			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name = '" + name + "'");
 			while (rs.next()) {
 				Object[] objs = new Object[9];
 				objs[0] = rs.getString("Name");
@@ -46,12 +46,12 @@ public class DbFunctions {
 				objs[2] = rs.getString("Strasse");
 				objs[3] = rs.getString("PLZ");
 				objs[4] = rs.getString("Ort");
-				objs[5] = rs.getString("Land");
+//				objs[5] = rs.getString("Land");
 				objs[6] = rs.getString("Telefon");
 				objs[7] = rs.getString("EMail");
 				Date geburtstag = rs.getDate("GebDat");
 				if (geburtstag != null) {
-				objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
+					objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
 				}
 				dtm.addRow(objs);
 			}
