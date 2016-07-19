@@ -72,7 +72,7 @@ public class LoginFrame extends JDialog
 		loginButton.setFont(Config.getFONT());
 		buttonPane.add(loginButton);
 		
-		loginButton.addActionListener(new LoginFrameListener(this));
+		//loginButton.addActionListener(new LoginFrameListener(this));
 		resetButton.addActionListener(new LoginFrameListener(this));
 		
 		setSize(350, 140);
