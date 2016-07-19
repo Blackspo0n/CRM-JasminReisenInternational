@@ -38,11 +38,7 @@ public class DbFunctions {
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			Connection connection = connect("193.175.199.130", "CRM", "3306", "whs", "whs2016"); // ANZUPASSEN,
-																									// CONNECTION!
-			Statement statement = connection.createStatement(); // ANZUPASSEN,
-																// CONNECTION!
-			ResultSet rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name =" + name);
+			rs = statement.executeQuery("SELECT * FROM Kunden");
 			while (rs.next()) {
 				Object[] objs = new Object[9];
 				objs[0] = rs.getString("Name");
@@ -54,11 +50,13 @@ public class DbFunctions {
 				objs[6] = rs.getString("Telefon");
 				objs[7] = rs.getString("EMail");
 				Date geburtstag = rs.getDate("GebDat");
+				if (geburtstag != null) {
 				objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
+				}
 				dtm.addRow(objs);
 			}
 		} catch (Exception e) {
-			System.err.println(e);
+			e.printStackTrace();
 		}
 		return dtm;
 

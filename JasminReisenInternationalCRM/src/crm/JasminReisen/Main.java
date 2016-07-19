@@ -13,12 +13,10 @@ import crm.JasminReisen.GUI.MainFrame;
 public class Main {
 	
 	
-	static Connection connection= null;
-	
 	public static void main(String[] args) 
 	{
 		
-		connection = DbFunctions.connect("193.175.199.130", "CRM", "3306", "whs", "whs2016");
+		DbFunctions.connect("193.175.199.130", "CRM", "3306", "whs", "whs2016");
 		
 		
 		

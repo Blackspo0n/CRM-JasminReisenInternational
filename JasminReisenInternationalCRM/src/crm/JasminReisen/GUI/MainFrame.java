@@ -27,7 +27,7 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 
-		this.setSize(1200, 600);
+		this.setSize(1200, 800);
 		this.setTitle("Jasmin Reisen International - Customer Relationship Management");
 		Dimension windowSize = this.getSize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -45,7 +45,11 @@ public class MainFrame extends JFrame {
 		try {
 			BufferedImage imageLeft = ImageIO.read(new File("images/links.jpeg"));
 			BufferedImage imageRight = ImageIO.read(new File("images/rechts.jpeg"));
-
+			BufferedImage imageTop = ImageIO.read(new File("images/jasmin2.png"));
+			
+			JPanel northPanel = new JPanel();
+			this.add(northPanel, BorderLayout.NORTH);
+			
 			// westPanel Label for image
 			JLabel imageWest = new JLabel(new ImageIcon(imageLeft));
 			westPanel.add(imageWest);
@@ -54,6 +58,10 @@ public class MainFrame extends JFrame {
 			JPanel eastPanel = new JPanel();
 			eastPanel.setSize(200, 600);
 			eastPanel.setBackground(Config.getBACKGROUND());
+			
+			
+			JLabel imageNorth = new JLabel(new ImageIcon(imageTop));
+			northPanel.add(imageNorth);
 
 			this.add(eastPanel, BorderLayout.EAST);
 
@@ -69,13 +77,12 @@ public class MainFrame extends JFrame {
 		centerPanel.setBackground(Config.getBACKGROUND());
 		this.add(centerPanel, BorderLayout.CENTER);
 
-		// Panel
 		JPanel firstPanel = new JPanel();
 		firstPanel.setBackground(Config.getBACKGROUND());
+		centerPanel.add(firstPanel);
+
 		JPanel lastPanel = new JPanel();
 		lastPanel.setBackground(Config.getBACKGROUND());
-
-		centerPanel.add(firstPanel);
 
 		// Label
 
