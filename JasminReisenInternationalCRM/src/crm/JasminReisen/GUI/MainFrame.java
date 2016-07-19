@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
 		lastPanel.setBackground(Config.getBACKGROUND());
 
 		averageCustomerEffort = new JLabel("Durchschnittlicher Kundenaufwand pro Tag", SwingConstants.CENTER);
-		averageCustomerEffort.setFont(Config.getFONT());
+		averageCustomerEffort.setFont(Config.getHEADLINE());
 		averageCustomerEffort.setEnabled(true);
 		centerPanel.add(averageCustomerEffort);
 
@@ -122,7 +122,7 @@ public class MainFrame extends JFrame {
 		centerPanel.add(averageCustomerEffortField);
 
 		averageTripDays = new JLabel("Durchschnittliche Reisetage", SwingConstants.CENTER);
-		averageTripDays.setFont(Config.getFONT());
+		averageTripDays.setFont(Config.getHEADLINE());
 		centerPanel.add(averageTripDays);
 
 		averageTripDaysField = new JTextField();
@@ -133,7 +133,7 @@ public class MainFrame extends JFrame {
 		centerPanel.add(averageTripDaysField);
 
 		averageHotelStars = new JLabel("Durchschnittliche Hotelsterne", SwingConstants.CENTER);
-		averageHotelStars.setFont(Config.getFONT());
+		averageHotelStars.setFont(Config.getHEADLINE());
 		centerPanel.add(averageHotelStars);
 
 		averageHotelStarsField = new JTextField();
@@ -397,6 +397,9 @@ public class MainFrame extends JFrame {
 	
 	public void checkLoginState() {
 		if (loggedUser != null) {
+			averageCustomerEffortField.setText("");
+			averageTripDaysField.setText("");
+			averageHotelStarsField.setText("");
 			coreDataMenu.setEnabled(true);
 			northPanel.setVisible(true);
 			eastPanel.setVisible(true);
@@ -410,9 +413,9 @@ public class MainFrame extends JFrame {
 			imageWest.setText("");
 			imageNorth.setText("");
 			imageEast.setText("");
-			averageCustomerEffortField.setText("");
-			averageTripDaysField.setText("");
-			averageHotelStarsField.setText("");
+			averageCustomerEffortField.setText("Bitte Einloggen um fortzufahren");
+			averageTripDaysField.setText("Bitte Einloggen um fortzufahren");
+			averageHotelStarsField.setText("Bitte Einloggen um fortzufahren");
 			coreDataMenu.setEnabled(false);
 			loginItem.setVisible(true);
 			logoutItem.setVisible(false);
