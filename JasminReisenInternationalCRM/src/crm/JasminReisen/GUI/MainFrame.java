@@ -399,4 +399,32 @@ public class MainFrame extends JFrame {
 	public void setLoggedUser(User loggedUser) {
 		this.loggedUser = loggedUser;
 	}
+	
+	public void checkLoginState() {
+		if (loggedUser != null) {
+			coreDataMenu.setEnabled(true);
+			northPanel.setVisible(true);
+			eastPanel.setVisible(true);
+			logoutItem.setVisible(true);
+			westPanel.setVisible(true);
+			System.out.println("Logged In");
+		} else {
+
+			imageWest.setText("");
+			imageNorth.setText("");
+			imageEast.setText("");
+			averageCustomerEffortField.setText("");
+			averageTripDaysField.setText("");
+			averageHotelStarsField.setText("");
+			coreDataMenu.setEnabled(false);
+			logoutItem.setVisible(false);
+			northPanel.setVisible(false);
+			eastPanel.setVisible(false);
+			westPanel.setVisible(false);
+			coreDataItem.setVisible(false);
+			coreDataAnalyseItem.setVisible(false);
+			System.out.println("Logged In Niet!");
+
+		}
+	}
 }

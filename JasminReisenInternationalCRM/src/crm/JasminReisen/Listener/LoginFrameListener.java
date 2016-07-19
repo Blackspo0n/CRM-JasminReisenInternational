@@ -29,6 +29,7 @@ public class LoginFrameListener implements ActionListener
 			
 			if(lu != null) {
 				this.loginframe.getMainFrame().setLoggedUser(lu);
+				this.loginframe.getMainFrame().checkLoginState();
 				this.loginframe.dispose();
 			}
 			else {
