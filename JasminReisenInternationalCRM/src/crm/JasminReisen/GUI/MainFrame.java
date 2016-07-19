@@ -92,6 +92,8 @@ public class MainFrame extends JFrame {
 
 		// JTextField
 		JTextField averageCustomerEffortField = new JTextField();
+		averageCustomerEffortField.setFont(Config.getFONT());
+		averageCustomerEffortField.setHorizontalAlignment(JLabel.CENTER);
 		averageCustomerEffortField.setText("213" + " Euro");
 		averageCustomerEffortField.setEditable(false);
 		averageCustomerEffortField.setBackground(Config.getBACKGROUND());
@@ -104,6 +106,8 @@ public class MainFrame extends JFrame {
 
 		// JTextField
 		JTextField averageTripDaysField = new JTextField();
+		averageTripDaysField.setFont(Config.getFONT());
+		averageTripDaysField.setHorizontalAlignment(JLabel.CENTER);
 		averageTripDaysField.setText("4.5" + " Tage");
 		averageTripDaysField.setEditable(false);
 		averageTripDaysField.setBackground(Config.getBACKGROUND());
@@ -116,6 +120,8 @@ public class MainFrame extends JFrame {
 
 		// JTextField
 		JTextField averageHotelStarsField = new JTextField();
+		averageHotelStarsField.setFont(Config.getFONT());
+		averageHotelStarsField.setHorizontalAlignment(JLabel.CENTER);
 		averageHotelStarsField.setText("4" + " Sterne");
 		averageHotelStarsField.setEditable(false);
 		averageHotelStarsField.setBackground(Config.getBACKGROUND());
