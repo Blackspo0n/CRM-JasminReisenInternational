@@ -5,16 +5,17 @@ import java.awt.event.ActionListener;
 
 import crm.JasminReisen.GUI.CoreDataFrame;
 
-public class CoreDataListener implements ActionListener {
-
+public class CoreDataTripListener implements ActionListener {
+	
 	CoreDataFrame cdf;
-
-	public CoreDataListener(CoreDataFrame cdf) {
+	
+	public CoreDataTripListener(CoreDataFrame cdf) {
 		this.cdf = cdf;
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
+
 		switch (event.getActionCommand()) {
 		case "Zurücksetzen":
 			cdf.getMailTextField().setText("");
@@ -27,7 +28,7 @@ public class CoreDataListener implements ActionListener {
 			cdf.getTelefonTextField().setText("");
 			break;
 		}
-
+		
 	}
 
 }
