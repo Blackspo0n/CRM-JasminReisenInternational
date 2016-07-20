@@ -23,7 +23,7 @@ public class SpecEntryFrame extends JFrame
 		new SpecEntryFrame();
 	}
 	
-	SpecEntryFrame()
+	public SpecEntryFrame()
 		{
 			
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

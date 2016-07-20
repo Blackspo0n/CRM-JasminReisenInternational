@@ -1,6 +1,7 @@
 package crm.JasminReisen.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -55,6 +56,9 @@ public class MainFrame extends JFrame {
 	private JMenuItem coreDataAnalyseItem;
 	private User loggedUser;
 	private JPanel centerPanelNoLogin;
+	private JMenuItem specEntryItem;
+	private JPanel cardPanel;
+	private CardLayout card;
 
 	public MainFrame() {
 
@@ -71,13 +75,18 @@ public class MainFrame extends JFrame {
 		setBackground(Config.getBACKGROUND());
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
-
-		westPanel = new JPanel();
-		westPanel.setSize(200, 600);
-		add(westPanel, BorderLayout.WEST);
-
+		
+		card = new CardLayout();
+		cardPanel = new JPanel();
+		cardPanel.setLayout(card);
+		this.add(cardPanel);
+		
 		// Images
 		try {
+
+			westPanel = new JPanel();
+			westPanel.setSize(200, 600);
+			add(westPanel, BorderLayout.WEST);
 
 			imageLeft = ImageIO.read(new File("images/links2.jpg"));
 			imageRight = ImageIO.read(new File("images/rechts2.jpg"));
@@ -101,14 +110,58 @@ public class MainFrame extends JFrame {
 
 			imageEast = new JLabel(new ImageIcon(imageRight));
 			eastPanel.add(imageEast);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+		menuBar = new JMenuBar();
+		menuBar.setFont(Config.getFONT());
+		setJMenuBar(menuBar);
+
+		loginMenu = new JMenu("Start");
+		loginMenu.setFont(Config.getFONT());
+		menuBar.add(loginMenu);
+
+		coreDataMenu = new JMenu("Stammdaten");
+		coreDataMenu.setFont(Config.getFONT());
+		menuBar.add(coreDataMenu);
+
+		loginItem = new JMenuItem("Anmelden");
+		loginItem.setFont(Config.getFONT());
+		logoutItem = new JMenuItem("Abmelden");
+		logoutItem.setFont(Config.getFONT());
+		closeItem = new JMenuItem("Beenden");
+		closeItem.setFont(Config.getFONT());
+
+		specEntryItem = new JMenuItem("Spezifikationen Hinzufügen");
+		specEntryItem.setFont(Config.getFONT());
+		specEntryItem.addActionListener(new MainFrameListener(this));
+		coreDataMenu.add(specEntryItem);
+
+		loginMenu.add(loginItem);
+		loginMenu.add(logoutItem);
+		loginMenu.addSeparator();
+		loginMenu.add(closeItem);
+
+		coreDataItem = new JMenuItem("Stammdatenpflege");
+		coreDataItem.setFont(Config.getFONT());
+		coreDataItem.addActionListener(new MainFrameListener(this));
+		coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
+		coreDataAnalyseItem.setFont(Config.getFONT());
+
+		// Menue Action Listener
+		loginItem.addActionListener(new MainFrameListener(this));
+		logoutItem.addActionListener(new MainFrameListener(this));
+		closeItem.addActionListener(new MainFrameListener(this));
+
+		coreDataMenu.add(coreDataItem);
+		coreDataMenu.add(coreDataAnalyseItem);
+
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(8, 1, 30, 15));
 		centerPanel.setBackground(Config.getBACKGROUND());
-		this.add(centerPanel, BorderLayout.CENTER);
+		cardPanel.add(centerPanel, "login");
 
 		firstPanel = new JPanel();
 		firstPanel.setBackground(Config.getBACKGROUND());
@@ -150,50 +203,14 @@ public class MainFrame extends JFrame {
 		averageHotelStarsField.setEditable(false);
 		averageHotelStarsField.setBackground(Config.getBACKGROUND());
 		centerPanel.add(averageHotelStarsField);
-
-		menuBar = new JMenuBar();
-		menuBar.setFont(Config.getFONT());
-		setJMenuBar(menuBar);
-
-		loginMenu = new JMenu("Start");
-		loginMenu.setFont(Config.getFONT());
-		menuBar.add(loginMenu);
-
-		coreDataMenu = new JMenu("Stammdaten");
-		coreDataMenu.setFont(Config.getFONT());
-		menuBar.add(coreDataMenu);
-
-		loginItem = new JMenuItem("Anmelden");
-		loginItem.setFont(Config.getFONT());
-		logoutItem = new JMenuItem("Abmelden");
-		logoutItem.setFont(Config.getFONT());
-		closeItem = new JMenuItem("Beenden");
-		closeItem.setFont(Config.getFONT());
-
-		loginMenu.add(loginItem);
-		loginMenu.add(logoutItem);
-		loginMenu.addSeparator();
-		loginMenu.add(closeItem);
-
-		coreDataItem = new JMenuItem("Stammdatenpflege");
-		coreDataItem.setFont(Config.getFONT());
-		coreDataItem.addActionListener(new MainFrameListener(this));
-		coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
-		coreDataAnalyseItem.setFont(Config.getFONT());
-
-		// Menue Action Listener
-		loginItem.addActionListener(new MainFrameListener(this));
-		logoutItem.addActionListener(new MainFrameListener(this));
-		closeItem.addActionListener(new MainFrameListener(this));
-
-		coreDataMenu.add(coreDataItem);
-		coreDataMenu.add(coreDataAnalyseItem);
 		centerPanel.add(lastPanel);
-
+		
+		
 		centerPanelNoLogin = new JPanel();
 		centerPanelNoLogin.setLayout(new BorderLayout());
 		centerPanelNoLogin.setBackground(Config.getBACKGROUND());
-		this.add(centerPanelNoLogin, BorderLayout.CENTER);
+		centerPanelNoLogin.setVisible(false);
+		cardPanel.add(centerPanelNoLogin, "logout");
 
 		try {
 			BufferedImage imageWHS = ImageIO.read(new File("images/whs.png"));
@@ -211,8 +228,15 @@ public class MainFrame extends JFrame {
 		pleaseLogIn.setBackground(Config.getBACKGROUND());
 		pleaseLogIn.setHorizontalAlignment(JLabel.CENTER);
 		centerPanelNoLogin.add(pleaseLogIn, BorderLayout.CENTER);
+		
+		if (loggedUser != null) {
 
+			card.show(cardPanel, "login");
+		} else {
+			card.show(cardPanel, "logout");
+		}
 		checkLoginState();
+
 		setVisible(true);
 	}
 
@@ -426,6 +450,7 @@ public class MainFrame extends JFrame {
 
 	public void checkLoginState() {
 		if (loggedUser != null) {
+			centerPanelNoLogin.setVisible(false);
 			averageCustomerEffortField.setText("");
 			averageTripDaysField.setText("");
 			averageHotelStarsField.setText("");
@@ -437,11 +462,8 @@ public class MainFrame extends JFrame {
 			westPanel.setVisible(true);
 			coreDataItem.setVisible(true);
 			coreDataAnalyseItem.setVisible(true);
-			centerPanel.setVisible(true);
-			centerPanelNoLogin.setVisible(false);
 		} else {
 			centerPanelNoLogin.setVisible(true);
-			centerPanel.setVisible(false);
 			imageWest.setText("");
 			imageNorth.setText("");
 			imageEast.setText("");
@@ -458,5 +480,25 @@ public class MainFrame extends JFrame {
 			coreDataAnalyseItem.setVisible(false);
 
 		}
+	}
+
+	public void setMenuBar(JMenuBar menuBar) {
+		this.menuBar = menuBar;
+	}
+
+	public JPanel getCenterPanelNoLogin() {
+		return centerPanelNoLogin;
+	}
+
+	public void setCenterPanelNoLogin(JPanel centerPanelNoLogin) {
+		this.centerPanelNoLogin = centerPanelNoLogin;
+	}
+
+	public JMenuItem getSpecEntryItem() {
+		return specEntryItem;
+	}
+
+	public void setSpecEntryItem(JMenuItem specEntryItem) {
+		this.specEntryItem = specEntryItem;
 	}
 }

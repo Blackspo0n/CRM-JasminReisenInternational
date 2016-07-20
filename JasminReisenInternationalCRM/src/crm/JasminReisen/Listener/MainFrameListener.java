@@ -6,10 +6,12 @@ import java.awt.event.ActionListener;
 import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.LoginFrame;
 import crm.JasminReisen.GUI.MainFrame;
+import crm.JasminReisen.GUI.SpecEntryFrame;
 
 public class MainFrameListener implements ActionListener {
 
 	MainFrame mainFrame;
+	SpecEntryFrame sef;
 
 	public MainFrameListener(MainFrame mf) {
 		this.mainFrame = mf;
@@ -31,6 +33,9 @@ public class MainFrameListener implements ActionListener {
 			break;
 		case "Stammdatenpflege":
 			new CoreDataFrame();
+			break;
+		case "Spezifikationen Hinzufügen":
+			sef = new SpecEntryFrame();
 			break;
 		}
 	} 
