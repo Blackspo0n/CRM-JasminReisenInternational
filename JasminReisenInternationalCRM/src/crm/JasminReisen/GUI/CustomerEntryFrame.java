@@ -53,6 +53,18 @@ public class CustomerEntryFrame extends JFrame {
 	private JButton cancleButton;
 	private JButton saveButton;
 	
+	private static CustomerEntryFrame instance;
+	
+	protected static CustomerEntryFrame getInstance ()
+	{
+		if (instance == null)
+		{			
+			instance=new CustomerEntryFrame();			
+		}		
+		return instance;
+	}	
+	
+
 	public CustomerEntryFrame() 
 	{
 			this(new Kunde());
