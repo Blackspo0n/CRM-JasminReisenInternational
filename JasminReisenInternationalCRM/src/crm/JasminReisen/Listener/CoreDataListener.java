@@ -43,7 +43,7 @@ public class CoreDataListener implements ActionListener {
 			cdf.getCustomerTable().repaint();
 			break;
 		case "Kunde Anlegen":
-			CustomerEntryFrame cef = new CustomerEntryFrame();
+			CustomerEntryFrame.getInstance();
 			break;
 		case "Bearbeiten":
 			Integer kundenNummer = (Integer) cdf.getCustomerTable().getValueAt(cdf.getCustomerTable().getSelectedRow(), 1);
