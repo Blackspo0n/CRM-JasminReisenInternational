@@ -39,31 +39,7 @@ public class CoreDataTripListener implements ActionListener {
 			cdf.getModelTripEnd().setDate(2016, 7, 22);
 			break;
 
-		case "Suchen":
-
-			
-			String priceStart = cdf.getTripPriceFromField().getText();
-			String priceEnd = cdf.getTripPriceToField().getText();
-			double priceEndDouble = 0;
-			double priceStartDouble = 0;
-			if (!priceStart.equals("")) {
-				priceStartDouble = Double.parseDouble(priceStart);
-				priceStart.replace(",", ".");
-			}
-			if (!priceEnd.equals("")) {
-				priceEndDouble = Double.parseDouble(priceEnd);
-				priceEnd.replace(",", ".");
-			}
-			sql = "SELECT k.KlimaBeschreibung, r.*, t.* FROM Klima AS k Reisen AS r Transportmittel as t WHERE r.Name LIKE '%"
-					+ cdf.getTripNameField().getText() + "%' AND r.Zielort LIKE '%"
-					+ cdf.getTripDestinatonField().getText() + "%' AND r.Reisebeginn > '"
-					+ (Date) cdf.getDatePickerTripStart().getModel().getValue() + "' AND r.Reiseende < '"
-					+ (Date) cdf.getDatePickerTripEnd().getModel().getValue() + "' AND r.Region LIKE '%"
-					+ cdf.getTripRegionField().getText() + "%' AND r.Hotel LIKE '%" + cdf.getTripHotelField().getText()
-					+ "%' AND r.Preis < '" + priceEndDouble + "' AND r.Preis > '" + priceStartDouble
-					+ "' AND Kontingent LIKE '%" + cdf.getTripQuotaField().getText() + "%' AND r.KlimaID = '"
-					+ cdf.getClimatesBox().getSelectedIndex() + "' AND r.KlimaID = k.KlimaID AND r.TransportID = '"
-					+ cdf.getVehicleBox().getSelectedIndex() + "' AND r.TransportID = t.TransportID";
+		case "Suchen":			
 			System.out.println(sql);
 			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
 			cdf.getCustomerTable().repaint();

@@ -122,7 +122,6 @@ public class CoreDataFrame extends JDialog {
 
 		this.setSize(1200, 800);
 		this.setResizable(false);
-		this.setAlwaysOnTop(true);
 		this.setTitle("Stammdatenpflege");
 		this.setBackground(Config.getBACKGROUND());
 		Dimension windowSize = this.getSize();
@@ -457,6 +456,7 @@ public class CoreDataFrame extends JDialog {
 
 		bearbeitenButton = new JButton("Bearbeiten");
 		bearbeitenButton.setFont(Config.getFONT());
+		bearbeitenButton.addActionListener(new CoreDataListener(this));
 		southPanel.add(bearbeitenButton);
 
 		anlegenButton = new JButton("Kunde Anlegen");

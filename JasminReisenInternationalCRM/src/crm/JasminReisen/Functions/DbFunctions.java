@@ -44,6 +44,17 @@ public class DbFunctions {
 			// throw new IllegalStateException(e);
 		}
 	}
+	public static void login(String username, String password) {
+		sql = "Select * from Benutzer";
+
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 public static DefaultTableModel getFilteredCustomers(String sql) {
 		System.out.println("ASAFLKJASF");
