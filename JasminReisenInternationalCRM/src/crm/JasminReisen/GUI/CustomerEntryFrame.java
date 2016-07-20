@@ -55,7 +55,7 @@ public class CustomerEntryFrame extends JFrame {
 	
 	private static CustomerEntryFrame instance;
 	
-	public static CustomerEntryFrame getInstance ()
+	protected static CustomerEntryFrame getInstance ()
 	{
 		if (instance == null)
 		{			
@@ -417,4 +417,9 @@ public class CustomerEntryFrame extends JFrame {
 	public void setSaveButton(JButton saveButton) {
 		this.saveButton = saveButton;
 	}
+
+	public static void setInstance(CustomerEntryFrame instance) {
+		CustomerEntryFrame.instance = instance;
+	}	
+	
 }
