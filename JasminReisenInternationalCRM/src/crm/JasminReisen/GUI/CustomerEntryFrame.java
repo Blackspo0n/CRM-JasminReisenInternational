@@ -53,10 +53,6 @@ public class CustomerEntryFrame extends JFrame {
 	private JButton cancleButton;
 	private JButton saveButton;
 	
-	public static void main(String[] args) {
-		new CustomerEntryFrame(new Kunde(21,"Name", "Vorname", "", "", "", "", "", "", null));
-	}
-	
 	public CustomerEntryFrame() {
 		this(new Kunde());
 	}
