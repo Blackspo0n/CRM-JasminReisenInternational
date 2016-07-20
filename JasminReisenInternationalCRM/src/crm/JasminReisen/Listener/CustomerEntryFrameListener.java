@@ -38,7 +38,7 @@ public class CustomerEntryFrameListener implements ActionListener
 				new CustomerEntryFrame();
 				
 			} catch (SQLException e) {
-				JOptionPane.showInternalMessageDialog(this.customerFrame, "Der konnte nicht angelegt werden.");
+				JOptionPane.showInternalMessageDialog(null, "Der konnte nicht angelegt werden.");
 			}
 			break;
 		case "Speichern":
@@ -47,7 +47,7 @@ public class CustomerEntryFrameListener implements ActionListener
 				this.customerFrame.dispose();
 				
 			} catch (SQLException e) {
-				JOptionPane.showInternalMessageDialog(this.customerFrame, "Der konnte nicht angelegt werden.");
+				JOptionPane.showInternalMessageDialog(null, "Der konnte nicht angelegt werden.");
 			}
 			CustomerEntryFrame.setInstance(null);
 			break;
