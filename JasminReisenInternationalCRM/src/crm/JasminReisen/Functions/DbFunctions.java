@@ -44,38 +44,39 @@ public class DbFunctions {
 			// throw new IllegalStateException(e);
 		}
 	}
+	
+		public static void login(String username, String password) {
+		sql = "Select * from Benutzer";
 
-	
-	
-		
-		
-		
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	
-	
-	
-
-
-	public static DefaultTableModel getFilteredCustomers(String sql) {
+public static DefaultTableModel getFilteredCustomers(String sql) {
 		System.out.println("ASAFLKJASF");
-		String col[] = { "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag" };
+		String col[] = { "ID", "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
 			rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				Object[] objs = new Object[9];
-				objs[0] = rs.getString("Name");
-				objs[1] = rs.getString("Vorname");
-				objs[2] = rs.getString("Strasse");
-				objs[3] = rs.getString("PLZ");
-				objs[4] = rs.getString("Ort");
-				objs[5] = rs.getString("Land");
-				objs[6] = rs.getString("Telefon");
-				objs[7] = rs.getString("EMail");
+				Object[] objs = new Object[10];
+				objs[0] = rs.getInt("Kundennummer");
+				objs[1] = rs.getString("Name");
+				objs[2] = rs.getString("Vorname");
+				objs[3] = rs.getString("Strasse");
+				objs[4] = rs.getString("PLZ");
+				objs[5] = rs.getString("Ort");
+				objs[6] = rs.getString("Land");
+				objs[7] = rs.getString("Telefon");
+				objs[8] = rs.getString("EMail");
 				Date geburtstag = rs.getDate("GebDat");
 				if (geburtstag != null) {
-					objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
+					objs[9] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
 				}
 				dtm.addRow(objs);
 			}

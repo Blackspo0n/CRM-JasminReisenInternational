@@ -53,12 +53,21 @@ public class CustomerEntryFrame extends JFrame {
 	private JButton cancleButton;
 	private JButton saveButton;
 	
-	public static void main(String[] args) {
-		new CustomerEntryFrame(new Kunde(21,"Name", "Vorname", "", "", "", "", "", "", null));
-	}
+	private static CustomerEntryFrame instance;
 	
-	public CustomerEntryFrame() {
-		this(new Kunde());
+	public static CustomerEntryFrame getInstance ()
+	{
+		if (instance == null)
+		{			
+			instance=new CustomerEntryFrame();			
+		}		
+		return instance;
+	}	
+	
+
+	public CustomerEntryFrame() 
+	{
+			this(new Kunde());
 	}
 
 	public CustomerEntryFrame(Kunde customer) {
@@ -71,7 +80,8 @@ public class CustomerEntryFrame extends JFrame {
 		setSize(500, 400);
 		setLocationRelativeTo(null);
 		setTitle("Kunden neu anlegen");
-		
+		setAlwaysOnTop(true);
+		setUndecorated(true);
 		
 		centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
@@ -159,7 +169,7 @@ public class CustomerEntryFrame extends JFrame {
 		saveButton = new JButton("");
 		if(customerContext.getKundennummer() == 0) {
 			saveButton.setText("Anlegen");
-			header.setText("Neuen Benutzer anlegen:");
+			header.setText("Neuen Kunden anlegen:");
 		}
 		else {
 			saveButton.setText("Speichern");
@@ -407,4 +417,9 @@ public class CustomerEntryFrame extends JFrame {
 	public void setSaveButton(JButton saveButton) {
 		this.saveButton = saveButton;
 	}
+
+	public static void setInstance(CustomerEntryFrame instance) {
+		CustomerEntryFrame.instance = instance;
+	}	
+	
 }

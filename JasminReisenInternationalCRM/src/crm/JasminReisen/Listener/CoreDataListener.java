@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.GUI.CoreDataFrame;
+import crm.JasminReisen.GUI.CustomerEntryFrame;
 
 public class CoreDataListener implements ActionListener {
 
@@ -27,7 +28,7 @@ public class CoreDataListener implements ActionListener {
 			cdf.getLandTextField().setText("");
 			cdf.getOrtTextField().setText("");
 			cdf.getTelefonTextField().setText("");
-			sql = "SELECT * FROM Kunden WHERE Name LIKE '%%' AND Vorname LIKE '%%' AND Strasse LIKE '%%' AND PLZ LIKE '%' AND Land LIKE '%%' AND Ort LIKE '%%' AND Telefon LIKE '%%' AND EMail LIKE '%%'";
+			sql = "SELECT * FROM Kunden";
 			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
 			cdf.getCustomerTable().repaint();
 			break;
@@ -41,6 +42,12 @@ public class CoreDataListener implements ActionListener {
 			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
 			cdf.getCustomerTable().repaint();
 			break;
+		case "Kunde Anlegen":
+			CustomerEntryFrame.getInstance();
+			break;
+		case "Bearbeiten":
+			Integer kundenNummer = (Integer) cdf.getCustomerTable().getValueAt(cdf.getCustomerTable().getSelectedRow(), 1);
+			System.out.println(kundenNummer);
 		}
 	}
 
