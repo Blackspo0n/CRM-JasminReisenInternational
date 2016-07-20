@@ -55,15 +55,23 @@ public class CustomerEntryFrame extends JFrame {
 	
 	private static CustomerEntryFrame instance;
 	
-	protected static CustomerEntryFrame getInstance ()
+	public static CustomerEntryFrame getInstance ()
 	{
 		if (instance == null)
 		{			
 			instance=new CustomerEntryFrame();			
 		}		
 		return instance;
-	}	
+	}
 	
+	public static CustomerEntryFrame getInstanceWithCustomer (Kunde kunde)
+	{
+		if (instance == null)
+		{			
+			instance=new CustomerEntryFrame(kunde);			
+		}		
+		return instance;
+	}
 
 	public CustomerEntryFrame() 
 	{

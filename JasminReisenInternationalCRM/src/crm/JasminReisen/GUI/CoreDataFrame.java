@@ -122,7 +122,6 @@ public class CoreDataFrame extends JDialog {
 
 		this.setSize(1200, 800);
 		this.setResizable(false);
-		this.setAlwaysOnTop(true);
 		this.setTitle("Stammdatenpflege");
 		this.setBackground(Config.getBACKGROUND());
 		Dimension windowSize = this.getSize();
@@ -275,7 +274,7 @@ public class CoreDataFrame extends JDialog {
 		tripClimateLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripClimateLabel);
 
-		List<String> climaList = new ArrayList<String>(DbFunctions.getKlimaList());
+		List<String> climaList = new ArrayList<String>(DbFunctions.getClimateList());
 		String[] climaArray = climaList.toArray(new String[climaList.size()]);
 		climatesBox = new JComboBox(climaArray);
 		climatesBox.setFont(Config.getFONT());
@@ -353,7 +352,7 @@ public class CoreDataFrame extends JDialog {
 		tripThemaLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripThemaLabel);
 
-		List<String> themaList = new ArrayList<String>(DbFunctions.getThemenList());
+		List<String> themaList = new ArrayList<String>(DbFunctions.getThemeList());
 		String[] themaListArray = themaList.toArray(new String[themaList.size()]);
 		JComboBox themeBox = new JComboBox(themaListArray);
 		themeBox.setFont(Config.getFONT());
@@ -457,6 +456,7 @@ public class CoreDataFrame extends JDialog {
 
 		bearbeitenButton = new JButton("Bearbeiten");
 		bearbeitenButton.setFont(Config.getFONT());
+		bearbeitenButton.addActionListener(new CoreDataListener(this));
 		southPanel.add(bearbeitenButton);
 
 		anlegenButton = new JButton("Kunde Anlegen");

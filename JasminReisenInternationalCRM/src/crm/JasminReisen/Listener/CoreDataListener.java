@@ -3,6 +3,8 @@ package crm.JasminReisen.Listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.CustomerEntryFrame;
@@ -43,12 +45,18 @@ public class CoreDataListener implements ActionListener {
 			cdf.getCustomerTable().repaint();
 			break;
 		case "Kunde Anlegen":
-			CustomerEntryFrame cef = new CustomerEntryFrame();
+			CustomerEntryFrame.getInstance();
 			break;
 		case "Bearbeiten":
-			Integer kundenNummer = (Integer) cdf.getCustomerTable().getValueAt(cdf.getCustomerTable().getSelectedRow(), 1);
-			System.out.println(kundenNummer);
+			if (cdf.getCustomerTable().getSelectedRow() != -1) {
+				Integer kundenNummer = (Integer) cdf.getCustomerTable()
+						.getValueAt(cdf.getCustomerTable().getSelectedRow(), 0);
+				CustomerEntryFrame.getInstanceWithCustomer(DbFunctions.getKundenDaten(kundenNummer));
+			} else {
+				JOptionPane.showMessageDialog(null, "Bitte wählen Sie zuerst einen Kunden aus!");
+			}
+			break;
+
 		}
 	}
-
 }
