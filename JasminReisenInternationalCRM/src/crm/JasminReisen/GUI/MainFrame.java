@@ -134,10 +134,7 @@ public class MainFrame extends JFrame {
 		closeItem = new JMenuItem("Beenden");
 		closeItem.setFont(Config.getFONT());
 
-		specEntryItem = new JMenuItem("Spezifikationen Hinzufügen");
-		specEntryItem.setFont(Config.getFONT());
-		specEntryItem.addActionListener(new MainFrameListener(this));
-		coreDataMenu.add(specEntryItem);
+
 
 		loginMenu.add(loginItem);
 		loginMenu.add(logoutItem);
@@ -157,6 +154,11 @@ public class MainFrame extends JFrame {
 
 		coreDataMenu.add(coreDataItem);
 		coreDataMenu.add(coreDataAnalyseItem);
+		
+		specEntryItem = new JMenuItem("Spezifikationen Hinzufügen");
+		specEntryItem.setFont(Config.getFONT());
+		specEntryItem.addActionListener(new MainFrameListener(this));
+		coreDataMenu.add(specEntryItem);
 
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(8, 1, 30, 15));
