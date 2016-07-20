@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +12,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import crm.JasminReisen.Main;
+import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.GUI.TripEntryFrame;
 import crm.JasminReisen.models.User;
 
@@ -23,11 +21,20 @@ public class DbFunctions {
 	private static Connection connection = null;
 	private static String sql = null;
 	private static ResultSet rs = null;
+	private static final String ipAdresse = ";_=.;][.;__.;=:";
+	private static final String port = "==:\\";
+	private static final String db = "PEZ";
+	private static final String benutzerName = "juf";
+	private static final String password = "juf<:;\\";
 
-	public static Connection connect(String ipAdresse, String db, String port, String benutzerName, String passwort) {
+	public static Connection connect() {
 		try {
 			connection = DriverManager.getConnection(
-					"jdbc:mysql://" + ipAdresse + ":" + port + "/" + db + "?useSSL=false", benutzerName, passwort);
+					"jdbc:mysql://" + ServiceFunctions.String(ipAdresse) + ":" + 
+							ServiceFunctions.String(port) + "/" + 
+							ServiceFunctions.String(db) + "?useSSL=false", 
+							ServiceFunctions.String(benutzerName), 
+							ServiceFunctions.String(password));
 			statement = connection.createStatement();
 
 			return connection;
@@ -49,15 +56,15 @@ public class DbFunctions {
 	
 
 
-	public static DefaultTableModel getFilteredCustomers(String name) {
-
-		String col[] = { "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag", "Kundennummer" };
+	public static DefaultTableModel getFilteredCustomers(String sql) {
+		System.out.println("ASAFLKJASF");
+		String col[] = { "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name LIKE '%" + name + "%'");
+			rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				Object[] objs = new Object[10];
+				Object[] objs = new Object[9];
 				objs[0] = rs.getString("Name");
 				objs[1] = rs.getString("Vorname");
 				objs[2] = rs.getString("Strasse");
@@ -70,7 +77,6 @@ public class DbFunctions {
 				if (geburtstag != null) {
 					objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
 				}
-				objs[9] = rs.getString("Kundennummer");
 				dtm.addRow(objs);
 			}
 		} catch (Exception e) {
@@ -154,6 +160,7 @@ public class DbFunctions {
 		String date1 = frame.getReiseEndeField().getText();
 		String date2 = frame.getReisebeginnField().getText();
 		
+
 		String newDateString1 = date1.substring(6, 10) + "-" + date1.substring(3,5) +  "-" + date1.substring(0,2);
 		String newDateString2 = date2.substring(6, 10) + "-" + date2.substring(3,5) +  "-" + date2.substring(0,2);
 		String newDateString3 = date3.substring(6, 10) + "-" + date3.substring(3,5) +  "-" + date3.substring(0,2);
@@ -177,7 +184,7 @@ public class DbFunctions {
 			System.out.println(sql);
 			try
 		{
-			connect("193.175.199.130", "CRM", "3306", "whs", "whs2016");
+			connect();
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
 		}
@@ -188,4 +195,46 @@ public class DbFunctions {
 		}
  	
 	}
+
+	public static boolean createCostumer(Kunde customer) throws SQLException {
+
+		if(customer == null) throw new SQLException("Customer cannot be null");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String sql = "INSERT INTO Kunden (Name, Vorname, Strasse, PLZ, Ort, Land, Telefon, EMail, GebDat)"
+				+ "VALUES ('"
+				+ customer.getName() + "','" +  customer.getVorname() + "','" +  customer.getStrasse() + "','" + customer.getPLZ()
+				+ "','" + customer.getOrt() + "','" + customer.getLand() + "','" + customer.getTelefon() + "','" + customer.getEMail()
+				+ "','" + ((customer.getGebDat() != null) ? sdf.format(customer.getGebDat()) : "\\N")+ "')";
+		
+		if(statement.executeUpdate(sql) != 0) {
+			return true;
+		}
+		return false;
+		
+	}
+	public static boolean saveCostumer(Kunde customer) throws SQLException {
+		if(customer == null) throw new SQLException("Customer cannot be null");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String sql = "UPDATE Kunden SET "
+					+ "Name = '" + customer.getName() + "',"
+					+ "Vorname = '" +  customer.getVorname() + "',"
+					+ "Strasse = '" +  customer.getStrasse() + "',"
+					+ "PLZ = '" + customer.getPLZ() + "',"
+					+ "Ort = '" + customer.getOrt() + "',"
+					+ "Land = '" + customer.getLand() + "',"
+					+ "Telefon = '" + customer.getTelefon() + "',"
+					+ "EMail = '" + customer.getEMail() + "',"
+					+ "GebDat = '" + ((customer.getGebDat() != null) ? sdf.format(customer.getGebDat()) : "\\N")+ "' WHERE Kundennummer = " + customer.getKundennummer();
+		
+		System.out.println(sql);
+		if(statement.executeUpdate(sql) != 0) {
+			return true;
+		}
+		return false;
+	}
+	
+
 }
