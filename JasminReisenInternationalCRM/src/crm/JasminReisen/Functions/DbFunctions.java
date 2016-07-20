@@ -245,16 +245,16 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
             + "Preis, HotelID) "
             + "VALUES ('" + date1 + "', '" + date2 + "', "
             + "'" + frame.getZielortField().getText() + "', "
-            + "'" + frame.getTransportmittelIdBox().getSelectedItem() + "', "
+            + "'" + frame.getTransportmittelIdBox().getSelectedIndex() + "', "
             + "'" + frame.getPlaetzeField().getText() + "', "
             + "'" + date3 + "', "
             + "'" + frame.getTripNameField().getText() + "', "
             + "'" + frame.getBeschreibungArea().getText() + "', "
-            + "'" + frame.getRegionBox().getSelectedItem() + "', "
-            + "'" + frame.getThemaBox().getSelectedItem() + "', "
-            + "'" + frame.getKlimaIdBox().getSelectedItem() + "', "
+            + "'" + frame.getRegionBox().getSelectedIndex() + "', "
+            + "'" + frame.getThemaBox().getSelectedIndex() + "', "
+            + "'" + frame.getKlimaIdBox().getSelectedIndex() + "', "
             + "'" + frame.getPreisField().getText() + "', "
-            + "'" + frame.getHotelIdBox().getSelectedItem() + "', "
+            + "'" + frame.getHotelIdBox().getSelectedIndex() + "'"
             + ");";
 			System.out.println(sql);
 			try
