@@ -232,7 +232,7 @@ public class CoreDataFrame extends JDialog {
 		tripFromLabel.setFont(Config.getFONT());
 		tripFromLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripFromLabel);
-		
+
 		modelTripStart = new SqlDateModel();
 		pTripStart = new Properties();
 		pTripStart.put("text.today", "Today");
@@ -247,7 +247,7 @@ public class CoreDataFrame extends JDialog {
 		tripTillLabel.setFont(Config.getFONT());
 		tripTillLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripTillLabel);
-		
+
 		modelTripEnd = new SqlDateModel();
 		pTripEnd = new Properties();
 		pTripEnd.put("text.today", "Today");
@@ -347,16 +347,12 @@ public class CoreDataFrame extends JDialog {
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setFont(Config.getFONT());
 		gridNorthPanelTrip.add(datePicker);
-		
-		JLabel tripEmptyLabel5 = new JLabel("");
-		gridNorthPanelTrip.add(tripEmptyLabel5);
-		
+
 		JLabel tripThemaLabel = new JLabel("Thema");
 		tripThemaLabel.setFont(Config.getFONT());
 		tripThemaLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripThemaLabel);
-		
-		
+
 		List<String> themaList = new ArrayList<String>(DbFunctions.getThemenList());
 		String[] themaListArray = themaList.toArray(new String[themaList.size()]);
 		JComboBox themeBox = new JComboBox(themaListArray);
@@ -364,13 +360,9 @@ public class CoreDataFrame extends JDialog {
 		themeBox.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(themeBox);
 
-		
-		
-		
-		
-		
-		
-		
+		JLabel tripEmptyLabel5 = new JLabel("");
+		gridNorthPanelTrip.add(tripEmptyLabel5);
+
 		JLabel tripEmptyLabel6 = new JLabel("");
 		gridNorthPanelTrip.add(tripEmptyLabel6);
 
