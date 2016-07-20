@@ -409,7 +409,6 @@ public class MainFrame extends JFrame {
 			westPanel.setVisible(true);
 			coreDataItem.setVisible(true);
 			coreDataAnalyseItem.setVisible(true);
-			System.out.println("Logged In");
 		} else {
 			imageWest.setText("");
 			imageNorth.setText("");
@@ -425,7 +424,6 @@ public class MainFrame extends JFrame {
 			westPanel.setVisible(false);
 			coreDataItem.setVisible(false);
 			coreDataAnalyseItem.setVisible(false);
-			System.out.println("Logged In Niet!");
 
 		}
 	}
