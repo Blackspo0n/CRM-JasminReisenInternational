@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import crm.JasminReisen.models.Kunde;
+import crm.JasminReisen.GUI.SpecEntryFrame;
 import crm.JasminReisen.GUI.TripEntryFrame;
 import crm.JasminReisen.models.User;
 
@@ -241,7 +242,7 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 		System.out.println(date1);
 		System.out.println(date2);
 		System.out.println(date3);*/
-		sql = "INSERT INTO Reisen( Reisebeginn, Reiseende, Zielort, TransportmittelID, "
+		sql = "INSERT INTO Reisen (Reisebeginn, Reiseende, Zielort, TransportmittelID, "
             + "Kontingent, VerfuegbarAb, Name, Beschreibung, Region, Thema, KlimaID, "
             + "Preis, HotelID) "
             + "VALUES ('" + date1 + "', '" + date2 + "', "
@@ -338,5 +339,20 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 		
 	}
 	
+	public static void createSpec(SpecEntryFrame frame, String spec)
+	{
+		connect();
+		sql = "INSERT INTO " + spec + " VALUES ('" + frame.getEntry().getText() + "');";
+		try 
+		{
+			statement = connection.createStatement();
+			statement.executeUpdate(sql);
+		} catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }
