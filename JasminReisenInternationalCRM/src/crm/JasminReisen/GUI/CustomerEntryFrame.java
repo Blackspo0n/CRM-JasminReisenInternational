@@ -417,4 +417,9 @@ public class CustomerEntryFrame extends JFrame {
 	public void setSaveButton(JButton saveButton) {
 		this.saveButton = saveButton;
 	}
+
+	public static void setInstance(CustomerEntryFrame instance) {
+		CustomerEntryFrame.instance = instance;
+	}	
+	
 }
