@@ -57,8 +57,11 @@ public class CustomerEntryFrame extends JFrame {
 		new CustomerEntryFrame(new Kunde(21,"Name", "Vorname", "", "", "", "", "", "", null));
 	}
 	
-	public CustomerEntryFrame() {
-		this(new Kunde());
+	public static CustomerEntryFrame test = new CustomerEntryFrame(new Kunde());
+	
+	public CustomerEntryFrame() 
+	{
+		return;
 	}
 
 	public CustomerEntryFrame(Kunde customer) {
