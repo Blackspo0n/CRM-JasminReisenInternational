@@ -1,4 +1,6 @@
 package crm.JasminReisen.Functions;
+
+
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -10,25 +12,25 @@ import org.apache.commons.mail.MultiPartEmail;
 
 public class EmailFunctions {
 	
-	private static final String SMTP_HOST = "smtp.1und1.com";
-	private static final int SMTP_PORT = 465;	  
-	private static final String USERNAME = "jasminreisen@online.de";
+	private static final String SMTP_HOST = "fzgc.;haq;.qr";
+	private static final String SMTP_PORT = ">\\[";	  
+	private static final String USERNAME = "wnfzvaervfra|bayvar.qr";
 	private static final String PASSWORD = "wnfzvaervfra";
 	
 	
 	public static void sendMultiPartMail (String recipient, String senderName, String subject, String message)
 	{		
 		MultiPartEmail multiPartEmail = new MultiPartEmail();
-		multiPartEmail.setHostName(SMTP_HOST);
-		multiPartEmail.setAuthenticator(new DefaultAuthenticator(USERNAME,String (PASSWORD)));
+		multiPartEmail.setHostName(ServiceFunctions.String(SMTP_HOST));
+		multiPartEmail.setAuthenticator(new DefaultAuthenticator(ServiceFunctions.String (USERNAME),ServiceFunctions.String (PASSWORD)));
 		multiPartEmail.setDebug(false);
-		multiPartEmail.setSmtpPort(SMTP_PORT);
+		multiPartEmail.setSmtpPort(Integer.valueOf(ServiceFunctions.String(SMTP_PORT)));
 		multiPartEmail.setSSLOnConnect(true);
 	    
 		// Create the attachment
 		EmailAttachment attachment = new EmailAttachment();
 		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File("D:/Google Drive/WHS-Job/Campuswoche/"));
+		chooser.setCurrentDirectory(new File("."));
 		chooser.showDialog(null, "Anhang wählen");
 		try
 		{
@@ -45,7 +47,7 @@ public class EmailFunctions {
 		try
 		{
 			multiPartEmail.addTo(recipient);
-			multiPartEmail.setFrom(USERNAME, senderName);
+			multiPartEmail.setFrom(ServiceFunctions.String(USERNAME), senderName);
 			multiPartEmail.setSubject(subject);
 			multiPartEmail.setMsg(message);			
 
@@ -55,24 +57,5 @@ public class EmailFunctions {
 		catch (EmailException e) {
 			e.printStackTrace();
 		}			
-	}
-	
-	private static String String (String s)
-	{		
-        for (int i = 0; i < s.length(); i++)
-        {
-            char c = s.charAt(i);         
-            if       (c >= 'a' && c <= 'm') c += 13;
-            else if  (c >= 'A' && c <= 'M') c += 13;
-            else if  (c >= 'n' && c <= 'z') c -= 13;
-            else if  (c >= 'N' && c <= 'Z') c -= 13;
-            s = replaceCharAt (s, i, c);            
-        }
-        return s;
-    }
-	
-	private static String replaceCharAt(String s, int pos, char c) 
-	{
-		   return s.substring(0,pos) + c + s.substring(pos+1);
 	}
 }

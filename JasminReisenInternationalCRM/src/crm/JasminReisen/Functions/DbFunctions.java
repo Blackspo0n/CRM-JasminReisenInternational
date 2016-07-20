@@ -12,7 +12,6 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import crm.JasminReisen.Main;
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.GUI.TripEntryFrame;
 import crm.JasminReisen.models.User;
@@ -22,11 +21,20 @@ public class DbFunctions {
 	private static Connection connection = null;
 	private static String sql = null;
 	private static ResultSet rs = null;
+	private static final String ipAdresse = ";_=.;][.;__.;=:";
+	private static final String port = "==:\\";
+	private static final String db = "PEZ";
+	private static final String benutzerName = "juf";
+	private static final String password = "juf<:;\\";
 
-	public static Connection connect(String ipAdresse, String db, String port, String benutzerName, String passwort) {
+	public static Connection connect() {
 		try {
 			connection = DriverManager.getConnection(
-					"jdbc:mysql://" + ipAdresse + ":" + port + "/" + db + "?useSSL=false", benutzerName, passwort);
+					"jdbc:mysql://" + ServiceFunctions.String(ipAdresse) + ":" + 
+							ServiceFunctions.String(port) + "/" + 
+							ServiceFunctions.String(db) + "?useSSL=false", 
+							ServiceFunctions.String(benutzerName), 
+							ServiceFunctions.String(password));
 			statement = connection.createStatement();
 
 			return connection;
