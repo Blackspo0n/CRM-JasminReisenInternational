@@ -71,7 +71,8 @@ public class CustomerEntryFrame extends JFrame {
 		setSize(500, 400);
 		setLocationRelativeTo(null);
 		setTitle("Kunden neu anlegen");
-		
+		setAlwaysOnTop(true);
+		setUndecorated(true);
 		
 		centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
@@ -159,7 +160,7 @@ public class CustomerEntryFrame extends JFrame {
 		saveButton = new JButton("");
 		if(customerContext.getKundennummer() == 0) {
 			saveButton.setText("Anlegen");
-			header.setText("Neuen Benutzer anlegen:");
+			header.setText("Neuen Kunden anlegen:");
 		}
 		else {
 			saveButton.setText("Speichern");

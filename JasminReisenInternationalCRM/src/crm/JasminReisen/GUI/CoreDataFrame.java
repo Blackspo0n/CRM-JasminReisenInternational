@@ -469,6 +469,7 @@ public class CoreDataFrame extends JDialog {
 
 		anlegenButton = new JButton("Kunde Anlegen");
 		anlegenButton.setFont(Config.getFONT());
+		anlegenButton.addActionListener(new CoreDataListener(this));
 		southPanel.add(anlegenButton);
 
 		customerTable = new JTable();

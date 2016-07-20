@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.GUI.CoreDataFrame;
+import crm.JasminReisen.GUI.CustomerEntryFrame;
 
 public class CoreDataListener implements ActionListener {
 
@@ -40,6 +41,9 @@ public class CoreDataListener implements ActionListener {
 					+ "%' AND EMail LIKE '%" + cdf.getMailTextField().getText() + "%'";
 			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
 			cdf.getCustomerTable().repaint();
+			break;
+		case "Kunde Anlegen":
+			CustomerEntryFrame cef = new CustomerEntryFrame();
 			break;
 		}
 	}
