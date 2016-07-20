@@ -312,5 +312,31 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 		return false;
 	}
 	
+	public static Kunde getKunde (int id) {
+		Kunde kunde = new Kunde();
+		
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Kundennummer = '" + id + "'");
+			
+			while (rs.next()) {
+				kunde.setName(rs.getString("Name"));
+				kunde.setVorname(rs.getString("Vorname"));
+				kunde.setStrasse(rs.getString("Strasse"));
+				kunde.setPLZ(rs.getString("PLZ"));
+				kunde.setOrt(rs.getString("Ort"));
+				kunde.setLand(rs.getString("Land"));
+				kunde.setTelefon(rs.getString("Telefon"));
+				kunde.setEMail(rs.getString("EMail"));
+				kunde.setGebDat(rs.getDate("GebDat"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return kunde;	
+		
+	}
+	
 
 }
