@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -62,7 +65,6 @@ public class CoreDataFrame extends JDialog {
 	private JTable tripTable;
 	private JScrollPane tripScrollPane;
 	private JScrollPane customerScrollPane;
-
 	private JPanel northPanelTrip;
 	private JPanel southPanel;
 	private JButton bearbeitenButton;
@@ -103,12 +105,24 @@ public class CoreDataFrame extends JDialog {
 	private JButton anlegenButton2;
 	private JButton tripSearchButton;
 	private JButton tripResetButton;
-	
-	
+	private Properties p;
+	private JCheckBox tripPastCheckbox;
+	private JLabel tripPastLabel;
+	private SqlDateModel modelTripStart;
+	private Properties pTripStart;
+	private JDatePanelImpl datePanelTripStart;
+	private JDatePickerImpl datePickerTripStart;
+	private SqlDateModel modelTripEnd;
+	private Properties pTripEnd;
+	private JDatePanelImpl datePanelTripEnd;
+	private JDatePickerImpl datePickerTripEnd;
+
+	@SuppressWarnings("unchecked")
 	public CoreDataFrame() {
 
-		this.setSize(1200, 600);
+		this.setSize(1200, 800);
 		this.setResizable(false);
+		this.setAlwaysOnTop(true);
 		this.setTitle("Stammdatenpflege");
 		this.setBackground(Config.getBACKGROUND());
 		Dimension windowSize = this.getSize();
@@ -120,6 +134,9 @@ public class CoreDataFrame extends JDialog {
 		mainPanel.setBackground(Config.getBACKGROUND());
 		this.add(mainPanel, BorderLayout.CENTER);
 
+		ImageIcon reisenIcon = new ImageIcon("images/reisen.png");
+		ImageIcon kundenIcon = new ImageIcon("images/kunden.png");
+
 		coreDataTab = new JTabbedPane(JTabbedPane.TOP);
 		coreDataTab.setFont(Config.getFONT());
 		coreDataTab.setBackground(Config.getBACKGROUND());
@@ -129,173 +146,199 @@ public class CoreDataFrame extends JDialog {
 		tripPanel.setFont(Config.getFONT());
 		tripPanel.setBackground(Config.getBACKGROUND());
 		tripPanel.setLayout(new BorderLayout());
-		coreDataTab.addTab("Reisen", null, tripPanel, null);
+		coreDataTab.addTab("Reisen", reisenIcon, tripPanel, null);
 
 		customerPanel = new JPanel();
 		customerPanel.setFont(Config.getFONT());
 		customerPanel.setBackground(Config.getBACKGROUND());
 		customerPanel.setLayout(new BorderLayout());
-		coreDataTab.addTab("Kunden", null, customerPanel, null);
-		
+		coreDataTab.addTab("Kunden", kundenIcon, customerPanel, null);
+
 		northPanelTrip = new JPanel();
 		northPanelTrip.setSize(1200, 400);
 		northPanelTrip.setBackground(Config.getBACKGROUND());
 		tripPanel.add(northPanelTrip, BorderLayout.NORTH);
 		northPanelTrip.setLayout(new BorderLayout());
-		
+
 		northOfNorthPanelTrip = new JPanel();
-		northOfNorthPanelTrip.setLayout(new GridLayout(1,1,0,0));
+		northOfNorthPanelTrip.setLayout(new GridLayout(1, 1, 0, 0));
 		northOfNorthPanelTrip.setBackground(Config.getBACKGROUND());
 		northPanelTrip.add(northOfNorthPanelTrip, BorderLayout.NORTH);
-		
+
 		headLineTrip = new JLabel("Filter");
 		headLineTrip.setFont(Config.getHEADLINE());
 		headLineTrip.setBackground(Config.getBACKGROUND());
 		headLineTrip.setHorizontalAlignment(JLabel.CENTER);
 		northOfNorthPanelTrip.add(headLineTrip, BorderLayout.NORTH);
-		
+
 		gridNorthPanelTrip = new JPanel();
-		gridNorthPanelTrip.setLayout(new GridLayout(7,4,5,5));
+		gridNorthPanelTrip.setLayout(new GridLayout(9, 4, 5, 5));
 		gridNorthPanelTrip.setBackground(Config.getBACKGROUND());
 		northPanelTrip.add(gridNorthPanelTrip, BorderLayout.CENTER);
-		
-		JLabel emptyTripLabel1 = new JLabel("");
-		gridNorthPanelTrip.add(emptyTripLabel1);
-		
+
+		JLabel tripEmptyLabel1 = new JLabel("");
+		gridNorthPanelTrip.add(tripEmptyLabel1);
+
 		tripSearchButton = new JButton("Suchen");
 		tripSearchButton.setFont(Config.getFONT());
 		tripSearchButton.addActionListener(new CoreDataTripListener(this));
 		gridNorthPanelTrip.add(tripSearchButton);
-		
+
 		tripResetButton = new JButton("Zurücksetzen");
 		tripResetButton.setFont(Config.getFONT());
 		tripResetButton.addActionListener(new CoreDataTripListener(this));
 		gridNorthPanelTrip.add(tripResetButton);
-		
-		JLabel emptyTripLabel2 = new JLabel("");
-		gridNorthPanelTrip.add(emptyTripLabel2);
+
+		JLabel tripEmptyLabel2 = new JLabel("");
+		gridNorthPanelTrip.add(tripEmptyLabel2);
+
+		JLabel tripEmptyLabel3 = new JLabel("");
+		gridNorthPanelTrip.add(tripEmptyLabel3);
+
+		tripPastLabel = new JLabel("Abgelaufene Reisen einbeziehen");
+		tripPastLabel.setFont(Config.getFONT());
+		tripPastLabel.setBackground(Config.getBACKGROUND());
+		gridNorthPanelTrip.add(tripPastLabel);
+
+		tripPastCheckbox = new JCheckBox("");
+		tripPastCheckbox.setFont(Config.getFONT());
+		tripPastCheckbox.setBackground(Config.getBACKGROUND());
+		gridNorthPanelTrip.add(tripPastCheckbox);
+
+		JLabel tripEmptyLabel4 = new JLabel("");
+		gridNorthPanelTrip.add(tripEmptyLabel4);
 
 		tripNameLabel = new JLabel("Reisename");
 		tripNameLabel.setFont(Config.getFONT());
 		tripNameLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripNameLabel);
-		
+
 		tripNameField = new JTextField();
 		tripNameField.setFont(Config.getFONT());
 		tripNameField.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripNameField);
-		
+
 		tripDestinationLabel = new JLabel("Zielort");
 		tripDestinationLabel.setFont(Config.getFONT());
 		tripDestinationLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripDestinationLabel);
-		
+
 		tripDestinatonField = new JTextField();
 		tripDestinatonField.setFont(Config.getFONT());
 		tripDestinatonField.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripDestinatonField);
-		
-		
+
 		tripFromLabel = new JLabel("Reise Anfang");
 		tripFromLabel.setFont(Config.getFONT());
 		tripFromLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripFromLabel);
 		
-		tripFromField = new JTextField();
-		tripFromField.setFont(Config.getFONT());
-		tripFromField.setBackground(Config.getBACKGROUND());
-		gridNorthPanelTrip.add(tripFromField);
-		
+		modelTripStart = new SqlDateModel();
+		pTripStart = new Properties();
+		pTripStart.put("text.today", "Today");
+		pTripStart.put("text.month", "Month");
+		pTripStart.put("text.year", "Year");
+		datePanelTripStart = new JDatePanelImpl(modelTripStart, pTripStart);
+		datePickerTripStart = new JDatePickerImpl(datePanelTripStart, new DateLabelFormatter());
+		datePickerTripStart.setFont(Config.getFONT());
+		gridNorthPanelTrip.add(datePickerTripStart);
+
 		tripTillLabel = new JLabel("Reise Ende");
 		tripTillLabel.setFont(Config.getFONT());
 		tripTillLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripTillLabel);
 		
-		tripTillField = new JTextField();
-		tripTillField.setFont(Config.getFONT());
-		tripTillField.setBackground(Config.getBACKGROUND());
-		gridNorthPanelTrip.add(tripTillField);
-		
+		modelTripEnd = new SqlDateModel();
+		pTripEnd = new Properties();
+		pTripEnd.put("text.today", "Today");
+		pTripEnd.put("text.month", "Month");
+		pTripEnd.put("text.year", "Year");
+		datePanelTripEnd = new JDatePanelImpl(modelTripEnd, pTripEnd);
+		datePickerTripEnd = new JDatePickerImpl(datePanelTripEnd, new DateLabelFormatter());
+		datePickerTripStart.setFont(Config.getFONT());
+		gridNorthPanelTrip.add(datePickerTripEnd);
+
 		tripTransportationLabel = new JLabel("Transportmittel");
 		tripTransportationLabel.setFont(Config.getFONT());
 		tripTransportationLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripTransportationLabel);
-		
+
 		vehicleList = new ArrayList<String>(DbFunctions.getVehicleList());
 		vehicles = vehicleList.toArray(new String[vehicleList.size()]);
 		vehicleBox = new JComboBox(vehicles);
 		vehicleBox.setFont(Config.getFONT());
 		vehicleBox.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(vehicleBox);
-		
+
 		tripClimateLabel = new JLabel("Klima");
 		tripClimateLabel.setFont(Config.getFONT());
 		tripClimateLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripClimateLabel);
-		
-		climates = new String[] {"", "polar", "subpolar", "gemäßigt", "subtropisch", "passat", "wüst", "tropisch"};
-		climatesBox = new JComboBox(climates);
+
+		List<String> climaList = new ArrayList<String>(DbFunctions.getKlimaList());
+		String[] climaArray = climaList.toArray(new String[climaList.size()]);
+		climatesBox = new JComboBox(climaArray);
 		climatesBox.setFont(Config.getFONT());
 		climatesBox.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(climatesBox);
-		
+
 		tripRegionLabel = new JLabel("Region");
 		tripRegionLabel.setFont(Config.getFONT());
 		tripRegionLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripRegionLabel);
-		
+
 		tripRegionField = new JTextField();
 		tripRegionField.setFont(Config.getFONT());
 		tripRegionField.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripRegionField);
-		
+
 		tripHotelLabel = new JLabel("Hotelname");
 		tripHotelLabel.setFont(Config.getFONT());
 		tripHotelLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripHotelLabel);
-		
+
 		tripHotelField = new JTextField();
 		tripHotelField.setFont(Config.getFONT());
 		tripHotelField.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripHotelField);
-		
+
 		tripPriceFromLabel = new JLabel("Preise von");
 		tripPriceFromLabel.setFont(Config.getFONT());
 		tripPriceFromLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripPriceFromLabel);
-		
+
 		tripPriceFromField = new JTextField();
 		tripPriceFromField.setFont(Config.getFONT());
 		tripPriceFromField.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripPriceFromField);
-		
+
 		tripPriceToLabel = new JLabel("Preise bis");
 		tripPriceToLabel.setFont(Config.getFONT());
 		tripPriceToLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripPriceToLabel);
-		
+
 		tripPriceToField = new JTextField();
 		tripPriceToField.setFont(Config.getFONT());
 		tripPriceToField.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripPriceToField);
-		
+
 		tripQuotaToLabel = new JLabel("Kontingent über");
 		tripQuotaToLabel.setFont(Config.getFONT());
 		tripQuotaToLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripQuotaToLabel);
-		
+
 		tripQuotaField = new JTextField();
 		tripQuotaField.setFont(Config.getFONT());
 		tripQuotaField.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripQuotaField);
-		
+
 		tripAvailableLabel = new JLabel("Verfügbar ab");
 		tripAvailableLabel.setFont(Config.getFONT());
 		tripAvailableLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripAvailableLabel);
-		
+
 		model = new SqlDateModel();
-		Properties p = new Properties();
+		p = new Properties();
 		p.put("text.today", "Today");
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
@@ -305,6 +348,32 @@ public class CoreDataFrame extends JDialog {
 		datePicker.setFont(Config.getFONT());
 		gridNorthPanelTrip.add(datePicker);
 		
+		JLabel tripEmptyLabel5 = new JLabel("");
+		gridNorthPanelTrip.add(tripEmptyLabel5);
+		
+		JLabel tripThemaLabel = new JLabel("Thema");
+		tripThemaLabel.setFont(Config.getFONT());
+		tripThemaLabel.setBackground(Config.getBACKGROUND());
+		gridNorthPanelTrip.add(tripThemaLabel);
+		
+		
+		List<String> themaList = new ArrayList<String>(DbFunctions.getThemenList());
+		String[] themaListArray = themaList.toArray(new String[themaList.size()]);
+		JComboBox themeBox = new JComboBox(themaListArray);
+		themeBox.setFont(Config.getFONT());
+		themeBox.setBackground(Config.getBACKGROUND());
+		gridNorthPanelTrip.add(themeBox);
+
+		
+		
+		
+		
+		
+		
+		
+		JLabel tripEmptyLabel6 = new JLabel("");
+		gridNorthPanelTrip.add(tripEmptyLabel6);
+
 		northPanelCustomer = new JPanel();
 		northPanelCustomer.setSize(1200, 400);
 		customerPanel.add(northPanelCustomer, BorderLayout.NORTH);
@@ -409,13 +478,15 @@ public class CoreDataFrame extends JDialog {
 		customerTable.setShowGrid(false);
 		customerTable.setFont(Config.getFONT());
 		customerTable.setBackground(Config.getBACKGROUND());
+		customerTable.getTableHeader().setReorderingAllowed(false);
 		customerTable.setAutoCreateRowSorter(true);
 		customerTable.setPreferredScrollableViewportSize(customerTable.getPreferredSize());
 		customerTable.setFillsViewportHeight(true);
 		customerTable.setRowHeight(21);
+		customerTable.setModel(DbFunctions.getFilteredCustomers("SELECT * FROM Kunden"));
 		customerTable.getTableHeader().setFont(Config.getFONT());
 		customerScrollPane.setViewportView(customerTable);
-		
+
 		tripTable = new JTable();
 		tripScrollPane = new JScrollPane();
 		tripPanel.add(tripScrollPane, BorderLayout.CENTER);
@@ -423,18 +494,19 @@ public class CoreDataFrame extends JDialog {
 		tripTable.setShowGrid(false);
 		tripTable.setFont(Config.getFONT());
 		tripTable.setBackground(Config.getBACKGROUND());
-		tripTable.setModel(DbFunctions.getFilteredTrips(""));
+		tripTable.getTableHeader().setReorderingAllowed(false);
+		tripTable.setModel(DbFunctions.getFilteredTrips("SELECT * FROM Reisen"));
 		tripTable.setAutoCreateRowSorter(true);
 		tripTable.setPreferredScrollableViewportSize(tripTable.getPreferredSize());
 		tripTable.setFillsViewportHeight(true);
 		tripTable.setRowHeight(21);
 		tripTable.getTableHeader().setFont(Config.getFONT());
 		tripScrollPane.setViewportView(tripTable);
-		
+
 		southTripPanel = new JPanel();
 		southTripPanel.setLayout(new GridLayout(1, 2, 5, 5));
 		tripPanel.add(southTripPanel, BorderLayout.SOUTH);
-		
+
 		bearbeitenButton2 = new JButton("Bearbeiten");
 		bearbeitenButton2.setFont(Config.getFONT());
 		southTripPanel.add(bearbeitenButton2);
@@ -442,9 +514,7 @@ public class CoreDataFrame extends JDialog {
 		anlegenButton2 = new JButton("Reise Anlegen");
 		anlegenButton2.setFont(Config.getFONT());
 		southTripPanel.add(anlegenButton2);
-		
-		
-		
+
 		this.setVisible(true);
 	}
 
@@ -1014,5 +1084,93 @@ public class CoreDataFrame extends JDialog {
 
 	public void setTripResetButton(JButton tripResetButton) {
 		this.tripResetButton = tripResetButton;
+	}
+
+	public Properties getP() {
+		return p;
+	}
+
+	public void setP(Properties p) {
+		this.p = p;
+	}
+
+	public JCheckBox getTripPastCheckbox() {
+		return tripPastCheckbox;
+	}
+
+	public void setTripPastCheckbox(JCheckBox tripPastCheckbox) {
+		this.tripPastCheckbox = tripPastCheckbox;
+	}
+
+	public JLabel getTripPastLabel() {
+		return tripPastLabel;
+	}
+
+	public void setTripPastLabel(JLabel tripPastLabel) {
+		this.tripPastLabel = tripPastLabel;
+	}
+
+	public SqlDateModel getModelTripStart() {
+		return modelTripStart;
+	}
+
+	public void setModelTripStart(SqlDateModel modelTripStart) {
+		this.modelTripStart = modelTripStart;
+	}
+
+	public Properties getpTripStart() {
+		return pTripStart;
+	}
+
+	public void setpTripStart(Properties pTripStart) {
+		this.pTripStart = pTripStart;
+	}
+
+	public JDatePanelImpl getDatePanelTripStart() {
+		return datePanelTripStart;
+	}
+
+	public void setDatePanelTripStart(JDatePanelImpl datePanelTripStart) {
+		this.datePanelTripStart = datePanelTripStart;
+	}
+
+	public JDatePickerImpl getDatePickerTripStart() {
+		return datePickerTripStart;
+	}
+
+	public void setDatePickerTripStart(JDatePickerImpl datePickerTripStart) {
+		this.datePickerTripStart = datePickerTripStart;
+	}
+
+	public SqlDateModel getModelTripEnd() {
+		return modelTripEnd;
+	}
+
+	public void setModelTripEnd(SqlDateModel modelTripEnd) {
+		this.modelTripEnd = modelTripEnd;
+	}
+
+	public Properties getpTripEnd() {
+		return pTripEnd;
+	}
+
+	public void setpTripEnd(Properties pTripEnd) {
+		this.pTripEnd = pTripEnd;
+	}
+
+	public JDatePanelImpl getDatePanelTripEnd() {
+		return datePanelTripEnd;
+	}
+
+	public void setDatePanelTripEnd(JDatePanelImpl datePanelTripEnd) {
+		this.datePanelTripEnd = datePanelTripEnd;
+	}
+
+	public JDatePickerImpl getDatePickerTripEnd() {
+		return datePickerTripEnd;
+	}
+
+	public void setDatePickerTripEnd(JDatePickerImpl datePickerTripEnd) {
+		this.datePickerTripEnd = datePickerTripEnd;
 	}
 }

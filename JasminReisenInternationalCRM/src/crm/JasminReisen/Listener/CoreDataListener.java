@@ -27,7 +27,7 @@ public class CoreDataListener implements ActionListener {
 			cdf.getLandTextField().setText("");
 			cdf.getOrtTextField().setText("");
 			cdf.getTelefonTextField().setText("");
-			sql = "SELECT * FROM Kunden WHERE Name LIKE '%%' AND Vorname LIKE '%%' AND Strasse LIKE '%%' AND PLZ LIKE '%' AND Land LIKE '%%' AND Ort LIKE '%%' AND Telefon LIKE '%%' AND EMail LIKE '%%'";
+			sql = "SELECT * FROM Kunden";
 			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
 			cdf.getCustomerTable().repaint();
 			break;
