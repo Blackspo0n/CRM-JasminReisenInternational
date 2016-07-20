@@ -25,14 +25,17 @@ public class TripEntryFrameListener implements ActionListener
 		
 			case "Zurücksetzen":
 				tripentryframe.getTripNameField().setText("");
+				tripentryframe.getZielortField().setText("");
 				tripentryframe.getReisebeginnField().setText("");
 				tripentryframe.getReiseEndeField().setText("");
 				tripentryframe.getPlaetzeField().setText("");
 				tripentryframe.getTransportmittelIdField().setText("");
 				tripentryframe.getRegionField().setText("");
 				tripentryframe.getThemaField().setText("");
+				tripentryframe.getKlimaId().setText("");
 				tripentryframe.getHotelIdField().setText("");
 				tripentryframe.getPreisField().setText("");
+				tripentryframe.getVerfuegbarField().setText("");
 				tripentryframe.getBeschreibungArea().setText("");
 				break;
 						

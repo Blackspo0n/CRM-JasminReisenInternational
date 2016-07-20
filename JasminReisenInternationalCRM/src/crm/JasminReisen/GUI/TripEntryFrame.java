@@ -60,7 +60,7 @@ public class TripEntryFrame extends JFrame
 		this.setLayout(new BorderLayout());
 		datapanel = new JPanel();
 		descpanel = new JPanel(new GridLayout(1,2,2,2));
-		datapanel.setLayout(new GridLayout (11,2,2,2));
+		datapanel.setLayout(new GridLayout (12,2,2,2));
 		buttons = new JPanel(new GridLayout(1,2,2,2));
 		this.add(datapanel, BorderLayout.NORTH);
 		this.add(descpanel, BorderLayout.CENTER);
@@ -85,6 +85,8 @@ public class TripEntryFrame extends JFrame
 		verfuegbarField = new JTextField();
 		themaField = new JTextField();
 		hotelId = new JLabel("ID des Hotels:");
+		klima = new JLabel("KlimaID des Zielorts:");
+		klimaId = new JTextField();
 		hotelIdField = new JTextField();
 		preis = new JLabel("Preis der Reise:");
 		preisField = new JTextField();
@@ -110,6 +112,8 @@ public class TripEntryFrame extends JFrame
 		datapanel.add(regionField);
 		datapanel.add(thema);
 		datapanel.add(themaField);
+		datapanel.add(klima);
+		datapanel.add(klimaId);
 		datapanel.add(hotelId);
 		datapanel.add(hotelIdField);
 		datapanel.add(preis);
