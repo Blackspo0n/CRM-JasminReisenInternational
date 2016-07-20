@@ -275,7 +275,7 @@ public class CoreDataFrame extends JDialog {
 		tripClimateLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripClimateLabel);
 
-		List<String> climaList = new ArrayList<String>(DbFunctions.getKlimaList());
+		List<String> climaList = new ArrayList<String>(DbFunctions.getClimateList());
 		String[] climaArray = climaList.toArray(new String[climaList.size()]);
 		climatesBox = new JComboBox(climaArray);
 		climatesBox.setFont(Config.getFONT());
@@ -353,7 +353,7 @@ public class CoreDataFrame extends JDialog {
 		tripThemaLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripThemaLabel);
 
-		List<String> themaList = new ArrayList<String>(DbFunctions.getThemenList());
+		List<String> themaList = new ArrayList<String>(DbFunctions.getThemeList());
 		String[] themaListArray = themaList.toArray(new String[themaList.size()]);
 		JComboBox themeBox = new JComboBox(themaListArray);
 		themeBox.setFont(Config.getFONT());

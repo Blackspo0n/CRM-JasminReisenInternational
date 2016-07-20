@@ -81,19 +81,25 @@ public class TripEntryFrame extends JFrame
 		p1.put("text.today", "Today");
 		p1.put("text.month", "Month");
 		p1.put("text.year", "Year");
+		JDatePanelImpl datePanel1 = new JDatePanelImpl(model1, p1);
+		startDate = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
+		
 		SqlDateModel model2 = new SqlDateModel();
 		Properties p2 = new Properties();
 		p2.put("text.today", "Today");
 		p2.put("text.month", "Month");
 		p2.put("text.year", "Year");
+		JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p2);
+		endDate = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
+		
 		SqlDateModel model3 = new SqlDateModel();
 		Properties p3 = new Properties();
 		p3.put("text.today", "Today");
 		p3.put("text.month", "Month");
 		p3.put("text.year", "Year");
-		JDatePanelImpl datePanel1 = new JDatePanelImpl(model1, p1);
-		JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p2);
-		JDatePanelImpl datePanel3 = new JDatePanelImpl(model2, p3);
+		JDatePanelImpl datePanel3 = new JDatePanelImpl(model3, p3);
+		availableDate = new JDatePickerImpl(datePanel3, new DateLabelFormatter());
+		
 
 		
 		
@@ -114,12 +120,12 @@ public class TripEntryFrame extends JFrame
 		zielortField = new JTextField();		
 		tripName = new JLabel("Name der Reise:");
 		tripNameField = new JTextField();
-		startDate = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
+		
 		startDate.setFont(Config.getFONT());
 		startDate.setBackground(Config.getBACKGROUND());
 		reisebeginn = new JLabel("Beginn der Reise:");
 		reiseEnde = new JLabel("Ende der Reise:");
-		endDate = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
+		
 		endDate.setFont(Config.getFONT());
 		endDate.setBackground(Config.getBACKGROUND());
 		plaetze = new JLabel("Verfügbare Plätze:");
@@ -130,7 +136,7 @@ public class TripEntryFrame extends JFrame
 		regionBox = new JComboBox(regions);
 		thema = new JLabel("Thema der Reise:");
 		verfuegbar = new JLabel("Verfügbar ab:");
-		availableDate = new JDatePickerImpl(datePanel3, new DateLabelFormatter());
+		
 		availableDate.setFont(Config.getFONT());
 		availableDate.setBackground(Config.getBACKGROUND());
 		themaBox = new JComboBox(themes);

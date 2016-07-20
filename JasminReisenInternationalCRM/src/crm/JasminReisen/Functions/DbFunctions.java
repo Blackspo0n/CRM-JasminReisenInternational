@@ -45,17 +45,6 @@ public class DbFunctions {
 		}
 	}
 	
-		public static void login(String username, String password) {
-		sql = "Select * from Benutzer";
-
-		try {
-			statement = connection.createStatement();
-			rs = statement.executeQuery(sql);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 public static DefaultTableModel getFilteredCustomers(String sql) {
 		System.out.println("ASAFLKJASF");
 		String col[] = { "ID", "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag" };
@@ -235,23 +224,25 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 		String date3 = frame.getAvailableDate().getJFormattedTextField().getText();
 		
 
-		String newDateString1 = date1.substring(6, 10) + "-" + date1.substring(3,5) +  "-" + date1.substring(0,2);
+		/*String newDateString1 = date1.substring(6, 10) + "-" + date1.substring(3,5) +  "-" + date1.substring(0,2);
 		String newDateString2 = date2.substring(6, 10) + "-" + date2.substring(3,5) +  "-" + date2.substring(0,2);
 		String newDateString3 = date3.substring(6, 10) + "-" + date3.substring(3,5) +  "-" + date3.substring(0,2);
-	 
+		System.out.println(date1);
+		System.out.println(date2);
+		System.out.println(date3);*/
 		sql = "INSERT INTO Reisen( Reisebeginn, Reiseende, Zielort, TransportmittelID, "
             + "Kontingent, VerfuegbarAb, Name, Beschreibung, Region, Thema, KlimaID, "
             + "Preis, HotelID) "
-            + "VALUES ('" + newDateString1 + "', '" + newDateString2 + "', "
+            + "VALUES ('" + date1 + "', '" + date2 + "', "
             + "'" + frame.getZielortField().getText() + "', "
             + "'" + frame.getTransportmittelIdBox().getSelectedItem() + "', "
             + "'" + frame.getPlaetzeField().getText() + "', "
-            + "'" + newDateString3 + "', "
+            + "'" + date3 + "', "
             + "'" + frame.getTripNameField().getText() + "', "
             + "'" + frame.getBeschreibungArea().getText() + "', "
             + "'" + frame.getRegionBox().getSelectedItem() + "', "
             + "'" + frame.getThemaBox().getSelectedItem() + "', "
-            + "'" + frame.getKlimaId().getText() + "', "
+            + "'" + frame.getKlimaIdBox().getSelectedItem() + "', "
             + "'" + frame.getPreisField().getText() + "', "
             + "'" + frame.getHotelIdBox().getSelectedItem() + "', "
             + ");";
