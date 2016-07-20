@@ -40,7 +40,6 @@ public class CoreDataTripListener implements ActionListener {
 			break;
 
 		case "Suchen":			
-			System.out.println(sql);
 			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
 			cdf.getCustomerTable().repaint();
 			break;

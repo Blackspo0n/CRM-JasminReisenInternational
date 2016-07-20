@@ -56,7 +56,8 @@ public class MainFrame extends JFrame {
 	private User loggedUser;
 
 	public MainFrame() {
-
+		
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1200, 800);
 		setTitle("Jasmin Reisen International - Customer Relationship Management");
 		setResizable(false);
