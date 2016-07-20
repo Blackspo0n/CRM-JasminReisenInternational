@@ -265,6 +265,29 @@ public class DbFunctions {
 		return false;
 
 	}
+	
+	public static Kunde getKundenDaten (int id) {
+		Kunde kunde = new Kunde();
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Kundennummer = '" + id + "'");
+			while (rs.next()) {
+				kunde.setEMail(rs.getString("EMail"));
+				kunde.setName(rs.getString("Name"));
+				kunde.setVorname(rs.getString("Vorname"));
+				kunde.setPLZ(rs.getString("PLZ"));
+				kunde.setOrt(rs.getString("Ort"));
+				kunde.setLand(rs.getString("Land"));
+				kunde.setTelefon(rs.getString("Telefon"));
+				kunde.setStrasse(rs.getString("Strasse"));
+				kunde.setGebDat(rs.getDate("GebDat"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return kunde;
+	}
 
 	public static boolean saveCostumer(Kunde customer) throws SQLException {
 		if (customer == null)
@@ -284,5 +307,7 @@ public class DbFunctions {
 		}
 		return false;
 	}
+	
+
 
 }
