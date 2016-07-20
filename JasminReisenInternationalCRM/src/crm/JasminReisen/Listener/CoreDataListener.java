@@ -46,7 +46,8 @@ public class CoreDataListener implements ActionListener {
 			CustomerEntryFrame cef = new CustomerEntryFrame();
 			break;
 		case "Bearbeiten":
-			cdf.getCustomerTable().getSelectedRow();
+			Integer kundenNummer = (Integer) cdf.getCustomerTable().getValueAt(cdf.getCustomerTable().getSelectedRow(), 1);
+			System.out.println(kundenNummer);
 		}
 	}
 
