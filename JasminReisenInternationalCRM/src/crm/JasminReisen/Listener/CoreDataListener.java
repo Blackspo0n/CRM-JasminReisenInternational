@@ -45,6 +45,8 @@ public class CoreDataListener implements ActionListener {
 		case "Kunde Anlegen":
 			CustomerEntryFrame cef = new CustomerEntryFrame();
 			break;
+		case "Bearbeiten":
+			cdf.getCustomerTable().getSelectedRow();
 		}
 	}
 
