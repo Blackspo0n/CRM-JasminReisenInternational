@@ -51,7 +51,7 @@ public class CoreDataListener implements ActionListener {
 			if (cdf.getCustomerTable().getSelectedRow() != -1) {
 				Integer kundenNummer = (Integer) cdf.getCustomerTable()
 						.getValueAt(cdf.getCustomerTable().getSelectedRow(), 0);
-				CustomerEntryFrame.getInstanceWithCustomer(DbFunctions.getKundenDaten(kundenNummer));
+				CustomerEntryFrame.getInstanceWithCustomer(DbFunctions.getKunde(kundenNummer));
 			} else {
 				JOptionPane.showMessageDialog(null, "Bitte wählen Sie zuerst einen Kunden aus!");
 			}

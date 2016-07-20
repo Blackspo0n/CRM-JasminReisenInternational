@@ -246,16 +246,16 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
             + "Preis, HotelID) "
             + "VALUES ('" + date1 + "', '" + date2 + "', "
             + "'" + frame.getZielortField().getText() + "', "
-            + "'" + frame.getTransportmittelIdBox().getSelectedItem() + "', "
+            + "'" + frame.getTransportmittelIdBox().getSelectedIndex() + "', "
             + "'" + frame.getPlaetzeField().getText() + "', "
             + "'" + date3 + "', "
             + "'" + frame.getTripNameField().getText() + "', "
             + "'" + frame.getBeschreibungArea().getText() + "', "
-            + "'" + frame.getRegionBox().getSelectedItem() + "', "
-            + "'" + frame.getThemaBox().getSelectedItem() + "', "
-            + "'" + frame.getKlimaIdBox().getSelectedItem() + "', "
+            + "'" + frame.getRegionBox().getSelectedIndex() + "', "
+            + "'" + frame.getThemaBox().getSelectedIndex() + "', "
+            + "'" + frame.getKlimaIdBox().getSelectedIndex() + "', "
             + "'" + frame.getPreisField().getText() + "', "
-            + "'" + frame.getHotelIdBox().getSelectedItem() + "', "
+            + "'" + frame.getHotelIdBox().getSelectedIndex() + "'"
             + ");";
 			System.out.println(sql);
 			try
@@ -310,6 +310,32 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 			return true;
 		}
 		return false;
+	}
+	
+	public static Kunde getKunde (int id) {
+		Kunde kunde = new Kunde();
+		
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Kundennummer = '" + id + "'");
+			
+			while (rs.next()) {
+				kunde.setName(rs.getString("Name"));
+				kunde.setVorname(rs.getString("Vorname"));
+				kunde.setStrasse(rs.getString("Strasse"));
+				kunde.setPLZ(rs.getString("PLZ"));
+				kunde.setOrt(rs.getString("Ort"));
+				kunde.setLand(rs.getString("Land"));
+				kunde.setTelefon(rs.getString("Telefon"));
+				kunde.setEMail(rs.getString("EMail"));
+				kunde.setGebDat(rs.getDate("GebDat"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return kunde;	
+		
 	}
 	
 
