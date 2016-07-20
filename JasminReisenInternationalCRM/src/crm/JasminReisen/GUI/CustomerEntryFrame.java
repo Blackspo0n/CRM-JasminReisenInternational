@@ -53,15 +53,20 @@ public class CustomerEntryFrame extends JFrame {
 	private JButton cancleButton;
 	private JButton saveButton;
 	
-	public static void main(String[] args) {
-		new CustomerEntryFrame(new Kunde(21,"Name", "Vorname", "", "", "", "", "", "", null));
-	}
+	private static CustomerEntryFrame instance;
 	
-	public static CustomerEntryFrame test = new CustomerEntryFrame(new Kunde());
+	protected static CustomerEntryFrame getInstance ()
+	{
+		if (instance == null)
+		{			
+			instance=new CustomerEntryFrame();			
+		}		
+		return instance;
+	}	
 	
 	public CustomerEntryFrame() 
 	{
-		return;
+			this(new Kunde());
 	}
 
 	public CustomerEntryFrame(Kunde customer) {
