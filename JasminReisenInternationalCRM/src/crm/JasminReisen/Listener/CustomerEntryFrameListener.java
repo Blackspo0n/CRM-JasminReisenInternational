@@ -49,9 +49,11 @@ public class CustomerEntryFrameListener implements ActionListener
 			} catch (SQLException e) {
 				JOptionPane.showInternalMessageDialog(this.customerFrame, "Der konnte nicht angelegt werden.");
 			}
+			CustomerEntryFrame.setInstance(null);
 			break;
 		case "Abbrechen":
 			this.customerFrame.dispose();
+			CustomerEntryFrame.setInstance(null);
 			break;
 		}
 	}
