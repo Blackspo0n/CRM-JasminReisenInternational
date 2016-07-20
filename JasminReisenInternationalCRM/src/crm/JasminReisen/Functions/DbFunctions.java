@@ -136,7 +136,8 @@ public class DbFunctions {
 		return userList;
 		
 	}
-	public static List<String> getVehicleList() {
+	public static List<String> getVehicleList() 
+	{
 		List<String> vehicleList = new ArrayList<String>();
 		
 		try {
@@ -144,21 +145,93 @@ public class DbFunctions {
 			rs = statement.executeQuery("SELECT * FROM Transportmittel");
 			vehicleList.add("");
 			while (rs.next()) {
-				vehicleList.add(rs.getString("Name"));
+				vehicleList.add(rs.getString("TransportName"));
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
-		
+	
+	
 		return vehicleList;
 	}
+	public static List<String> getClimateList() 
+		{
+			List<String> vehicleList = new ArrayList<String>();
+			
+			try {
+				statement = connection.createStatement();
+				rs = statement.executeQuery("SELECT * FROM Klima");
+				vehicleList.add("");
+				while (rs.next()) {
+					vehicleList.add(rs.getString("Klimabeschreibung"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return vehicleList;
+		}	
+	public static List<String> getThemeList() 
+	{
+		List<String> vehicleList = new ArrayList<String>();
+				
+				try {
+					statement = connection.createStatement();
+					rs = statement.executeQuery("SELECT * FROM Themen");
+					vehicleList.add("");
+					while (rs.next()) {
+						vehicleList.add(rs.getString("ThemenName"));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				return vehicleList;	
+	}
+	public static List<String> getHotelList() 
+	{
+		List<String> vehicleList = new ArrayList<String>();
+				
+				try {
+					statement = connection.createStatement();
+					rs = statement.executeQuery("SELECT * FROM Hotels");
+					vehicleList.add("");
+					while (rs.next()) {
+						vehicleList.add(rs.getString("HotelName"));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				return vehicleList;	
+	}
+	public static List<String> getRegionList() 
+	{
+		List<String> vehicleList = new ArrayList<String>();
+				
+				try {
+					statement = connection.createStatement();
+					rs = statement.executeQuery("SELECT * FROM Regionen");
+					vehicleList.add("");
+					while (rs.next()) {
+						vehicleList.add(rs.getString("RegionenName"));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				return vehicleList;	
+	}
+	
+	
 	public static void createTrip(TripEntryFrame frame)
 	{
 		
 		
-		String date3 = frame.getVerfuegbarField().getText();
-		String date1 = frame.getReiseEndeField().getText();
-		String date2 = frame.getReisebeginnField().getText();
+		String date1 = frame.getStartDate().getJFormattedTextField().getText();
+		String date2 = frame.getEndDate().getJFormattedTextField().getText();
+		String date3 = frame.getAvailableDate().getJFormattedTextField().getText();
 		
 
 		String newDateString1 = date1.substring(6, 10) + "-" + date1.substring(3,5) +  "-" + date1.substring(0,2);
@@ -170,16 +243,16 @@ public class DbFunctions {
             + "Preis, HotelID) "
             + "VALUES ('" + newDateString1 + "', '" + newDateString2 + "', "
             + "'" + frame.getZielortField().getText() + "', "
-            + "'" + frame.getTransportmittelIdField().getText() + "', "
+            + "'" + frame.getTransportmittelIdBox().getSelectedItem() + "', "
             + "'" + frame.getPlaetzeField().getText() + "', "
-            + "'" + frame.getVerfuegbarField().getText() + "', "
+            + "'" + newDateString3 + "', "
             + "'" + frame.getTripNameField().getText() + "', "
             + "'" + frame.getBeschreibungArea().getText() + "', "
-            + "'" + frame.getRegionField().getText() + "', "
-            + "'" + frame.getThemaField().getText() + "', "
+            + "'" + frame.getRegionBox().getSelectedItem() + "', "
+            + "'" + frame.getThemaBox().getSelectedItem() + "', "
             + "'" + frame.getKlimaId().getText() + "', "
             + "'" + frame.getPreisField().getText() + "', "
-            + "'" + frame.getHotelIdField().getText() + "', "
+            + "'" + frame.getHotelIdBox().getSelectedItem() + "', "
             + ");";
 			System.out.println(sql);
 			try
