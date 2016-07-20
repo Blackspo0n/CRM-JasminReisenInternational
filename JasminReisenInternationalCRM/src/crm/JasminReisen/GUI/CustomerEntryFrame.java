@@ -191,7 +191,7 @@ public class CustomerEntryFrame extends JFrame {
 			txtOrt.setText(customer.getOrt());;
 			txtCountry.setText(customer.getLand());;
 			txtTelephone.setText(customer.getTelefon());
-			txtAdress.setText(customer.getTelefon());
+			txtAdress.setText(customer.getEMail());
 			
 			if(customer.getGebDat() != null) datePicker.getModel().setDate(customer.getGebDat().getYear(), customer.getGebDat().getMonth(), customer.getGebDat().getDay());
 		}

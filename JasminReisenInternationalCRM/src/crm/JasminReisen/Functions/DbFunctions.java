@@ -58,7 +58,6 @@ public class DbFunctions {
 	}
 	
 public static DefaultTableModel getFilteredCustomers(String sql) {
-		System.out.println("ASAFLKJASF");
 		String col[] = { "ID", "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
@@ -330,6 +329,7 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 				kunde.setTelefon(rs.getString("Telefon"));
 				kunde.setEMail(rs.getString("EMail"));
 				kunde.setGebDat(rs.getDate("GebDat"));
+				kunde.setKundennummer(id);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

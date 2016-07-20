@@ -34,6 +34,8 @@ import crm.JasminReisen.Listener.CoreDataTripListener;
 
 public class CoreDataFrame extends JDialog {
 
+	private JTextField ageToField;
+	private JTextField ageFromField;
 	private JPanel mainPanel;
 	private JTabbedPane coreDataTab;
 	private JPanel tripPanel;
@@ -116,6 +118,14 @@ public class CoreDataFrame extends JDialog {
 	private Properties pTripEnd;
 	private JDatePanelImpl datePanelTripEnd;
 	private JDatePickerImpl datePickerTripEnd;
+	private JLabel tripThemaLabel;
+	private List<String> themaList;
+	private String[] themaListArrays;
+	private JLabel ageTo;
+	private SqlDateModel modelAgeFrom;
+	private SqlDateModel modelAgeTo;
+	private JDatePickerImpl datePickerAgeTo;
+	private JDatePickerImpl datePickerAgeFrom;
 
 	@SuppressWarnings("unchecked")
 	public CoreDataFrame() {
@@ -342,19 +352,18 @@ public class CoreDataFrame extends JDialog {
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		datePanel = new JDatePanelImpl(model, p);
-
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setFont(Config.getFONT());
 		gridNorthPanelTrip.add(datePicker);
 
-		JLabel tripThemaLabel = new JLabel("Thema");
+		tripThemaLabel = new JLabel("Thema");
 		tripThemaLabel.setFont(Config.getFONT());
 		tripThemaLabel.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(tripThemaLabel);
 
-		List<String> themaList = new ArrayList<String>(DbFunctions.getThemeList());
-		String[] themaListArray = themaList.toArray(new String[themaList.size()]);
-		JComboBox themeBox = new JComboBox(themaListArray);
+		themaList = new ArrayList<String>(DbFunctions.getThemeList());
+		themaListArrays = themaList.toArray(new String[themaList.size()]);
+		JComboBox themeBox = new JComboBox(themaListArrays);
 		themeBox.setFont(Config.getFONT());
 		themeBox.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(themeBox);
@@ -371,7 +380,7 @@ public class CoreDataFrame extends JDialog {
 		northPanelCustomer.setLayout(new BorderLayout());
 
 		centerOfNorthOfCustomerPanel = new JPanel();
-		centerOfNorthOfCustomerPanel.setLayout(new GridLayout(5, 4, 5, 5));
+		centerOfNorthOfCustomerPanel.setLayout(new GridLayout(6, 4, 5, 5));
 		centerOfNorthOfCustomerPanel.setBackground(Config.getBACKGROUND());
 		northPanelCustomer.add(centerOfNorthOfCustomerPanel);
 
@@ -449,6 +458,26 @@ public class CoreDataFrame extends JDialog {
 
 		mailTextField = new JTextField();
 		centerOfNorthOfCustomerPanel.add(mailTextField);
+
+		JLabel ageFrom = new JLabel("Alter von");
+		ageFrom.setFont(Config.getFONT());
+		ageFrom.setBackground(Config.getBACKGROUND());
+		centerOfNorthOfCustomerPanel.add(ageFrom);
+		
+		ageFromField = new JTextField();
+		ageFromField.setFont(Config.getFONT());
+		ageFromField.setBackground(Config.getBACKGROUND());
+		centerOfNorthOfCustomerPanel.add(ageFromField);
+		
+		ageTo = new JLabel("Alter bis");
+		ageTo.setFont(Config.getFONT());
+		ageTo.setBackground(Config.getBACKGROUND());
+		centerOfNorthOfCustomerPanel.add(ageTo);
+
+		ageToField = new JTextField();
+		ageToField.setFont(Config.getFONT());
+		ageToField.setBackground(Config.getBACKGROUND());
+		centerOfNorthOfCustomerPanel.add(ageToField);
 
 		southPanel = new JPanel();
 		southPanel.setLayout(new GridLayout(1, 2, 5, 5));
@@ -1165,5 +1194,85 @@ public class CoreDataFrame extends JDialog {
 
 	public void setDatePickerTripEnd(JDatePickerImpl datePickerTripEnd) {
 		this.datePickerTripEnd = datePickerTripEnd;
+	}
+
+	public JTextField getAgeToField() {
+		return ageToField;
+	}
+
+	public void setAgeToField(JTextField ageToField) {
+		this.ageToField = ageToField;
+	}
+
+	public JTextField getAgeFromField() {
+		return ageFromField;
+	}
+
+	public void setAgeFromField(JTextField ageFromField) {
+		this.ageFromField = ageFromField;
+	}
+
+	public JLabel getTripThemaLabel() {
+		return tripThemaLabel;
+	}
+
+	public void setTripThemaLabel(JLabel tripThemaLabel) {
+		this.tripThemaLabel = tripThemaLabel;
+	}
+
+	public List<String> getThemaList() {
+		return themaList;
+	}
+
+	public void setThemaList(List<String> themaList) {
+		this.themaList = themaList;
+	}
+
+	public String[] getThemaListArrays() {
+		return themaListArrays;
+	}
+
+	public void setThemaListArrays(String[] themaListArrays) {
+		this.themaListArrays = themaListArrays;
+	}
+
+	public JLabel getAgeTo() {
+		return ageTo;
+	}
+
+	public void setAgeTo(JLabel ageTo) {
+		this.ageTo = ageTo;
+	}
+
+	public SqlDateModel getModelAgeFrom() {
+		return modelAgeFrom;
+	}
+
+	public void setModelAgeFrom(SqlDateModel modelAgeFrom) {
+		this.modelAgeFrom = modelAgeFrom;
+	}
+
+	public SqlDateModel getModelAgeTo() {
+		return modelAgeTo;
+	}
+
+	public void setModelAgeTo(SqlDateModel modelAgeTo) {
+		this.modelAgeTo = modelAgeTo;
+	}
+
+	public JDatePickerImpl getDatePickerAgeTo() {
+		return datePickerAgeTo;
+	}
+
+	public void setDatePickerAgeTo(JDatePickerImpl datePickerAgeTo) {
+		this.datePickerAgeTo = datePickerAgeTo;
+	}
+
+	public JDatePickerImpl getDatePickerAgeFrom() {
+		return datePickerAgeFrom;
+	}
+
+	public void setDatePickerAgeFrom(JDatePickerImpl datePickerAgeFrom) {
+		this.datePickerAgeFrom = datePickerAgeFrom;
 	}
 }
