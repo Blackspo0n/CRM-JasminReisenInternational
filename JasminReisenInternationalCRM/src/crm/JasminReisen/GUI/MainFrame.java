@@ -54,9 +54,16 @@ public class MainFrame extends JFrame {
 	private JMenuItem coreDataItem;
 	private JMenuItem coreDataAnalyseItem;
 	private User loggedUser;
+	private JPanel centerPanelNoLogin;
 
 	public MainFrame() {
-		
+
+		try {
+			BufferedImage whsLogo = ImageIO.read(new File("images/whslogo.png"));
+			this.setIconImage(whsLogo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1200, 800);
 		setTitle("Jasmin Reisen International - Customer Relationship Management");
@@ -182,6 +189,28 @@ public class MainFrame extends JFrame {
 		coreDataMenu.add(coreDataItem);
 		coreDataMenu.add(coreDataAnalyseItem);
 		centerPanel.add(lastPanel);
+
+		centerPanelNoLogin = new JPanel();
+		centerPanelNoLogin.setLayout(new BorderLayout());
+		centerPanelNoLogin.setBackground(Config.getBACKGROUND());
+		this.add(centerPanelNoLogin, BorderLayout.CENTER);
+
+		try {
+			BufferedImage imageWHS = ImageIO.read(new File("images/whs.png"));
+			BufferedImage imageCRM = ImageIO.read(new File("images/CRM.png"));
+			JLabel imageWHSLabel = new JLabel(new ImageIcon(imageWHS));
+			JLabel imageCRMLabel = new JLabel(new ImageIcon(imageCRM));
+			centerPanelNoLogin.add(imageWHSLabel, BorderLayout.NORTH);
+			centerPanelNoLogin.add(imageCRMLabel, BorderLayout.SOUTH);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		JLabel pleaseLogIn = new JLabel("Bitte melden Sie sich an um fortzufahren");
+		pleaseLogIn.setFont(Config.getFONT_SUPERSIZE());
+		pleaseLogIn.setBackground(Config.getBACKGROUND());
+		pleaseLogIn.setHorizontalAlignment(JLabel.CENTER);
+		centerPanelNoLogin.add(pleaseLogIn, BorderLayout.CENTER);
 
 		checkLoginState();
 		setVisible(true);
@@ -395,7 +424,6 @@ public class MainFrame extends JFrame {
 		this.loggedUser = loggedUser;
 	}
 
-	
 	public void checkLoginState() {
 		if (loggedUser != null) {
 			averageCustomerEffortField.setText("");
@@ -409,7 +437,11 @@ public class MainFrame extends JFrame {
 			westPanel.setVisible(true);
 			coreDataItem.setVisible(true);
 			coreDataAnalyseItem.setVisible(true);
+			centerPanel.setVisible(true);
+			centerPanelNoLogin.setVisible(false);
 		} else {
+			centerPanelNoLogin.setVisible(true);
+			centerPanel.setVisible(false);
 			imageWest.setText("");
 			imageNorth.setText("");
 			imageEast.setText("");

@@ -8,6 +8,7 @@ public class Config {
 	static private Color BACKGROUND = Color.white;
 	static private Font FONT = new Font("Calibri Light", Font.PLAIN, 20);
 	static private Font FONT_TEXTFIELD = new Font("Calibri Light", Font.PLAIN, 14);
+	static private Font FONT_SUPERSIZE = new Font("Calibri Light", Font.PLAIN, 45);
 	static private Color BORDER = Color.LIGHT_GRAY;
 	public static Color getBORDER() {
 		return BORDER;
@@ -48,6 +49,12 @@ public class Config {
 	}
 	public static void setFOREGROUND(Color fOREGROUND) {
 		FOREGROUND = fOREGROUND;
+	}
+	public static Font getFONT_SUPERSIZE() {
+		return FONT_SUPERSIZE;
+	}
+	public static void setFONT_SUPERSIZE(Font fONT_SUPERSIZE) {
+		FONT_SUPERSIZE = fONT_SUPERSIZE;
 	}
 	
 }
