@@ -30,7 +30,7 @@ public class EmailFunctions {
 		// Create the attachment
 		EmailAttachment attachment = new EmailAttachment();
 		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File("D:/Google Drive/WHS-Job/Campuswoche/"));
+		chooser.setCurrentDirectory(new File("."));
 		chooser.showDialog(null, "Anhang wählen");
 		try
 		{

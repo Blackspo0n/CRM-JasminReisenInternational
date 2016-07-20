@@ -12,7 +12,6 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import crm.JasminReisen.Main;
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.GUI.TripEntryFrame;
 import crm.JasminReisen.models.User;
