@@ -1,9 +1,18 @@
 package crm.JasminReisen.GUI;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.*;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
+import crm.JasminReisen.Config;
+import crm.JasminReisen.Functions.DateLabelFormatter;
+import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.Listener.TripEntryFrameListener;
 import crm.JasminReisen.models.Reise;
 
@@ -15,31 +24,31 @@ public class TripEntryFrame extends JFrame
 	private JLabel tripName;
 	private JTextField tripNameField;
 	private JLabel reisebeginn;
-	private JTextField reisebeginnField;
 	private JLabel reiseEnde;
-	private JTextField reiseEndeField;
 	private JLabel plaetze;
 	private JTextField plaetzeField;
 	private JLabel transportmittelId;
-	private JTextField transportmittelIdField;
+	private JComboBox transportmittelIdBox;
 	private JLabel region;
 	private JLabel zielort;
 	private JTextField zielortField;
-	private JTextField regionField;
+	private JComboBox regionBox;
 	private JLabel thema;
-	private JTextField themaField;
-	private JLabel klima;
-	private JTextField klimaId;
+	private JComboBox themaBox;
+	private JLabel klimaId;
+	private JComboBox klimaIdBox;
 	private JLabel hotelId;
-	private JTextField hotelIdField;
+	private JComboBox hotelIdBox;
 	private JLabel preis;
 	private JTextField preisField;
 	private JLabel verfuegbar;
-	private JTextField verfuegbarField;
 	private JLabel beschreibung;
 	private JTextArea beschreibungArea;
 	private JButton reset;
 	private JButton send;
+	private JDatePickerImpl startDate;
+	private JDatePickerImpl endDate;
+	private JDatePickerImpl availableDate;
 	
 	public static void main (String [] args)
 	{
@@ -53,39 +62,82 @@ public class TripEntryFrame extends JFrame
 
 	public TripEntryFrame(Reise reise) 
 	{
+		DbFunctions.connect();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
-		this.setSize(600,400);
+		this.setSize(550,600);
 		setTitle("Anlegen einer neuen Reise");
 		this.setLayout(new BorderLayout());
 		datapanel = new JPanel();
 		descpanel = new JPanel(new GridLayout(1,2,2,2));
-		datapanel.setLayout(new GridLayout (11,2,2,2));
+		datapanel.setLayout(new GridLayout (12,2,2,2));
 		buttons = new JPanel(new GridLayout(1,2,2,2));
 		this.add(datapanel, BorderLayout.NORTH);
 		this.add(descpanel, BorderLayout.CENTER);
 		this.add(buttons, BorderLayout.SOUTH);
 		
+		SqlDateModel model1 = new SqlDateModel();
+		Properties p1 = new Properties();
+		p1.put("text.today", "Today");
+		p1.put("text.month", "Month");
+		p1.put("text.year", "Year");
+		SqlDateModel model2 = new SqlDateModel();
+		Properties p2 = new Properties();
+		p2.put("text.today", "Today");
+		p2.put("text.month", "Month");
+		p2.put("text.year", "Year");
+		SqlDateModel model3 = new SqlDateModel();
+		Properties p3 = new Properties();
+		p3.put("text.today", "Today");
+		p3.put("text.month", "Month");
+		p3.put("text.year", "Year");
+		JDatePanelImpl datePanel1 = new JDatePanelImpl(model1, p1);
+		JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p2);
+		JDatePanelImpl datePanel3 = new JDatePanelImpl(model2, p3);
+
+		
+		
+		
+		
+		ArrayList<String> vehicleList = new ArrayList<String>(DbFunctions.getVehicleList());
+		ArrayList<String> themeList = new ArrayList<String>(DbFunctions.getThemeList());
+		ArrayList<String> climateList = new ArrayList<String>(DbFunctions.getClimateList());
+		ArrayList<String> hotelList = new ArrayList<String>(DbFunctions.getHotelList());
+		ArrayList<String> regionList = new ArrayList<String>(DbFunctions.getRegionList());
+		String [] vehicles = vehicleList.toArray(new String[vehicleList.size()]);
+		String [] themes = themeList.toArray(new String[themeList.size()]);
+		String [] climates = climateList.toArray(new String[climateList.size()]);
+		String [] hotels = hotelList.toArray(new String[hotelList.size()]);
+		String [] regions = regionList.toArray(new String[regionList.size()]);
+		
 		zielort = new JLabel("Zielort der Reise");
 		zielortField = new JTextField();		
 		tripName = new JLabel("Name der Reise:");
 		tripNameField = new JTextField();
+		startDate = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
+		startDate.setFont(Config.getFONT());
+		startDate.setBackground(Config.getBACKGROUND());
 		reisebeginn = new JLabel("Beginn der Reise:");
-		reisebeginnField = new JTextField();
 		reiseEnde = new JLabel("Ende der Reise:");
-		reiseEndeField = new JTextField();
+		endDate = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
+		endDate.setFont(Config.getFONT());
+		endDate.setBackground(Config.getBACKGROUND());
 		plaetze = new JLabel("Verfügbare Plätze:");
 		plaetzeField = new JTextField();
 		transportmittelId = new JLabel("Transportmittel:");
-		transportmittelIdField = new JTextField();
+		transportmittelIdBox = new JComboBox(vehicles);
 		region = new JLabel("Region der Reise:");
-		regionField = new JTextField();
+		regionBox = new JComboBox(regions);
 		thema = new JLabel("Thema der Reise:");
 		verfuegbar = new JLabel("Verfügbar ab:");
-		verfuegbarField = new JTextField();
-		themaField = new JTextField();
+		availableDate = new JDatePickerImpl(datePanel3, new DateLabelFormatter());
+		availableDate.setFont(Config.getFONT());
+		availableDate.setBackground(Config.getBACKGROUND());
+		themaBox = new JComboBox(themes);
 		hotelId = new JLabel("ID des Hotels:");
-		hotelIdField = new JTextField();
+		klimaId = new JLabel("KlimaID des Zielorts:");
+		klimaIdBox = new JComboBox(climates);
+		hotelIdBox = new JComboBox(hotels);
 		preis = new JLabel("Preis der Reise:");
 		preisField = new JTextField();
 		beschreibung = new JLabel("Beschreibung:");
@@ -93,29 +145,41 @@ public class TripEntryFrame extends JFrame
 		send = new JButton("Reise anlegen");
 		reset = new JButton("Zurücksetzen");
 		
+		transportmittelIdBox.setFont(Config.getFONT());
+		transportmittelIdBox.setBackground(Config.getBACKGROUND());
+		regionBox.setFont(Config.getFONT());
+		regionBox.setBackground(Config.getBACKGROUND());
+		themaBox.setFont(Config.getFONT());
+		themaBox.setBackground(Config.getBACKGROUND());
+		klimaIdBox.setFont(Config.getFONT());
+		klimaIdBox.setBackground(Config.getBACKGROUND());
+		hotelIdBox.setFont(Config.getFONT());
+		hotelIdBox.setBackground(Config.getBACKGROUND());
 		
 		datapanel.add(tripName);
 		datapanel.add(tripNameField);
 		datapanel.add(zielort);
 		datapanel.add(zielortField);
 		datapanel.add(reisebeginn);
-		datapanel.add(reisebeginnField);
+		datapanel.add(startDate);
 		datapanel.add(reiseEnde);
-		datapanel.add(reiseEndeField);
+		datapanel.add(endDate);
 		datapanel.add(plaetze);
 		datapanel.add(plaetzeField);
 		datapanel.add(transportmittelId);
-		datapanel.add(transportmittelIdField);
+		datapanel.add(transportmittelIdBox);
 		datapanel.add(region);
-		datapanel.add(regionField);
+		datapanel.add(regionBox);
 		datapanel.add(thema);
-		datapanel.add(themaField);
+		datapanel.add(themaBox);
+		datapanel.add(klimaId);
+		datapanel.add(klimaIdBox);
 		datapanel.add(hotelId);
-		datapanel.add(hotelIdField);
+		datapanel.add(hotelIdBox);
 		datapanel.add(preis);
 		datapanel.add(preisField);
 		datapanel.add(verfuegbar);
-		datapanel.add(verfuegbarField);
+		datapanel.add(availableDate);
 		descpanel.add(beschreibung);
 		descpanel.add(beschreibungArea);
 		buttons.add(reset);
@@ -176,28 +240,12 @@ public class TripEntryFrame extends JFrame
 		this.reisebeginn = reisebeginn;
 	}
 
-	public JTextField getReisebeginnField() {
-		return reisebeginnField;
-	}
-
-	public void setReisebeginnField(JTextField reisebeginnField) {
-		this.reisebeginnField = reisebeginnField;
-	}
-
 	public JLabel getReiseEnde() {
 		return reiseEnde;
 	}
 
 	public void setReiseEnde(JLabel reiseEnde) {
 		this.reiseEnde = reiseEnde;
-	}
-
-	public JTextField getReiseEndeField() {
-		return reiseEndeField;
-	}
-
-	public void setReiseEndeField(JTextField reiseEndeField) {
-		this.reiseEndeField = reiseEndeField;
 	}
 
 	public JLabel getPlaetze() {
@@ -224,28 +272,12 @@ public class TripEntryFrame extends JFrame
 		this.transportmittelId = transportmittelId;
 	}
 
-	public JTextField getTransportmittelIdField() {
-		return transportmittelIdField;
-	}
-
-	public void setTransportmittelIdField(JTextField transportmittelIdField) {
-		this.transportmittelIdField = transportmittelIdField;
-	}
-
 	public JLabel getRegion() {
 		return region;
 	}
 
 	public void setRegion(JLabel region) {
 		this.region = region;
-	}
-
-	public JTextField getRegionField() {
-		return regionField;
-	}
-
-	public void setRegionField(JTextField regionField) {
-		this.regionField = regionField;
 	}
 
 	public JLabel getThema() {
@@ -256,28 +288,12 @@ public class TripEntryFrame extends JFrame
 		this.thema = thema;
 	}
 
-	public JTextField getThemaField() {
-		return themaField;
-	}
-
-	public void setThemaField(JTextField themaField) {
-		this.themaField = themaField;
-	}
-
 	public JLabel getHotelId() {
 		return hotelId;
 	}
 
 	public void setHotelId(JLabel hotelId) {
 		this.hotelId = hotelId;
-	}
-
-	public JTextField getHotelIdField() {
-		return hotelIdField;
-	}
-
-	public void setHotelIdField(JTextField hotelIdField) {
-		this.hotelIdField = hotelIdField;
 	}
 
 	public JLabel getPreis() {
@@ -352,32 +368,88 @@ public class TripEntryFrame extends JFrame
 		return verfuegbar;
 	}
 
-	public JTextField getVerfuegbarField() {
-		return verfuegbarField;
-	}
-
 	public void setVerfuegbar(JLabel verfuegbar) {
 		this.verfuegbar = verfuegbar;
 	}
 
-	public void setVerfuegbarField(JTextField verfuegbarField) {
-		this.verfuegbarField = verfuegbarField;
-	}
-
 	public JLabel getKlima() {
-		return klima;
-	}
-
-	public JTextField getKlimaId() {
 		return klimaId;
 	}
 
 	public void setKlima(JLabel klima) {
-		this.klima = klima;
+		this.klimaId = klima;
 	}
 
-	public void setKlimaId(JTextField klimaId) {
+	public JComboBox getTransportmittelIdBox() {
+		return transportmittelIdBox;
+	}
+
+	public JComboBox getRegionBox() {
+		return regionBox;
+	}
+
+	public JComboBox getThemaBox() {
+		return themaBox;
+	}
+
+	public JLabel getKlimaId() {
+		return klimaId;
+	}
+
+	public JComboBox getKlimaIdBox() {
+		return klimaIdBox;
+	}
+
+	public JComboBox getHotelIdBox() {
+		return hotelIdBox;
+	}
+
+	public void setTransportmittelIdBox(JComboBox transportmittelIdBox) {
+		this.transportmittelIdBox = transportmittelIdBox;
+	}
+
+	public void setRegionBox(JComboBox regionBox) {
+		this.regionBox = regionBox;
+	}
+
+	public void setThemaBox(JComboBox themaBox) {
+		this.themaBox = themaBox;
+	}
+
+	public void setKlimaId(JLabel klimaId) {
 		this.klimaId = klimaId;
+	}
+
+	public void setKlimaIdBox(JComboBox klimaIdBox) {
+		this.klimaIdBox = klimaIdBox;
+	}
+
+	public void setHotelIdBox(JComboBox hotelIdBox) {
+		this.hotelIdBox = hotelIdBox;
+	}
+
+	public JDatePickerImpl getStartDate() {
+		return startDate;
+	}
+
+	public JDatePickerImpl getEndDate() {
+		return endDate;
+	}
+
+	public JDatePickerImpl getAvailableDate() {
+		return availableDate;
+	}
+
+	public void setStartDate(JDatePickerImpl startDate) {
+		this.startDate = startDate;
+	}
+
+	public void setEndDate(JDatePickerImpl endDate) {
+		this.endDate = endDate;
+	}
+
+	public void setAvailableDate(JDatePickerImpl availableDate) {
+		this.availableDate = availableDate;
 	}
 	
 	
