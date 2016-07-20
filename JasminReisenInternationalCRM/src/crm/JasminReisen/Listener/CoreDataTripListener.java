@@ -41,6 +41,7 @@ public class CoreDataTripListener implements ActionListener {
 
 		case "Suchen":
 
+			
 			String priceStart = cdf.getTripPriceFromField().getText();
 			String priceEnd = cdf.getTripPriceToField().getText();
 			double priceEndDouble = 0;

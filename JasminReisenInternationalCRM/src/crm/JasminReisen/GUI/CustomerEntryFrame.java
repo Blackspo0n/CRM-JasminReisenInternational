@@ -52,10 +52,14 @@ public class CustomerEntryFrame extends JFrame {
 	private JDatePickerImpl datePicker;
 	private JButton cancleButton;
 	private JButton saveButton;
+
+	public static CustomerEntryFrame test = new CustomerEntryFrame(new Kunde());
 	
-	public CustomerEntryFrame() {
-		this(new Kunde());
+	public CustomerEntryFrame() 
+	{
+		return;
 	}
+
 
 	public CustomerEntryFrame(Kunde customer) {
 		customerContext = customer;
