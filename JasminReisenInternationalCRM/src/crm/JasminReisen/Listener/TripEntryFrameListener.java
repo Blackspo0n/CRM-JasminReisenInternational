@@ -32,7 +32,7 @@ public class TripEntryFrameListener implements ActionListener
 				tripentryframe.getTransportmittelIdBox().setSelectedIndex(0);
 				tripentryframe.getRegionBox().setSelectedIndex(0);
 				tripentryframe.getThemaBox().setSelectedIndex(0);
-				tripentryframe.getKlimaId().setText("");
+				tripentryframe.getKlimaIdBox().setSelectedIndex(0);
 				tripentryframe.getHotelIdBox().setSelectedIndex(0);
 				tripentryframe.getPreisField().setText("");
 				tripentryframe.getAvailableDate().getJFormattedTextField().setText("");
