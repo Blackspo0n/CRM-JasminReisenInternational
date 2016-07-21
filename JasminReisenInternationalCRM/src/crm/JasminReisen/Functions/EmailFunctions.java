@@ -16,9 +16,9 @@ public class EmailFunctions {
 	private static final String SMTP_PORT = ">\\[";	  
 	private static final String USERNAME = "wnfzvaervfra|bayvar.qr";
 	private static final String PASSWORD = "wnfzvaervfra";
+	private static final String SENDERNAME = "Jasmin Reisen International";
 	
-	
-	public static void sendMultiPartMail (String recipient, String senderName, String subject, String message)
+	public static void sendMultiPartMail (String recipient, String subject, String message, boolean birthday)
 	{		
 		MultiPartEmail multiPartEmail = new MultiPartEmail();
 		multiPartEmail.setHostName(ServiceFunctions.String(SMTP_HOST));
@@ -29,32 +29,52 @@ public class EmailFunctions {
 	    
 		// Create the attachment
 		EmailAttachment attachment = new EmailAttachment();
-		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File("."));
-		chooser.showDialog(null, "Anhang wählen");
-		try
+		if (birthday)
 		{
-			attachment.setPath(chooser.getSelectedFile().getAbsolutePath());		
+			System.out.println();
+			attachment.setPath("./images/jasmin.png");
 			attachment.setDisposition(EmailAttachment.ATTACHMENT);
-			attachment.setName(chooser.getSelectedFile().getName());
+			attachment.setName("geburtstag.png");
 			// add the attachment
-			multiPartEmail.attach(attachment);
+			try 
+			{
+				multiPartEmail.attach(attachment);
+			} 
+			catch (EmailException e) 
+			{
+				e.printStackTrace();
+			}			
 		}
-		catch (NullPointerException | EmailException e)
-		{}		
+		else
+		{		
+			try
+			{
+				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new File("."));
+				chooser.showDialog(null, "Anhang wählen");
+				attachment.setPath(chooser.getSelectedFile().getAbsolutePath());		
+				attachment.setDisposition(EmailAttachment.ATTACHMENT);
+				attachment.setName(chooser.getSelectedFile().getName());
+				// add the attachment
+				multiPartEmail.attach(attachment);
+			}
+			catch (NullPointerException | EmailException e)
+			{}	
+		}
 
 		// Create the email message	
 		try
 		{
 			multiPartEmail.addTo(recipient);
-			multiPartEmail.setFrom(ServiceFunctions.String(USERNAME), senderName);
+			multiPartEmail.setFrom(ServiceFunctions.String(USERNAME), SENDERNAME);
 			multiPartEmail.setSubject(subject);
 			multiPartEmail.setMsg(message);			
 
 			//send the email
 			multiPartEmail.send();
 		}
-		catch (EmailException e) {
+		catch (EmailException e) 
+		{
 			e.printStackTrace();
 		}			
 	}
