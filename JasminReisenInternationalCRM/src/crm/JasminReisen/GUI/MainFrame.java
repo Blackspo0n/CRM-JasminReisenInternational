@@ -511,6 +511,8 @@ public class MainFrame extends JFrame {
 			westPanel.setVisible(true);
 			coreDataItem.setVisible(true);
 			coreDataAnalyseItem.setVisible(true);
+			actionsMenu.setEnabled(true);
+			analysisMenu.setEnabled(true);
 		} else {
 			centerPanelNoLogin.setVisible(true);
 			imageWest.setText("");
@@ -524,7 +526,8 @@ public class MainFrame extends JFrame {
 			westPanel.setVisible(false);
 			coreDataItem.setVisible(false);
 			coreDataAnalyseItem.setVisible(false);
-
+			actionsMenu.setEnabled(false);
+			analysisMenu.setEnabled(false);
 		}
 	}
 
