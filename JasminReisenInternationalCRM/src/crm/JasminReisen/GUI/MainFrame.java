@@ -59,15 +59,6 @@ public class MainFrame extends JFrame {
 	private JMenuItem closeItem;
 	private JMenuItem coreDataItem;
 	private JMenuItem coreDataAnalyseItem;
-	private JMenu actionsMenu;
-	private JMenuItem contactItem;
-	private JMenuItem newsletterItem;
-	private JMenuItem eMailItem;
-	
-	private JMenu analysisMenu;
-	private JMenuItem mostBookedItem;
-	
-	
 	private User loggedUser;
 	private JPanel centerPanelNoLogin;
 	private JMenuItem specEntryItem;
@@ -152,6 +143,8 @@ public class MainFrame extends JFrame {
 		closeItem = new JMenuItem("Beenden");
 		closeItem.setFont(Config.getFONT());
 
+
+
 		loginMenu.add(loginItem);
 		loginMenu.add(logoutItem);
 		loginMenu.addSeparator();
@@ -175,30 +168,6 @@ public class MainFrame extends JFrame {
 		specEntryItem.setFont(Config.getFONT());
 		specEntryItem.addActionListener(new MainFrameListener(this));
 		coreDataMenu.add(specEntryItem);
-		
-		actionsMenu = new JMenu("Aktionen");
-		actionsMenu.setFont(Config.getFONT());
-		menuBar.add(actionsMenu);
-		contactItem = new JMenuItem("Kontakt erfassen");
-		contactItem.setFont(Config.getFONT());
-		actionsMenu.add(contactItem);
-		contactItem.addActionListener(new MainFrameListener(this));	
-		newsletterItem = new JMenuItem("Newsletter versenden");
-		newsletterItem.setFont(Config.getFONT());
-		actionsMenu.add(newsletterItem);
-		newsletterItem.addActionListener(new MainFrameListener(this));
-		eMailItem = new JMenuItem("eMail versenden");
-		eMailItem.setFont(Config.getFONT());
-		actionsMenu.add(eMailItem);
-		eMailItem.addActionListener(new MainFrameListener(this));
-		
-		analysisMenu = new JMenu("Auswertungen");
-		analysisMenu.setFont(Config.getFONT());
-		menuBar.add(analysisMenu);
-		mostBookedItem = new JMenuItem("Kontakt erfassen");
-		mostBookedItem.setFont(Config.getFONT());
-		actionsMenu.add(mostBookedItem);
-		mostBookedItem.addActionListener(new MainFrameListener(this));	
 
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
@@ -254,7 +223,7 @@ public class MainFrame extends JFrame {
 		upcomingBirthdayTable.setPreferredScrollableViewportSize(upcomingBirthdayTable.getPreferredSize());
 		upcomingBirthdayTable.setFillsViewportHeight(true);
 		upcomingBirthdayTable.setRowHeight(21);
-		upcomingBirthdayTable.setModel(DbFunctions.getCustomersWithUpcomingBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden  WHERE MONTH(GebDat) = MONTH(CURDATE()) AND DAY(GebDat) = DAY(CURDATE())"));
+		upcomingBirthdayTable.setModel(DbFunctions.getCustomersWithUpcomingBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden WHERE  DATE_ADD(GebDat, INTERVAL YEAR(CURDATE())-YEAR(GebDat) + IF(DAYOFYEAR(CURDATE()) > DAYOFYEAR(GebDat),1,0)YEAR)BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)"));
 		upcomingBirthdayTable.getTableHeader().setFont(Config.getFONT());
 		upcomingBirthdayScrollPane.setViewportView(upcomingBirthdayTable);
 
