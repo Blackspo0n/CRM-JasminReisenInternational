@@ -71,6 +71,7 @@ public class CoreDataFrame extends JDialog {
 	private JPanel southPanel;
 	private JButton bearbeitenButton;
 	private JButton anlegenButton;
+	private JButton eMailButton;
 	private JLabel tripAvailableLabel;
 	private JTextField tripQuotaField;
 	private JLabel tripQuotaToLabel;
@@ -244,9 +245,9 @@ public class CoreDataFrame extends JDialog {
 
 		modelTripStart = new SqlDateModel();
 		pTripStart = new Properties();
-		pTripStart.put("text.today", "Today");
-		pTripStart.put("text.month", "Month");
-		pTripStart.put("text.year", "Year");
+		pTripStart.put("text.today", "Heute");
+		pTripStart.put("text.month", "Monat");
+		pTripStart.put("text.year", "Jahr");
 		datePanelTripStart = new JDatePanelImpl(modelTripStart, pTripStart);
 		datePickerTripStart = new JDatePickerImpl(datePanelTripStart, new DateLabelFormatter());
 		datePickerTripStart.setFont(Config.getFONT());
@@ -259,9 +260,9 @@ public class CoreDataFrame extends JDialog {
 
 		modelTripEnd = new SqlDateModel();
 		pTripEnd = new Properties();
-		pTripEnd.put("text.today", "Today");
-		pTripEnd.put("text.month", "Month");
-		pTripEnd.put("text.year", "Year");
+		pTripEnd.put("text.today", "Heute");
+		pTripEnd.put("text.month", "Monat");
+		pTripEnd.put("text.year", "Jahr");
 		datePanelTripEnd = new JDatePanelImpl(modelTripEnd, pTripEnd);
 		datePickerTripEnd = new JDatePickerImpl(datePanelTripEnd, new DateLabelFormatter());
 		datePickerTripEnd.setFont(Config.getFONT());
@@ -348,9 +349,9 @@ public class CoreDataFrame extends JDialog {
 
 		model = new SqlDateModel();
 		p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
+		p.put("text.today", "Heute");
+		p.put("text.month", "Monat");
+		p.put("text.year", "Jahr");
 		datePanel = new JDatePanelImpl(model, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setFont(Config.getFONT());
@@ -480,7 +481,7 @@ public class CoreDataFrame extends JDialog {
 		centerOfNorthOfCustomerPanel.add(ageToField);
 
 		southPanel = new JPanel();
-		southPanel.setLayout(new GridLayout(1, 2, 5, 5));
+		southPanel.setLayout(new GridLayout(1, 3, 5, 5));
 		customerPanel.add(southPanel, BorderLayout.SOUTH);
 
 		bearbeitenButton = new JButton("Bearbeiten");
@@ -492,6 +493,11 @@ public class CoreDataFrame extends JDialog {
 		anlegenButton.setFont(Config.getFONT());
 		anlegenButton.addActionListener(new CoreDataListener(this));
 		southPanel.add(anlegenButton);
+		
+		eMailButton = new JButton("E-Mail versenden");
+		eMailButton.setFont(Config.getFONT());
+		eMailButton.addActionListener(new CoreDataListener(this));
+		southPanel.add(eMailButton);
 
 		customerTable = new JTable();
 		customerScrollPane = new JScrollPane();

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.CreateCustomerContactFrame;
 import crm.JasminReisen.GUI.CustomerEntryFrame;
+import crm.JasminReisen.GUI.EmailMessageFrame;
 import crm.JasminReisen.GUI.LoginFrame;
 import crm.JasminReisen.GUI.MainFrame;
 import crm.JasminReisen.GUI.SpecEntryFrame;
@@ -57,6 +58,11 @@ public class MainFrameListener implements ActionListener {
 		case "Kontakt erfassen":
 			new CreateCustomerContactFrame();
 			break;
-		}
+		case "eMail versenden":			
+			CoreDataFrame mail = new CoreDataFrame();
+			mail.getCoreDataTab().setSelectedIndex(1);			
+			break;
+			}	
 	}
 }
+
