@@ -379,18 +379,19 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 	}
 	
 	public static DefaultTableModel getCustomersWithUpcomingBirthdays(String sql) {
-		String col[] = {"Kundennummer", "Name", "Vorname", "Alter", "E-Mail"};
+		String col[] = {"Kundennummer", "Name", "Vorname", "Geburtstag", "Alter", "E-Mail"};
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
 			rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				Object[] objs = new Object[5];
+				Object[] objs = new Object[6];
 				objs[0] = rs.getInt("Kundennummer");
 				objs[1] = rs.getString("Name");
 				objs[2] = rs.getString("Vorname");
-				objs[3] = rs.getInt("Age");
-				objs[4] = rs.getString("EMail");
+				objs[3] = rs.getString("GebDat");
+				objs[4] = rs.getInt("Age");
+				objs[5] = rs.getString("EMail");
 				dtm.addRow(objs);
 			}
 		} catch (Exception e) {
