@@ -64,6 +64,8 @@ public class MainFrame extends JFrame {
 	private JMenuItem specEntryItem;
 	private JPanel cardPanel;
 	private CardLayout card;
+	private JTable birthdayTable;
+	private JPanel birthdayPanel;
 
 	public MainFrame() {
 
@@ -174,7 +176,7 @@ public class MainFrame extends JFrame {
 		mainTabPanel.setFont(Config.getFONT());
 		centerPanel.add(mainTabPanel, BorderLayout.CENTER);
 		
-		JPanel birthdayPanel = new JPanel();
+		birthdayPanel = new JPanel();
 		birthdayPanel.setBackground(Config.getBACKGROUND());
 		birthdayPanel.setLayout(new BorderLayout());
 		mainTabPanel.addTab("Geburtstag", null, birthdayPanel, null);
@@ -182,7 +184,7 @@ public class MainFrame extends JFrame {
 		JScrollPane birthdayScrollPane = new JScrollPane();
 		birthdayPanel.add(birthdayScrollPane, BorderLayout.CENTER);
 		
-		JTable birthdayTable = new JTable();
+		birthdayTable = new JTable();
 		birthdayTable.setShowGrid(false);
 		birthdayTable.setFont(Config.getFONT());
 		birthdayTable.setBackground(Config.getBACKGROUND());
@@ -502,5 +504,41 @@ public class MainFrame extends JFrame {
 
 	public void setSpecEntryItem(JMenuItem specEntryItem) {
 		this.specEntryItem = specEntryItem;
+	}
+
+	public JPanel getCardPanel() {
+		return cardPanel;
+	}
+
+	public void setCardPanel(JPanel cardPanel) {
+		this.cardPanel = cardPanel;
+	}
+
+	public CardLayout getCard() {
+		return card;
+	}
+
+	public void setCard(CardLayout card) {
+		this.card = card;
+	}
+
+	public JTable getBirthdayTable() {
+		return birthdayTable;
+	}
+
+	public void setBirthdayTable(JTable birthdayTable) {
+		this.birthdayTable = birthdayTable;
+	}
+
+	public JPanel getBirthdayPanel() {
+		return birthdayPanel;
+	}
+
+	public void setBirthdayPanel(JPanel birthdayPanel) {
+		this.birthdayPanel = birthdayPanel;
+	}
+
+	public JMenuBar getMenuBar() {
+		return menuBar;
 	}
 }

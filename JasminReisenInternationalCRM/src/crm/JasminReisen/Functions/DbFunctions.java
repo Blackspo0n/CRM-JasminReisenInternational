@@ -367,7 +367,7 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 				objs[0] = rs.getInt("Kundennummer");
 				objs[1] = rs.getString("Name");
 				objs[2] = rs.getString("Vorname");
-				objs[3] = rs.getString("Age");
+				objs[3] = rs.getInt("Age");
 				objs[4] = rs.getString("EMail");
 				dtm.addRow(objs);
 			}
@@ -376,6 +376,20 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 		}
 		return dtm;
 
+	}
+	
+	public static void safeVoucherCode (int customerID, String voucherCode) {
+		connect();
+		sql = "INSERT INTO Gutscheincode VALUES ('" + customerID + "','" + voucherCode +"');";
+		try 
+		{
+			statement = connection.createStatement();
+			statement.executeUpdate(sql);
+		} catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
