@@ -476,10 +476,10 @@ public class DbFunctions {
 		}
 	}
 
-	public static void saveContactData(int customerID, int actionID, Date review) {
+	public static void saveContactData(int customerID, int actionID, String review) {
 		connect();
-		sql = "INSERT INTO Kontakthistorien (KundenID, Kontaktdatum, AktionsID, Wiedervorlage) VALUES ('" + customerID
-				+ "','DATE(NOW())','" + actionID + "','" + review + "');";
+		sql = "INSERT INTO Kontakthistorien (KundenID, AktionsID, Wiedervorlage) VALUES ('" + customerID+ "','"
+				+ actionID + "','" + review + "');";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);

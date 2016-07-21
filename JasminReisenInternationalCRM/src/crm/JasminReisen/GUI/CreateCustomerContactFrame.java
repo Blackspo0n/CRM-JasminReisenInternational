@@ -36,6 +36,9 @@ public class CreateCustomerContactFrame extends JFrame {
 	private JComboBox<Kunde> customerBox;
 	private ArrayList<String> actionList;
 	private SqlDateModel model;
+	private JDatePickerImpl datePicker;
+	private JDatePanelImpl datePanel;
+	private JComboBox<String> actionBox;
 
 	public CreateCustomerContactFrame() {
 		this.setSize(800, 450);
@@ -84,7 +87,7 @@ public class CreateCustomerContactFrame extends JFrame {
 
 		actionList = new ArrayList<String>(DbFunctions.getActionList());
 		String[] actions = actionList.toArray(new String[actionList.size()]);
-		JComboBox<String> actionBox = new JComboBox<String>(actions);
+		actionBox = new JComboBox<String>(actions);
 		actionBox.setFont(Config.getFONT());
 		actionBox.setBackground(Config.getBACKGROUND());
 		northPanel.add(actionBox);
@@ -120,8 +123,8 @@ public class CreateCustomerContactFrame extends JFrame {
 		p.put("text.today", "Today");
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePanel = new JDatePanelImpl(model, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		datePicker.setFont(Config.getFONT());
 		southPanel.add(datePicker);
 
@@ -130,6 +133,7 @@ public class CreateCustomerContactFrame extends JFrame {
 		southPanel.add(abortButton);
 
 		JButton saveButton = new JButton("Speichern");
+		saveButton.addActionListener(new CreateCustomerContactListener(this));
 		southPanel.add(saveButton);
 
 		this.setVisible(true);
@@ -158,6 +162,46 @@ public class CreateCustomerContactFrame extends JFrame {
 
 	public void setCustomerBox(JComboBox<Kunde> customerBox) {
 		this.customerBox = customerBox;
+	}
+
+	public ArrayList<String> getActionList() {
+		return actionList;
+	}
+
+	public void setActionList(ArrayList<String> actionList) {
+		this.actionList = actionList;
+	}
+
+	public SqlDateModel getModel() {
+		return model;
+	}
+
+	public void setModel(SqlDateModel model) {
+		this.model = model;
+	}
+
+	public JDatePickerImpl getDatePicker() {
+		return datePicker;
+	}
+
+	public void setDatePicker(JDatePickerImpl datePicker) {
+		this.datePicker = datePicker;
+	}
+
+	public JDatePanelImpl getDatePanel() {
+		return datePanel;
+	}
+
+	public void setDatePanel(JDatePanelImpl datePanel) {
+		this.datePanel = datePanel;
+	}
+
+	public JComboBox<String> getActionBox() {
+		return actionBox;
+	}
+
+	public void setActionBox(JComboBox<String> actionBox) {
+		this.actionBox = actionBox;
 	}
 
 }
