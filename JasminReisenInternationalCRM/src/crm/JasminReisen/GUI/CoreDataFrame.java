@@ -130,7 +130,7 @@ public class CoreDataFrame extends JDialog {
 	@SuppressWarnings("unchecked")
 	public CoreDataFrame() {
 
-		this.setSize(1200, 800);
+		this.setSize(1200, 700);
 		this.setResizable(false);
 		this.setTitle("Stammdatenpflege");
 		this.setBackground(Config.getBACKGROUND());

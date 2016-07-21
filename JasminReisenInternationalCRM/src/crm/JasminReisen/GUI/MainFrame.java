@@ -13,12 +13,14 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -69,7 +71,7 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1200, 800);
+		setSize(1200, 700);
 		setTitle("Jasmin Reisen International - Customer Relationship Management");
 		setResizable(false);
 		setBackground(Config.getBACKGROUND());
@@ -161,51 +163,34 @@ public class MainFrame extends JFrame {
 		coreDataMenu.add(specEntryItem);
 
 		centerPanel = new JPanel();
-		centerPanel.setLayout(new GridLayout(8, 1, 30, 15));
+		centerPanel.setLayout(new BorderLayout());
 		centerPanel.setBackground(Config.getBACKGROUND());
 		cardPanel.add(centerPanel, "login");
 
-		firstPanel = new JPanel();
-		firstPanel.setBackground(Config.getBACKGROUND());
-		centerPanel.add(firstPanel);
-
-		lastPanel = new JPanel();
-		lastPanel.setBackground(Config.getBACKGROUND());
-
-		averageCustomerEffort = new JLabel("Durchschnittlicher Kundenaufwand pro Tag", SwingConstants.CENTER);
-		averageCustomerEffort.setFont(Config.getHEADLINE());
-		averageCustomerEffort.setEnabled(true);
-		centerPanel.add(averageCustomerEffort);
-
-		averageCustomerEffortField = new JTextField();
-		averageCustomerEffortField.setFont(Config.getFONT());
-		averageCustomerEffortField.setHorizontalAlignment(JLabel.CENTER);
-		averageCustomerEffortField.setEditable(false);
-		averageCustomerEffortField.setBackground(Config.getBACKGROUND());
-		centerPanel.add(averageCustomerEffortField);
-
-		averageTripDays = new JLabel("Durchschnittliche Reisetage", SwingConstants.CENTER);
-		averageTripDays.setFont(Config.getHEADLINE());
-		centerPanel.add(averageTripDays);
-
-		averageTripDaysField = new JTextField();
-		averageTripDaysField.setFont(Config.getFONT());
-		averageTripDaysField.setHorizontalAlignment(JLabel.CENTER);
-		averageTripDaysField.setEditable(false);
-		averageTripDaysField.setBackground(Config.getBACKGROUND());
-		centerPanel.add(averageTripDaysField);
-
-		averageHotelStars = new JLabel("Durchschnittliche Hotelsterne", SwingConstants.CENTER);
-		averageHotelStars.setFont(Config.getHEADLINE());
-		centerPanel.add(averageHotelStars);
-
-		averageHotelStarsField = new JTextField();
-		averageHotelStarsField.setFont(Config.getFONT());
-		averageHotelStarsField.setHorizontalAlignment(JLabel.CENTER);
-		averageHotelStarsField.setEditable(false);
-		averageHotelStarsField.setBackground(Config.getBACKGROUND());
-		centerPanel.add(averageHotelStarsField);
-		centerPanel.add(lastPanel);
+		JTabbedPane mainTabPanel = new JTabbedPane();
+		centerPanel.add(mainTabPanel, BorderLayout.CENTER);
+		
+		JPanel birthdayPanel = new JPanel();
+		birthdayPanel.setBackground(Config.getBACKGROUND());
+		birthdayPanel.setLayout(new BorderLayout());
+		mainTabPanel.addTab("Geburtstag", null, birthdayPanel, null);
+		
+		JPanel upcomingBirthdayPanel = new JPanel();
+		upcomingBirthdayPanel.setBackground(Config.getBACKGROUND());
+		upcomingBirthdayPanel.setLayout(new BorderLayout());
+		mainTabPanel.addTab("Anstehende Geburtstage", null, upcomingBirthdayPanel, null);	
+		
+		JButton rabattCodeSenden = new JButton("Rabattcode versenden");
+		rabattCodeSenden.setFont(Config.getFONT());
+		birthdayPanel.add(rabattCodeSenden, BorderLayout.SOUTH);
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		centerPanelNoLogin = new JPanel();
@@ -453,9 +438,6 @@ public class MainFrame extends JFrame {
 	public void checkLoginState() {
 		if (loggedUser != null) {
 			centerPanelNoLogin.setVisible(false);
-			averageCustomerEffortField.setText("");
-			averageTripDaysField.setText("");
-			averageHotelStarsField.setText("");
 			coreDataMenu.setEnabled(true);
 			northPanel.setVisible(true);
 			eastPanel.setVisible(true);
@@ -469,9 +451,6 @@ public class MainFrame extends JFrame {
 			imageWest.setText("");
 			imageNorth.setText("");
 			imageEast.setText("");
-			averageCustomerEffortField.setText("Bitte Einloggen um fortzufahren");
-			averageTripDaysField.setText("Bitte Einloggen um fortzufahren");
-			averageHotelStarsField.setText("Bitte Einloggen um fortzufahren");
 			coreDataMenu.setEnabled(false);
 			loginItem.setVisible(true);
 			logoutItem.setVisible(false);
