@@ -556,7 +556,7 @@ public class DbFunctions {
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			String sql = "SELECT r.*, count(*) AS buchungen, AVG(b.Teilnehmerzahl) AS avgteilnehmer FROM Reisen AS r JOIN Buchungen AS b ON (r.ReiseID = b.ReiseID) GROUP BY r.Name";
+			String sql = "SELECT r.*, count(*) AS buchungen, AVG(b.Teilnehmerzahl) AS avgteilnehmer FROM Reisen AS r JOIN Buchungen AS b ON (r.ReiseID = b.ReiseID) GROUP BY r.Name ORDER BY buchungen DESC LIMIT 10 ";
 			rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				Object[] objs = new Object[5];
