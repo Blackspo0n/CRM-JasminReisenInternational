@@ -42,6 +42,11 @@ public class Kunde {
 		EMail = eMail;
 		GebDat = gebDat;
 	}
+	
+	public String toString() {
+		return this.getName() + ", " + this.getVorname();
+	}
+	
 	public int getKundennummer() {
 		return Kundennummer;
 	}

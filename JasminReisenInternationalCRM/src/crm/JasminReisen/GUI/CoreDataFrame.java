@@ -264,7 +264,7 @@ public class CoreDataFrame extends JDialog {
 		pTripEnd.put("text.year", "Year");
 		datePanelTripEnd = new JDatePanelImpl(modelTripEnd, pTripEnd);
 		datePickerTripEnd = new JDatePickerImpl(datePanelTripEnd, new DateLabelFormatter());
-		datePickerTripStart.setFont(Config.getFONT());
+		datePickerTripEnd.setFont(Config.getFONT());
 		gridNorthPanelTrip.add(datePickerTripEnd);
 
 		tripTransportationLabel = new JLabel("Transportmittel");
