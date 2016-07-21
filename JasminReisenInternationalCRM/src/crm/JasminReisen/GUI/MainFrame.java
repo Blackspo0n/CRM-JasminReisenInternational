@@ -20,11 +20,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import crm.JasminReisen.Config;
+import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.Listener.MainFrameListener;
 import crm.JasminReisen.models.User;
 
@@ -168,12 +171,29 @@ public class MainFrame extends JFrame {
 		cardPanel.add(centerPanel, "login");
 
 		JTabbedPane mainTabPanel = new JTabbedPane();
+		mainTabPanel.setFont(Config.getFONT());
 		centerPanel.add(mainTabPanel, BorderLayout.CENTER);
 		
 		JPanel birthdayPanel = new JPanel();
 		birthdayPanel.setBackground(Config.getBACKGROUND());
 		birthdayPanel.setLayout(new BorderLayout());
 		mainTabPanel.addTab("Geburtstag", null, birthdayPanel, null);
+		
+		JScrollPane birthdayScrollPane = new JScrollPane();
+		birthdayPanel.add(birthdayScrollPane, BorderLayout.CENTER);
+		
+		JTable birthdayTable = new JTable();
+		birthdayTable.setShowGrid(false);
+		birthdayTable.setFont(Config.getFONT());
+		birthdayTable.setBackground(Config.getBACKGROUND());
+		birthdayTable.getTableHeader().setReorderingAllowed(false);
+		birthdayTable.setAutoCreateRowSorter(true);
+		birthdayTable.setPreferredScrollableViewportSize(birthdayTable.getPreferredSize());
+		birthdayTable.setFillsViewportHeight(true);
+		birthdayTable.setRowHeight(21);
+		birthdayTable.setModel(DbFunctions.getCustomersWithBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden  WHERE MONTH(GebDat) = MONTH(CURDATE()) AND DAY(GebDat) = DAY(CURDATE())"));
+		birthdayTable.getTableHeader().setFont(Config.getFONT());
+		birthdayScrollPane.setViewportView(birthdayTable);
 		
 		JPanel upcomingBirthdayPanel = new JPanel();
 		upcomingBirthdayPanel.setBackground(Config.getBACKGROUND());
@@ -182,6 +202,7 @@ public class MainFrame extends JFrame {
 		
 		JButton rabattCodeSenden = new JButton("Rabattcode versenden");
 		rabattCodeSenden.setFont(Config.getFONT());
+		rabattCodeSenden.addActionListener(new MainFrameListener(this));
 		birthdayPanel.add(rabattCodeSenden, BorderLayout.SOUTH);
 		
 		
