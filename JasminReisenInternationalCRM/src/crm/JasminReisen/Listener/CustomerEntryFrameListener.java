@@ -30,10 +30,10 @@ public class CustomerEntryFrameListener implements ActionListener
 	
 	public void actionPerformed (ActionEvent event)
 	{
-		updateCustomerContext();
 		switch (event.getActionCommand()) {
 		case "Anlegen":
-			
+
+			updateCustomerContext();
 			try {
 				DbFunctions.createCostumer(this.customerFrame.getCustomerContext());
 				this.customerFrame.dispose();
@@ -44,6 +44,8 @@ public class CustomerEntryFrameListener implements ActionListener
 			}
 			break;
 		case "Speichern":
+
+			updateCustomerContext();
 			try {
 				DbFunctions.saveCostumer(this.customerFrame.getCustomerContext());
 				this.customerFrame.dispose();
