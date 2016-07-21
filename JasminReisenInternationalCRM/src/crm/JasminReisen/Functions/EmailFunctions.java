@@ -41,9 +41,7 @@ public class EmailFunctions {
 				multiPartEmail.attach(attachment);
 			} 
 			catch (EmailException e) 
-			{
-				e.printStackTrace();
-			}			
+			{}	
 		}
 		else
 		{		
@@ -74,8 +72,6 @@ public class EmailFunctions {
 			multiPartEmail.send();
 		}
 		catch (EmailException e) 
-		{
-			e.printStackTrace();
-		}			
+		{}			
 	}
 }
