@@ -70,13 +70,13 @@ public class BirthdayMessageFrame extends JDialog {
 				+ "herzlichen Glückwünsche entgegen. Bleiben Sie bei guter Gesundheit und möge "
 				+ "Ihnen jene Vitalität erhalten bleiben, die Sie auszeichnet.\n"
 				+ "Gerne möchten wir Ihnen eine kleine Freude machen, nutzen Sie innerhalb der nächsten "
-				+ "drei Monate den Rabattacode\n\n" + rabattCode + "\n\n und profitieren Sie von einem Rabatt"
+				+ "drei Monate den Rabattacode\n\n" + rabattCode + "\n\nund profitieren Sie von einem Rabatt"
 				+ "über 5% auf Ihre nächste gebuchte Reise.\n\nIn diesem Sinne "
 				+ "bleiben wir mit den besten Wünschen und Grüßen Ihre\n\n\n Jasmin\n Geschäftsführerin von Jasmin Reisen International");
 		scrollPaneArea.setViewportView(areaMessage);
 
 		JButton abortButton = new JButton("Abbrechen");
-		JButton sendButton = new JButton("Senden");
+		JButton sendButton = new JButton("Versenden");
 		sendButton.addActionListener(new BirthdayMessageListener(this));
 		abortButton.addActionListener(new BirthdayMessageListener(this));
 
