@@ -97,7 +97,7 @@ public class CoreDataListener implements ActionListener {
 			cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
 			cdf.getCustomerTable().repaint();
 			break;
-		case "Kunde Anlegen":
+		case "Kunde anlegen":
 			CustomerEntryFrame.getInstance();
 			break;
 		case "Bearbeiten":

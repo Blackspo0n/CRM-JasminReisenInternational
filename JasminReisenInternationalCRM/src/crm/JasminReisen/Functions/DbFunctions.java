@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import crm.JasminReisen.models.Kunde;
+import crm.JasminReisen.models.Reise;
 import crm.JasminReisen.GUI.SpecEntryFrame;
 import crm.JasminReisen.GUI.TripEntryFrame;
 import crm.JasminReisen.models.User;
@@ -87,28 +88,38 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 
 	}
 	
-	public static DefaultTableModel getFilteredTrips(String name) {
+	public static DefaultTableModel getFilteredTrips(String sql) {
 
-		String col[] = { "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag", "Kundennummer" };
+		String col[] = { "ID", 
+				"Name", "Preis", "Reise Beginn", "Reise Ende",
+				"Zielort", "Land", "Thema", "Hotel", 
+				"Transportmittel", "Kontingent"};
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Name LIKE '%" + name + "%'");
+			System.out.println(sql);
+			rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				Object[] objs = new Object[10];
-				objs[0] = rs.getString("Name");
-				objs[1] = rs.getString("Vorname");
-				objs[2] = rs.getString("Strasse");
-				objs[3] = rs.getString("PLZ");
-				objs[4] = rs.getString("Ort");
-				objs[5] = rs.getString("Land");
-				objs[6] = rs.getString("Telefon");
-				objs[7] = rs.getString("EMail");
-				Date geburtstag = rs.getDate("GebDat");
-				if (geburtstag != null) {
-					objs[8] = new SimpleDateFormat("dd.MM.yyyy").format(geburtstag);
+				Object[] objs = new Object[11];
+				objs[0] = rs.getInt("ReiseID");
+				objs[1] = rs.getString("Name");
+				objs[2] = rs.getString("Preis");
+				Date Reisebeginn = rs.getDate("Reisebeginn");
+				if (Reisebeginn != null) {
+					objs[3] = new SimpleDateFormat("dd.MM.yyyy").format(Reisebeginn);
 				}
-				objs[9] = rs.getString("Kundennummer");
+
+				Date Reiseende = rs.getDate("Reiseende");
+				if (Reiseende != null) {
+					objs[4] = new SimpleDateFormat("dd.MM.yyyy").format(Reiseende);
+				}
+				
+				objs[5] = rs.getString("Zielort");
+				objs[6] = rs.getString("Land");
+				objs[7] = rs.getString("ThemenName");
+				objs[8] = rs.getString("HotelName");
+				objs[9] = rs.getString("TransportName");
+				objs[10] = rs.getString("Kontingent");
 				dtm.addRow(objs);
 			}
 		} catch (Exception e) {
@@ -224,51 +235,70 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 				
 				return vehicleList;	
 	}
-	
-	
-	public static void createTrip(TripEntryFrame frame)
-	{
-		
-		
-		String date1 = frame.getStartDate().getJFormattedTextField().getText();
-		String date2 = frame.getEndDate().getJFormattedTextField().getText();
-		String date3 = frame.getAvailableDate().getJFormattedTextField().getText();
-		
 
-		/*String newDateString1 = date1.substring(6, 10) + "-" + date1.substring(3,5) +  "-" + date1.substring(0,2);
-		String newDateString2 = date2.substring(6, 10) + "-" + date2.substring(3,5) +  "-" + date2.substring(0,2);
-		String newDateString3 = date3.substring(6, 10) + "-" + date3.substring(3,5) +  "-" + date3.substring(0,2);
-		System.out.println(date1);
-		System.out.println(date2);
-		System.out.println(date3);*/
+	
+	public static boolean createTrip(Reise trip) throws SQLException
+	{
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 		sql = "INSERT INTO Reisen (Reisebeginn, Reiseende, Zielort, TransportmittelID, "
-            + "Kontingent, VerfuegbarAb, Name, Beschreibung, Region, Thema, KlimaID, "
-            + "Preis, HotelID) "
-            + "VALUES ('" + date1 + "', '" + date2 + "', "
-            + "'" + frame.getZielortField().getText() + "', "
-            + "'" + frame.getTransportmittelIdBox().getSelectedIndex() + "', "
-            + "'" + frame.getPlaetzeField().getText() + "', "
-            + "'" + date3 + "', "
-            + "'" + frame.getTripNameField().getText() + "', "
-            + "'" + frame.getBeschreibungArea().getText() + "', "
-            + "'" + frame.getRegionBox().getSelectedIndex() + "', "
-            + "'" + frame.getThemaBox().getSelectedIndex() + "', "
-            + "'" + frame.getKlimaIdBox().getSelectedIndex() + "', "
-            + "'" + frame.getPreisField().getText() + "', "
-            + "'" + frame.getHotelIdBox().getSelectedIndex() + "'"
-            + ");";
+            + "Kontingent, VerfuegbarAb, Name, Beschreibung, RegionID, ThemaID, KlimaID, "
+            + "Preis, HotelID, GruppenGroesse) "
+            + "VALUES ("
+            + "'" + sdf.format(trip.getReiseBeginn()) + "', "
+            + "'" + sdf.format(trip.getReiseEnde()) + "', "
+            + "'" + trip.getZielOrt() + "', "
+            + trip.getTransportmittelID() + ", "
+            + trip.getKontingent() + ", "
+            + "'" +  sdf.format(trip.getVerfuegbarAb()) + "', "
+            + "'" + trip.getName() + "', "
+            + "'" + trip.getBeschreibung() + "', "
+            + trip.getRegionID() + ", "
+            + trip.getThemaID() + ", "
+            + trip.getKlimaID() + ", "
+            + "'" + trip.getPreis() + "', "
+            + trip.getHotelID() + ","
+            + "'" + trip.getGruppengroesse() + "'"
+            + ")";
 			System.out.println(sql);
-			try
-		{
-			connect();
-			statement = connection.createStatement();
-			statement.executeUpdate(sql);
+			
+		if(statement.executeUpdate(sql) != 0) {
+			return true;
 		}
-		
-		catch(SQLException e)
-		{
-			e.printStackTrace();
+		return false;
+ 	
+	}
+	
+
+	
+	public static boolean saveTrip(Reise trip) throws SQLException
+	{
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		sql = "UPDATE Reisen SET "
+				+ "Reisebeginn = '" + sdf.format(trip.getReiseBeginn()) + "',"
+				+ "Reiseende = '" + sdf.format(trip.getReiseEnde()) + "', "
+				+ "Zielort = '" + trip.getZielOrt() + "', "
+				+ "TransportmittelID = " + trip.getTransportmittelID() + ", "
+				+ "Kontingent = " + trip.getKontingent() + ", "
+				+ "VerfuegbarAb = '" +  sdf.format(trip.getVerfuegbarAb()) + "', "
+				+ "Name = '" + trip.getName() + "', "
+				+ "Beschreibung = '" + trip.getBeschreibung() + "', "
+				+ "RegionID = " + trip.getRegionID() + ", "
+				+ "ThemaID = " + trip.getThemaID() + ", "
+				+ "KlimaID = " + trip.getThemaID() + ", "
+				+ "Preis = " + trip.getPreis() + ", "
+				+ "HotelID = " + trip.getHotelID() + ", "
+				+ "GruppenGroesse = " + trip.getGruppengroesse() + " WHERE ReiseID = " + trip.getReiseID();
+
+			System.out.println(sql);
+			
+		if(statement.executeUpdate(sql) != 0) {
+			return true;
 		}
+		return false;
  	
 	}
 
@@ -276,7 +306,7 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 
 		if(customer == null) throw new SQLException("Customer cannot be null");
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		String sql = "INSERT INTO Kunden (Name, Vorname, Strasse, PLZ, Ort, Land, Telefon, EMail, GebDat)"
 				+ "VALUES ('"
@@ -292,7 +322,7 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 	}
 	public static boolean saveCostumer(Kunde customer) throws SQLException {
 		if(customer == null) throw new SQLException("Customer cannot be null");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		String sql = "UPDATE Kunden SET "
 					+ "Name = '" + customer.getName() + "',"
@@ -311,7 +341,7 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 		}
 		return false;
 	}
-	
+
 	public static Kunde getKunde (int id) {
 		Kunde kunde = new Kunde();
 		
@@ -336,6 +366,38 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 		}
 		
 		return kunde;	
+		
+	}
+
+	public static Reise getReise (int id) {
+		Reise reise = new Reise();
+		
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Reisen WHERE ReiseID = '" + id + "'");
+			
+			while (rs.next()) {
+				reise.setName(rs.getString("Name"));
+				reise.setHotelID(rs.getInt("HotelID"));
+				reise.setRegionID(rs.getInt("RegionID"));
+				reise.setThemaID(rs.getInt("ThemaID"));
+				reise.setTransportmittelID(rs.getInt("TransportmittelID"));
+				reise.setKlimaID(rs.getInt("KlimaID"));
+				reise.setBeschreibung(rs.getString("Beschreibung"));
+				reise.setPreis(rs.getDouble("Preis"));
+				reise.setGruppengroesse(rs.getInt("GruppenGroesse"));
+				reise.setKontingent(rs.getInt("Kontingent"));
+				reise.setVerfuegbarAb(rs.getDate("VerfuegbarAb"));
+				reise.setReiseBeginn(rs.getDate("ReiseBeginn"));
+				reise.setReiseEnde(rs.getDate("ReiseEnde"));
+				reise.setZielOrt(rs.getString("Zielort"));
+				reise.setReiseID(id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return reise;	
 		
 	}
 	

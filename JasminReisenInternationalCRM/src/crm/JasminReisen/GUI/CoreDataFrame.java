@@ -488,7 +488,7 @@ public class CoreDataFrame extends JDialog {
 		bearbeitenButton.addActionListener(new CoreDataListener(this));
 		southPanel.add(bearbeitenButton);
 
-		anlegenButton = new JButton("Kunde Anlegen");
+		anlegenButton = new JButton("Kunde anlegen");
 		anlegenButton.setFont(Config.getFONT());
 		anlegenButton.addActionListener(new CoreDataListener(this));
 		southPanel.add(anlegenButton);
@@ -517,7 +517,14 @@ public class CoreDataFrame extends JDialog {
 		tripTable.setFont(Config.getFONT());
 		tripTable.setBackground(Config.getBACKGROUND());
 		tripTable.getTableHeader().setReorderingAllowed(false);
-		tripTable.setModel(DbFunctions.getFilteredTrips("SELECT * FROM Reisen"));
+		tripTable.setModel(DbFunctions.getFilteredTrips(
+				"SELECT * FROM Reisen AS r "
+			  + "LEFT JOIN Hotels AS h ON r.HotelID = h.HotelID "
+			  + "LEFT JOIN Klima AS k ON r.KlimaID = k.KlimaID "
+			  + "LEFT JOIN Themen AS th  ON r.ThemaID = th.ThemenID "
+			  + "LEFT JOIN Transportmittel AS t ON r.TransportmittelID = t.TransportmittelID "
+			  + "LEFT JOIN Regionen AS re ON r.RegionID = re.RegionenID"		
+		));
 		tripTable.setAutoCreateRowSorter(true);
 		tripTable.setPreferredScrollableViewportSize(tripTable.getPreferredSize());
 		tripTable.setFillsViewportHeight(true);
@@ -531,10 +538,12 @@ public class CoreDataFrame extends JDialog {
 
 		bearbeitenButton2 = new JButton("Bearbeiten");
 		bearbeitenButton2.setFont(Config.getFONT());
+		bearbeitenButton2.addActionListener(new CoreDataTripListener(this));
 		southTripPanel.add(bearbeitenButton2);
 
-		anlegenButton2 = new JButton("Reise Anlegen");
+		anlegenButton2 = new JButton("Reise anlegen");
 		anlegenButton2.setFont(Config.getFONT());
+		anlegenButton2.addActionListener(new CoreDataTripListener(this));
 		southTripPanel.add(anlegenButton2);
 
 		this.setVisible(true);
