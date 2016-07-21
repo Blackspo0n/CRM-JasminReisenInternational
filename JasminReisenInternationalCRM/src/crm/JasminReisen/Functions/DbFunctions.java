@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -353,6 +354,42 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static DefaultTableModel getCustomersWithBirthdays(String sql) {
+		String col[] = {"Kundennummer", "Name", "Vorname", "Alter", "E-Mail"};
+		DefaultTableModel dtm = new DefaultTableModel(col, 0);
+
+		try {
+			rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Object[] objs = new Object[5];
+				objs[0] = rs.getInt("Kundennummer");
+				objs[1] = rs.getString("Name");
+				objs[2] = rs.getString("Vorname");
+				objs[3] = rs.getInt("Age");
+				objs[4] = rs.getString("EMail");
+				dtm.addRow(objs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dtm;
+
+	}
+	
+	public static void safeVoucherCode (int customerID, String voucherCode) {
+		connect();
+		sql = "INSERT INTO Gutscheincode VALUES ('" + customerID + "','" + voucherCode +"');";
+		try 
+		{
+			statement = connection.createStatement();
+			statement.executeUpdate(sql);
+		} catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

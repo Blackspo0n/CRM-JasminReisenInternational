@@ -1,5 +1,7 @@
 package crm.JasminReisen.Functions;
 
+import java.util.Random;
+
 public class ServiceFunctions {
 	
 	public static String String (String s)
@@ -25,6 +27,19 @@ public class ServiceFunctions {
 	private static String replaceCharAt(String s, int pos, char c) 
 	{
 		   return s.substring(0,pos) + c + s.substring(pos+1);
+	}
+	
+	public static String getVoucher () {
+		String voucherCode = "";
+		String[] rabattcodeInhalte = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+				"q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+
+		for (int j = 0; j < 10; j++) {
+			int i = new Random().nextInt(rabattcodeInhalte.length);
+			String random = (rabattcodeInhalte[i]);
+			voucherCode = voucherCode + random;
+		}
+		return voucherCode;
 	}
 
 }
