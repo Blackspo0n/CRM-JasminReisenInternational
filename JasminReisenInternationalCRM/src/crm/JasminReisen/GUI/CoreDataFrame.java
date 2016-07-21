@@ -86,9 +86,9 @@ public class CoreDataFrame extends JDialog {
 	private JTextField tripRegionField;
 	private JLabel tripRegionLabel;
 	private String[] climates;
-	private JComboBox climatesBox;
+	private JComboBox<?> climatesBox;
 	private JLabel tripClimateLabel;
-	private JComboBox vehicleBox;
+	private JComboBox<?> vehicleBox;
 	private String[] vehicles;
 	private List<String> vehicleList;
 	private JLabel tripTransportationLabel;
@@ -274,7 +274,7 @@ public class CoreDataFrame extends JDialog {
 
 		vehicleList = new ArrayList<String>(DbFunctions.getVehicleList());
 		vehicles = vehicleList.toArray(new String[vehicleList.size()]);
-		vehicleBox = new JComboBox(vehicles);
+		vehicleBox = new JComboBox<Object>(vehicles);
 		vehicleBox.setFont(Config.getFONT());
 		vehicleBox.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(vehicleBox);
@@ -286,7 +286,7 @@ public class CoreDataFrame extends JDialog {
 
 		List<String> climaList = new ArrayList<String>(DbFunctions.getClimateList());
 		String[] climaArray = climaList.toArray(new String[climaList.size()]);
-		climatesBox = new JComboBox(climaArray);
+		climatesBox = new JComboBox<Object>(climaArray);
 		climatesBox.setFont(Config.getFONT());
 		climatesBox.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(climatesBox);
@@ -363,7 +363,7 @@ public class CoreDataFrame extends JDialog {
 
 		themaList = new ArrayList<String>(DbFunctions.getThemeList());
 		themaListArrays = themaList.toArray(new String[themaList.size()]);
-		JComboBox themeBox = new JComboBox(themaListArrays);
+		JComboBox<?> themeBox = new JComboBox<Object>(themaListArrays);
 		themeBox.setFont(Config.getFONT());
 		themeBox.setBackground(Config.getBACKGROUND());
 		gridNorthPanelTrip.add(themeBox);
@@ -949,11 +949,11 @@ public class CoreDataFrame extends JDialog {
 		this.climates = climates;
 	}
 
-	public JComboBox getClimatesBox() {
+	public JComboBox<?> getClimatesBox() {
 		return climatesBox;
 	}
 
-	public void setClimatesBox(JComboBox climatesBox) {
+	public void setClimatesBox(JComboBox<?> climatesBox) {
 		this.climatesBox = climatesBox;
 	}
 
@@ -965,11 +965,11 @@ public class CoreDataFrame extends JDialog {
 		this.tripClimateLabel = tripClimateLabel;
 	}
 
-	public JComboBox getVehicleBox() {
+	public JComboBox<?> getVehicleBox() {
 		return vehicleBox;
 	}
 
-	public void setVehicleBox(JComboBox vehicleBox) {
+	public void setVehicleBox(JComboBox<?> vehicleBox) {
 		this.vehicleBox = vehicleBox;
 	}
 

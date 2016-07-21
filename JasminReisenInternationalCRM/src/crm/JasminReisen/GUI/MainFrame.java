@@ -20,11 +20,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import crm.JasminReisen.Config;
+import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.Listener.MainFrameListener;
 import crm.JasminReisen.models.User;
 
@@ -56,11 +59,23 @@ public class MainFrame extends JFrame {
 	private JMenuItem closeItem;
 	private JMenuItem coreDataItem;
 	private JMenuItem coreDataAnalyseItem;
+	
+	private JMenu actionsMenu;
+	private JMenuItem contactItem;
+	private JMenuItem newsletterItem;
+	private JMenuItem eMailItem;
+	private JMenu analysisMenu;
+	private JMenuItem mostBookedItem;	
+	
 	private User loggedUser;
 	private JPanel centerPanelNoLogin;
 	private JMenuItem specEntryItem;
 	private JPanel cardPanel;
 	private CardLayout card;
+	private JTable birthdayTable;
+	private JPanel birthdayPanel;
+	private JPanel upcomingBirthdayPanel;
+	private JButton rabattCodeSenden;
 
 	public MainFrame() {
 
@@ -136,7 +151,29 @@ public class MainFrame extends JFrame {
 		closeItem = new JMenuItem("Beenden");
 		closeItem.setFont(Config.getFONT());
 
-
+		actionsMenu = new JMenu("Aktionen");
+		actionsMenu.setFont(Config.getFONT());
+		menuBar.add(actionsMenu);
+		contactItem = new JMenuItem("Kontakt erfassen");
+		contactItem.setFont(Config.getFONT());
+		actionsMenu.add(contactItem);
+		contactItem.addActionListener(new MainFrameListener(this));	
+		newsletterItem = new JMenuItem("Newsletter versenden");
+		newsletterItem.setFont(Config.getFONT());
+		actionsMenu.add(newsletterItem);
+		newsletterItem.addActionListener(new MainFrameListener(this));
+		eMailItem = new JMenuItem("eMail versenden");
+		eMailItem.setFont(Config.getFONT());
+		actionsMenu.add(eMailItem);
+		eMailItem.addActionListener(new MainFrameListener(this));
+		
+		analysisMenu = new JMenu("Auswertungen");
+		analysisMenu.setFont(Config.getFONT());
+		menuBar.add(analysisMenu);
+		mostBookedItem = new JMenuItem("Meistgebuchte Reisen");
+		mostBookedItem.setFont(Config.getFONT());
+		analysisMenu.add(mostBookedItem);
+		mostBookedItem.addActionListener(new MainFrameListener(this));	
 
 		loginMenu.add(loginItem);
 		loginMenu.add(logoutItem);
@@ -168,30 +205,58 @@ public class MainFrame extends JFrame {
 		cardPanel.add(centerPanel, "login");
 
 		JTabbedPane mainTabPanel = new JTabbedPane();
+		mainTabPanel.setFont(Config.getFONT());
 		centerPanel.add(mainTabPanel, BorderLayout.CENTER);
 		
-		JPanel birthdayPanel = new JPanel();
+		birthdayPanel = new JPanel();
 		birthdayPanel.setBackground(Config.getBACKGROUND());
 		birthdayPanel.setLayout(new BorderLayout());
 		mainTabPanel.addTab("Geburtstag", null, birthdayPanel, null);
 		
-		JPanel upcomingBirthdayPanel = new JPanel();
-		upcomingBirthdayPanel.setBackground(Config.getBACKGROUND());
-		upcomingBirthdayPanel.setLayout(new BorderLayout());
-		mainTabPanel.addTab("Anstehende Geburtstage", null, upcomingBirthdayPanel, null);	
+		JScrollPane birthdayScrollPane = new JScrollPane();
+		birthdayPanel.add(birthdayScrollPane, BorderLayout.CENTER);
 		
-		JButton rabattCodeSenden = new JButton("Rabattcode versenden");
+		birthdayTable = new JTable();
+		birthdayTable.setShowGrid(false);
+		birthdayTable.setFont(Config.getFONT());
+		birthdayTable.setBackground(Config.getBACKGROUND());
+		birthdayTable.getTableHeader().setReorderingAllowed(false);
+		birthdayTable.setAutoCreateRowSorter(true);
+		birthdayTable.setPreferredScrollableViewportSize(birthdayTable.getPreferredSize());
+		birthdayTable.setFillsViewportHeight(true);
+		birthdayTable.setRowHeight(21);
+		birthdayTable.setModel(DbFunctions.getCustomersWithBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden  WHERE MONTH(GebDat) = MONTH(CURDATE()) AND DAY(GebDat) = DAY(CURDATE())"));
+		birthdayTable.getTableHeader().setFont(Config.getFONT());
+		birthdayScrollPane.setViewportView(birthdayTable);
+		
+		rabattCodeSenden = new JButton("Rabattcode versenden");
 		rabattCodeSenden.setFont(Config.getFONT());
+		rabattCodeSenden.addActionListener(new MainFrameListener(this));
 		birthdayPanel.add(rabattCodeSenden, BorderLayout.SOUTH);
 		
 		
+		upcomingBirthdayPanel = new JPanel();
+		upcomingBirthdayPanel.setBackground(Config.getBACKGROUND());
+		upcomingBirthdayPanel.setLayout(new BorderLayout());
+		mainTabPanel.addTab("Anstehende Geburtstage", null, upcomingBirthdayPanel, null);
 		
 		
+		JScrollPane upcomingBirthdayScrollPane = new JScrollPane();
+		upcomingBirthdayPanel.add(upcomingBirthdayScrollPane, BorderLayout.CENTER);
 		
-		
-		
-		
-		
+		JTable upcomingBirthdayTable = new JTable();
+		upcomingBirthdayTable.setShowGrid(false);
+		upcomingBirthdayTable.setFont(Config.getFONT());
+		upcomingBirthdayTable.setBackground(Config.getBACKGROUND());
+		upcomingBirthdayTable.getTableHeader().setReorderingAllowed(false);
+		upcomingBirthdayTable.setAutoCreateRowSorter(true);
+		upcomingBirthdayTable.setPreferredScrollableViewportSize(upcomingBirthdayTable.getPreferredSize());
+		upcomingBirthdayTable.setFillsViewportHeight(true);
+		upcomingBirthdayTable.setRowHeight(21);
+		upcomingBirthdayTable.setModel(DbFunctions.getCustomersWithUpcomingBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden WHERE  DATE_ADD(GebDat, INTERVAL YEAR(CURDATE())-YEAR(GebDat) + IF(DAYOFYEAR(CURDATE()) > DAYOFYEAR(GebDat),1,0)YEAR)BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)"));
+		upcomingBirthdayTable.getTableHeader().setFont(Config.getFONT());
+		upcomingBirthdayScrollPane.setViewportView(upcomingBirthdayTable);
+
 		
 		centerPanelNoLogin = new JPanel();
 		centerPanelNoLogin.setLayout(new BorderLayout());
@@ -446,6 +511,8 @@ public class MainFrame extends JFrame {
 			westPanel.setVisible(true);
 			coreDataItem.setVisible(true);
 			coreDataAnalyseItem.setVisible(true);
+			actionsMenu.setEnabled(true);
+			analysisMenu.setEnabled(true);
 		} else {
 			centerPanelNoLogin.setVisible(true);
 			imageWest.setText("");
@@ -459,7 +526,8 @@ public class MainFrame extends JFrame {
 			westPanel.setVisible(false);
 			coreDataItem.setVisible(false);
 			coreDataAnalyseItem.setVisible(false);
-
+			actionsMenu.setEnabled(false);
+			analysisMenu.setEnabled(false);
 		}
 	}
 
@@ -482,4 +550,37 @@ public class MainFrame extends JFrame {
 	public void setSpecEntryItem(JMenuItem specEntryItem) {
 		this.specEntryItem = specEntryItem;
 	}
+
+	public JPanel getCardPanel() {
+		return cardPanel;
+	}
+
+	public void setCardPanel(JPanel cardPanel) {
+		this.cardPanel = cardPanel;
+	}
+
+	public CardLayout getCard() {
+		return card;
+	}
+
+	public void setCard(CardLayout card) {
+		this.card = card;
+	}
+
+	public JTable getBirthdayTable() {
+		return birthdayTable;
+	}
+
+	public void setBirthdayTable(JTable birthdayTable) {
+		this.birthdayTable = birthdayTable;
+	}
+
+	public JPanel getBirthdayPanel() {
+		return birthdayPanel;
+	}
+
+	public void setBirthdayPanel(JPanel birthdayPanel) {
+		this.birthdayPanel = birthdayPanel;
+	}
+
 }

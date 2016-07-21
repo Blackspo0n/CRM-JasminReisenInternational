@@ -3,6 +3,8 @@ package crm.JasminReisen.Listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -38,7 +40,7 @@ public class CustomerEntryFrameListener implements ActionListener
 				new CustomerEntryFrame();
 				
 			} catch (SQLException e) {
-				JOptionPane.showInternalMessageDialog(null, "Der konnte nicht angelegt werden.");
+				JOptionPane.showMessageDialog(null, "Der Kunde konnte nicht angelegt werden.");
 			}
 			break;
 		case "Speichern":
@@ -47,7 +49,8 @@ public class CustomerEntryFrameListener implements ActionListener
 				this.customerFrame.dispose();
 				
 			} catch (SQLException e) {
-				JOptionPane.showInternalMessageDialog(null, "Der konnte nicht angelegt werden.");
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Der Kunde konnte nicht gespeichert werden.");
 			}
 			CustomerEntryFrame.setInstance(null);
 			break;
@@ -67,7 +70,14 @@ public class CustomerEntryFrameListener implements ActionListener
 		this.customerFrame.getCustomerContext().setOrt(this.customerFrame.getTxtOrt().getText());
 		this.customerFrame.getCustomerContext().setLand(this.customerFrame.getTxtCountry().getText());
 		this.customerFrame.getCustomerContext().setTelefon(this.customerFrame.getTxtTelephone().getText());
-		this.customerFrame.getCustomerContext().setEMail(this.customerFrame.getTxtAdress().getText());
-		this.customerFrame.getCustomerContext().setGebDat((Date)this.customerFrame.getDatePicker().getModel().getValue());
+		this.customerFrame.getCustomerContext().setEMail(this.customerFrame.getTxtAdress().getText());		
+		try {
+			if (this.customerFrame.getDatePicker().getJFormattedTextField().getText().charAt(4) == '-')
+				this.customerFrame.getCustomerContext().setGebDat(new SimpleDateFormat("yyyy-MM-dd").parse(this.customerFrame.getDatePicker().getJFormattedTextField().getText()));
+			else
+				this.customerFrame.getCustomerContext().setGebDat(new SimpleDateFormat("dd-MMM-yyyy").parse(this.customerFrame.getDatePicker().getJFormattedTextField().getText()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 }
