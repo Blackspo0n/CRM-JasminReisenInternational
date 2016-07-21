@@ -403,7 +403,7 @@ public static DefaultTableModel getFilteredCustomers(String sql) {
 	
 	public static void safeVoucherCode (int customerID, String voucherCode) {
 		connect();
-		sql = "INSERT INTO Gutscheincode VALUES ('" + customerID + "','" + voucherCode +"');";
+		sql = "INSERT INTO Gutscheincode (KundenID, Code) VALUES ('" + customerID + "','" + voucherCode +"');";
 		try 
 		{
 			statement = connection.createStatement();
