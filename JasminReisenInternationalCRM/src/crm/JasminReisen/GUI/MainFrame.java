@@ -66,6 +66,8 @@ public class MainFrame extends JFrame {
 	private CardLayout card;
 	private JTable birthdayTable;
 	private JPanel birthdayPanel;
+	private JPanel upcomingBirthdayPanel;
+	private JButton rabattCodeSenden;
 
 	public MainFrame() {
 
@@ -197,24 +199,34 @@ public class MainFrame extends JFrame {
 		birthdayTable.getTableHeader().setFont(Config.getFONT());
 		birthdayScrollPane.setViewportView(birthdayTable);
 		
-		JPanel upcomingBirthdayPanel = new JPanel();
-		upcomingBirthdayPanel.setBackground(Config.getBACKGROUND());
-		upcomingBirthdayPanel.setLayout(new BorderLayout());
-		mainTabPanel.addTab("Anstehende Geburtstage", null, upcomingBirthdayPanel, null);	
-		
-		JButton rabattCodeSenden = new JButton("Rabattcode versenden");
+		rabattCodeSenden = new JButton("Rabattcode versenden");
 		rabattCodeSenden.setFont(Config.getFONT());
 		rabattCodeSenden.addActionListener(new MainFrameListener(this));
 		birthdayPanel.add(rabattCodeSenden, BorderLayout.SOUTH);
 		
 		
+		upcomingBirthdayPanel = new JPanel();
+		upcomingBirthdayPanel.setBackground(Config.getBACKGROUND());
+		upcomingBirthdayPanel.setLayout(new BorderLayout());
+		mainTabPanel.addTab("Anstehende Geburtstage", null, upcomingBirthdayPanel, null);
 		
 		
+		JScrollPane upcomingBirthdayScrollPane = new JScrollPane();
+		upcomingBirthdayPanel.add(upcomingBirthdayScrollPane, BorderLayout.CENTER);
 		
-		
-		
-		
-		
+		JTable upcomingBirthdayTable = new JTable();
+		upcomingBirthdayTable.setShowGrid(false);
+		upcomingBirthdayTable.setFont(Config.getFONT());
+		upcomingBirthdayTable.setBackground(Config.getBACKGROUND());
+		upcomingBirthdayTable.getTableHeader().setReorderingAllowed(false);
+		upcomingBirthdayTable.setAutoCreateRowSorter(true);
+		upcomingBirthdayTable.setPreferredScrollableViewportSize(upcomingBirthdayTable.getPreferredSize());
+		upcomingBirthdayTable.setFillsViewportHeight(true);
+		upcomingBirthdayTable.setRowHeight(21);
+		upcomingBirthdayTable.setModel(DbFunctions.getCustomersWithUpcomingBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden  WHERE MONTH(GebDat) = MONTH(CURDATE()) AND DAY(GebDat) = DAY(CURDATE())"));
+		upcomingBirthdayTable.getTableHeader().setFont(Config.getFONT());
+		upcomingBirthdayScrollPane.setViewportView(upcomingBirthdayTable);
+
 		
 		centerPanelNoLogin = new JPanel();
 		centerPanelNoLogin.setLayout(new BorderLayout());
@@ -538,7 +550,4 @@ public class MainFrame extends JFrame {
 		this.birthdayPanel = birthdayPanel;
 	}
 
-	public JMenuBar getMenuBar() {
-		return menuBar;
-	}
 }

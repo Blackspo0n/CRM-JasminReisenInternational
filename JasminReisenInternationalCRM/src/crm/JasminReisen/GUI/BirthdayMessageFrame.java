@@ -28,7 +28,7 @@ public class BirthdayMessageFrame extends JDialog {
 	private JComboBox salutation;
 
 	public BirthdayMessageFrame(int customerID, String kundenName, String kundenMail, int age) {
-		this.setSize(600, 400);
+		this.setSize(600, 450);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
 		this.setTitle("Geburtstagsgrüße erstellen");
