@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -88,7 +89,6 @@ public class CustomerEntryFrame extends JFrame {
 		setSize(500, 400);
 		setLocationRelativeTo(null);
 		setTitle("Kunden neu anlegen");
-		setAlwaysOnTop(true);
 		setUndecorated(true);
 		
 		centerPanel = new JPanel();
@@ -163,12 +163,13 @@ public class CustomerEntryFrame extends JFrame {
 
 		model = new SqlDateModel();
 		Properties p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
+		p.put("text.today", "Heute");
+		p.put("text.month", "Monat");
+		p.put("text.year", "Jahr");
 		datePanel = new JDatePanelImpl(model, p);
 
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		
 		centerPanel.add(datePicker);
 		
 		cancleButton = new JButton("Abbrechen");
@@ -191,9 +192,13 @@ public class CustomerEntryFrame extends JFrame {
 			txtOrt.setText(customer.getOrt());;
 			txtCountry.setText(customer.getLand());;
 			txtTelephone.setText(customer.getTelefon());
-			txtAdress.setText(customer.getEMail());
-			
-			if(customer.getGebDat() != null) datePicker.getModel().setDate(customer.getGebDat().getYear(), customer.getGebDat().getMonth(), customer.getGebDat().getDay());
+			txtAdress.setText(customer.getEMail());			
+			if(customer.getGebDat() != null)
+			{
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+				datePicker.getJFormattedTextField().setText(sdf.format(customer.getGebDat()).toString());
+			}
+				
 		}
 		saveButton.addActionListener(new CustomerEntryFrameListener(this));
 		cancleButton.addActionListener(new CustomerEntryFrameListener(this));

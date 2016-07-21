@@ -4,10 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 
+import javax.swing.JOptionPane;
+
 import org.jdatepicker.impl.JDatePanelImpl;
 
 import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.GUI.CoreDataFrame;
+import crm.JasminReisen.GUI.CustomerEntryFrame;
+import crm.JasminReisen.GUI.TripEntryFrame;
+import crm.JasminReisen.models.Reise;
 
 public class CoreDataTripListener implements ActionListener {
 
@@ -40,18 +45,21 @@ public class CoreDataTripListener implements ActionListener {
 			break;
 
 		case "Suchen":
-			sql = "SELECT k.KlimaBeschreibung, r.*, t.* "
-					+ "FROM Klima AS k, Reisen AS r, Transportmittel as t "
-					+ "WHERE k.KlimaID = r.KlimaID AND t.TransportmittelID = r.TransportmittelID";
+			sql = "SELECT * FROM Reisen AS r "
+					+ "LEFT JOIN Hotels AS h ON r.HotelID = h.HotelID "
+					+ "LEFT JOIN Klima AS k ON r.KlimaID = k.KlimaID "
+					+ "LEFT JOIN Themen AS th  ON r.ThemaID = th.ThemenID "
+					+ "LEFT JOIN Transportmittel AS t ON r.TransportmittelID = t.TransportmittelID "
+					+ "LEFT JOIN Regionen AS re ON r.RegionID = re.RegionenID WHERE 1 = 1 /*keine lust auf komplizierte überprüfung der where */ ";
 					
 			if (! cdf.getTripNameField().getText().equals(""))	
 				sql += " AND r.Name LIKE '%" + cdf.getTripNameField().getText() + "%'";
 			if (! cdf.getTripDestinatonField().getText().equals(""))	
 				sql += " AND r.Zielort LIKE '%" + cdf.getTripDestinatonField().getText() + "%'";
 			if (! cdf.getTripRegionField().getText().equals(""))	
-				sql += " AND r.Region LIKE '%" + cdf.getTripRegionField().getText() + "%'";
+				sql += " AND r.RegionenName LIKE '%" + cdf.getTripRegionField().getText() + "%'";
 			if (! cdf.getTripHotelField().getText().equals(""))	
-				sql += " AND r.Hotel LIKE '%" + cdf.getTripHotelField().getText() + "%'";
+				sql += " AND r.HotelName LIKE '%" + cdf.getTripHotelField().getText() + "%'";
 			if (cdf.getClimatesBox().getSelectedIndex() != 0)	
 				sql += " AND r.KlimaID = " + cdf.getClimatesBox().getSelectedIndex();
 			if (cdf.getVehicleBox().getSelectedIndex() != 0)	
@@ -68,8 +76,21 @@ public class CoreDataTripListener implements ActionListener {
 				sql += " AND r.Preis <= " + Double.valueOf(cdf.getTripPriceToField().getText());
 			
 			System.out.println(sql);
-			//cdf.getCustomerTable().setModel(DbFunctions.getFilteredCustomers(sql));
-			//cdf.getCustomerTable().repaint();
+			cdf.getTripTable().setModel(DbFunctions.getFilteredTrips(sql));
+			cdf.getTripTable().repaint();
+			break;
+		case "Reise anlegen":
+			System.out.println("rzegs");
+			TripEntryFrame.getInstance();
+			break;
+		case "Bearbeiten":
+			if (cdf.getTripTable().getSelectedRow() != -1) {
+				
+				Integer ReiseId = (Integer) cdf.getTripTable().getValueAt(cdf.getTripTable().getSelectedRow(), 0);
+				TripEntryFrame.getInstanceWithTrip(DbFunctions.getReise(ReiseId));
+			} else {
+				JOptionPane.showMessageDialog(null, "Bitte wählen Sie zuerst eine Reise aus!");
+			}
 			break;
 		}
 

@@ -1,11 +1,13 @@
 package crm.JasminReisen.GUI;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -16,10 +18,16 @@ import crm.JasminReisen.Config;
 import crm.JasminReisen.Functions.DateLabelFormatter;
 import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.Listener.TripEntryFrameListener;
+import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.Reise;
 
 public class TripEntryFrame extends JFrame
 {
+	private JPanel southPanel;
+	private JPanel centerPanel;
+	private JPanel northPanel;
+	private JLabel header;
+	
 	private JPanel datapanel;
 	private JPanel descpanel;
 	private JPanel buttons;
@@ -52,9 +60,30 @@ public class TripEntryFrame extends JFrame
 	private JDatePickerImpl endDate;
 	private JDatePickerImpl availableDate;
 	
-	public static void main (String [] args)
+
+	private Reise tripContext;
+	private JLabel gruppenGroesse;
+	private JTextField gruppenGroesseField;
+	private JLabel kontingent;
+	private JTextField kontigentField;
+	private static TripEntryFrame instance;
+	
+	public static TripEntryFrame getInstance ()
 	{
-		new TripEntryFrame();
+		if (instance == null)
+		{			
+			instance=new TripEntryFrame();			
+		}		
+		return instance;
+	}
+	
+	public static TripEntryFrame getInstanceWithTrip (Reise trip)
+	{
+		if (instance == null)
+		{			
+			instance=new TripEntryFrame(trip);			
+		}		
+		return instance;
 	}
 	
 	TripEntryFrame ()
@@ -64,24 +93,44 @@ public class TripEntryFrame extends JFrame
 
 	public TripEntryFrame(Reise reise) 
 	{
-		DbFunctions.connect();
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setResizable(false);
-		this.setSize(550,470);
+		tripContext = reise;
+		
+		setLayout(new BorderLayout());
+		setSize(700, 450);
 		setLocationRelativeTo(null);
-		setTitle("Anlegen einer neuen Reise");
-		this.setBackground(Config.getBACKGROUND());
-		this.setLayout(new BorderLayout());
-		datapanel = new JPanel();
-		datapanel.setBackground(Config.getBACKGROUND());
-		descpanel = new JPanel(new GridLayout(1,2,2,2));
-		descpanel.setBackground(Config.getBACKGROUND());
-		datapanel.setLayout(new GridLayout (12,2,2,2));
-		buttons = new JPanel(new GridLayout(1,2,2,2));
-		buttons.setBackground(Config.getBACKGROUND());
-		this.add(datapanel, BorderLayout.NORTH);
-		this.add(descpanel, BorderLayout.CENTER);
-		this.add(buttons, BorderLayout.SOUTH);
+		setUndecorated(true);
+		setResizable(false);
+		
+		centerPanel = new JPanel();
+		add(centerPanel, BorderLayout.CENTER);
+		//centerPanel.setLayout(new GridLayout(0,4,8,6));
+		centerPanel.setBorder(new EmptyBorder(0,10,0,10));
+		centerPanel.setLayout(new BorderLayout());
+		
+		JPanel centerPanelNorth = new JPanel();
+		centerPanelNorth.setLayout(new GridLayout(0,4,8,6));
+
+		centerPanelNorth.setPreferredSize(new Dimension(700,60));
+		centerPanel.add(centerPanelNorth, BorderLayout.CENTER);
+		JPanel centerPanelSouth = new JPanel();
+		centerPanel.add(centerPanelSouth, BorderLayout.SOUTH);
+
+		centerPanelSouth.setPreferredSize(new Dimension(700,60));
+		centerPanelSouth.setLayout(new GridLayout(0,3,-165,2));
+		
+		southPanel = new JPanel();
+		add(southPanel, BorderLayout.SOUTH);
+		
+		northPanel = new JPanel();
+		
+		add(northPanel, BorderLayout.NORTH);
+		northPanel.setAlignmentX(LEFT_ALIGNMENT);
+		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		header = new JLabel();
+		header.setHorizontalAlignment(SwingConstants.LEFT);
+		header.setFont(new Font("Calibri Light", Font.BOLD, 24));
+		northPanel.add(header);
 		
 		SqlDateModel model1 = new SqlDateModel();
 		Properties p1 = new Properties();
@@ -92,26 +141,13 @@ public class TripEntryFrame extends JFrame
 		startDate = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
 		
 		SqlDateModel model2 = new SqlDateModel();
-		Properties p2 = new Properties();
-		p2.put("text.today", "Today");
-		p2.put("text.month", "Month");
-		p2.put("text.year", "Year");
-		JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p2);
+		JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p1);
 		endDate = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
 		
 		SqlDateModel model3 = new SqlDateModel();
-		Properties p3 = new Properties();
-		p3.put("text.today", "Today");
-		p3.put("text.month", "Month");
-		p3.put("text.year", "Year");
-		JDatePanelImpl datePanel3 = new JDatePanelImpl(model3, p3);
+		JDatePanelImpl datePanel3 = new JDatePanelImpl(model3, p1);
 		availableDate = new JDatePickerImpl(datePanel3, new DateLabelFormatter());
-		
-
-		
-		
-		
-		
+	
 		ArrayList<String> vehicleList = new ArrayList<String>(DbFunctions.getVehicleList());
 		ArrayList<String> themeList = new ArrayList<String>(DbFunctions.getThemeList());
 		ArrayList<String> climateList = new ArrayList<String>(DbFunctions.getClimateList());
@@ -124,97 +160,114 @@ public class TripEntryFrame extends JFrame
 		String [] regions = regionList.toArray(new String[regionList.size()]);
 		
 		zielort = new JLabel("Zielort der Reise");
-		zielort.setBackground(Config.getBACKGROUND());
 		zielortField = new JTextField();		
+		
+		gruppenGroesse = new JLabel("Gruppen Größe:");
+		gruppenGroesseField = new JTextField();	
+		
+		kontingent = new JLabel("Kontingent:");
+		kontigentField = new JTextField();	
+		
 		tripName = new JLabel("Name der Reise:");
-		tripName.setBackground(Config.getBACKGROUND());
 		tripNameField = new JTextField();
 		
-		startDate.setFont(Config.getFONT_TEXTFIELD());
-		startDate.setBackground(Config.getBACKGROUND());
 		reiseBeginn = new JLabel("Beginn der Reise:");
-		reiseBeginn.setBackground(Config.getBACKGROUND());
 		reiseEnde = new JLabel("Ende der Reise:");
-		reiseEnde.setBackground(Config.getBACKGROUND());
 		
-		endDate.setFont(Config.getFONT_TEXTFIELD());
-		endDate.setBackground(Config.getBACKGROUND());
 		plaetze = new JLabel("Verfügbare Plätze:");
-		plaetze.setBackground(Config.getBACKGROUND());
 		plaetzeField = new JTextField();
 		transportmittelId = new JLabel("Transportmittel:");
-		transportmittelId.setBackground(Config.getBACKGROUND());
 		transportmittelIdBox = new JComboBox(vehicles);
 		region = new JLabel("Region der Reise:");
-		region.setBackground(Config.getBACKGROUND());
 		regionBox = new JComboBox(regions);
 		thema = new JLabel("Thema der Reise:");
-		thema.setBackground(Config.getBACKGROUND());
 		verfuegbar = new JLabel("Verfügbar ab:");
-		verfuegbar.setBackground(Config.getBACKGROUND());
 		
 		availableDate.setFont(Config.getFONT_TEXTFIELD());
-		availableDate.setBackground(Config.getBACKGROUND());
 		themaBox = new JComboBox(themes);
 		hotelId = new JLabel("ID des Hotels:");
-		hotelId.setBackground(Config.getBACKGROUND());
 		klimaId = new JLabel("KlimaID des Zielorts:");
-		klimaId.setBackground(Config.getBACKGROUND());
 		klimaIdBox = new JComboBox(climates);
 		hotelIdBox = new JComboBox(hotels);
 		preis = new JLabel("Preis der Reise:");
-		preis.setBackground(Config.getBACKGROUND());
 		preisField = new JTextField();
 		beschreibung = new JLabel("Beschreibung:");
-		beschreibung.setBackground(Config.getBACKGROUND());
+		beschreibung.setVerticalAlignment(SwingConstants.TOP);
+		beschreibung.setPreferredSize(new Dimension(60,60));
+		JScrollPane scrollPane = new JScrollPane();
+		
 		beschreibungArea = new JTextArea();
-		this.beschreibungArea.setBorder(new LineBorder(Config.getBORDER()));
+		scrollPane.setViewportView(beschreibungArea);
+		
 		send = new JButton("Reise anlegen");
-		reset = new JButton("Zurücksetzen");
+		reset = new JButton("Abbrechen");
 		
-		transportmittelIdBox.setFont(Config.getFONT_TEXTFIELD());
-		transportmittelIdBox.setBackground(Config.getBACKGROUND());
-		regionBox.setFont(Config.getFONT_TEXTFIELD());
-		regionBox.setBackground(Config.getBACKGROUND());
-		themaBox.setFont(Config.getFONT_TEXTFIELD());
-		themaBox.setBackground(Config.getBACKGROUND());
-		klimaIdBox.setFont(Config.getFONT_TEXTFIELD());
-		klimaIdBox.setBackground(Config.getBACKGROUND());
-		hotelIdBox.setFont(Config.getFONT_TEXTFIELD());
-		hotelIdBox.setBackground(Config.getBACKGROUND());
 		
-		datapanel.add(tripName);
-		datapanel.add(tripNameField);
-		datapanel.add(zielort);
-		datapanel.add(zielortField);
-		datapanel.add(reiseBeginn);
-		datapanel.add(startDate);
-		datapanel.add(reiseEnde);
-		datapanel.add(endDate);
-		datapanel.add(plaetze);
-		datapanel.add(plaetzeField);
-		datapanel.add(transportmittelId);
-		datapanel.add(transportmittelIdBox);
-		datapanel.add(region);
-		datapanel.add(regionBox);
-		datapanel.add(thema);
-		datapanel.add(themaBox);
-		datapanel.add(klimaId);
-		datapanel.add(klimaIdBox);
-		datapanel.add(hotelId);
-		datapanel.add(hotelIdBox);
-		datapanel.add(preis);
-		datapanel.add(preisField);
-		datapanel.add(verfuegbar);
-		datapanel.add(availableDate);
-		descpanel.add(beschreibung);
-		descpanel.add(beschreibungArea);
-		buttons.add(reset);
-		buttons.add(send);
+		centerPanelNorth.add(tripName);
+		centerPanelNorth.add(tripNameField);
+		centerPanelNorth.add(zielort);
+		centerPanelNorth.add(zielortField);
+		centerPanelNorth.add(gruppenGroesse);
+		centerPanelNorth.add(gruppenGroesseField);
+		centerPanelNorth.add(kontingent);
+		centerPanelNorth.add(kontigentField);
+		centerPanelNorth.add(reiseBeginn);
+		centerPanelNorth.add(startDate);
+		centerPanelNorth.add(reiseEnde);
+		centerPanelNorth.add(endDate);
+		centerPanelNorth.add(plaetze);
+		centerPanelNorth.add(plaetzeField);
+		centerPanelNorth.add(transportmittelId);
+		centerPanelNorth.add(transportmittelIdBox);
+		centerPanelNorth.add(region);
+		centerPanelNorth.add(regionBox);
+		centerPanelNorth.add(thema);
+		centerPanelNorth.add(themaBox);
+		centerPanelNorth.add(klimaId);
+		centerPanelNorth.add(klimaIdBox);
+		centerPanelNorth.add(hotelId);
+		centerPanelNorth.add(hotelIdBox);
+		centerPanelNorth.add(preis);
+		centerPanelNorth.add(preisField);
+		centerPanelNorth.add(verfuegbar);
+		centerPanelNorth.add(availableDate);
+		centerPanelSouth.add(beschreibung, BorderLayout.WEST);
+		centerPanelSouth.add(scrollPane, BorderLayout.CENTER);
+		
+		southPanel.add(reset);
+		southPanel.add(send);
 		
 		TripEntryFrameListener tefl = new TripEntryFrameListener(this);
 		reset.addActionListener(tefl);
 		send.addActionListener(tefl);
+		
+		if(tripContext.getReiseID() == 0) {
+			send.setText("Anlegen");
+			header.setText("Neuen Kunden anlegen:");
+		}
+		else {
+			send.setText("Speichern");
+			header.setText("Reise " + tripContext.getName() + " bearbeiten:");
+			setTitle("Reise " + tripContext.getName() + " bearbeiten:");
+			
+			getTripNameField().setText(tripContext.getName());
+			getZielortField().setText(tripContext.getZielOrt());
+			getStartDate().getJFormattedTextField().setText((tripContext.getReiseBeginn() != null) ? new SimpleDateFormat("yyyy-MM-dd").format(tripContext.getReiseBeginn()): "");
+			getEndDate().getJFormattedTextField().setText((tripContext.getReiseEnde() != null) ? new SimpleDateFormat("yyyy-MM-dd").format(tripContext.getReiseEnde()): "");
+			getPlaetzeField().setText(tripContext.getVerfuegbarePlaetze() + "");
+			getKontigentField().setText(tripContext.getKontingent() + "");
+			getGruppenGroesseField().setText(tripContext.getGruppengroesse() + "");
+			
+			getTransportmittelIdBox().setSelectedIndex(tripContext.getTransportmittelID());
+			getRegionBox().setSelectedIndex(tripContext.getRegionID());
+			getThemaBox().setSelectedIndex(tripContext.getThemaID());
+			getKlimaIdBox().setSelectedIndex(tripContext.getKlimaID());
+			getHotelIdBox().setSelectedIndex(tripContext.getHotelID());
+			getPreisField().setText(tripContext.getPreis() + "");
+			getAvailableDate().getJFormattedTextField().setText((tripContext.getVerfuegbarAb() != null) ? new SimpleDateFormat("yyyy-MM-dd").format(tripContext.getVerfuegbarAb()): "");
+			getBeschreibungArea().setText(tripContext.getBeschreibung());
+			
+		}
 		
 		this.setVisible(true);
 	}
@@ -477,6 +530,91 @@ public class TripEntryFrame extends JFrame
 
 	public void setAvailableDate(JDatePickerImpl availableDate) {
 		this.availableDate = availableDate;
+	}
+
+	public static void setInstance(TripEntryFrame object) {
+		TripEntryFrame.instance = object;
+		
+	}
+
+	public JPanel getSouthPanel() {
+		return southPanel;
+	}
+
+	public void setSouthPanel(JPanel southPanel) {
+		this.southPanel = southPanel;
+	}
+
+	public JPanel getCenterPanel() {
+		return centerPanel;
+	}
+
+	public void setCenterPanel(JPanel centerPanel) {
+		this.centerPanel = centerPanel;
+	}
+
+	public JPanel getNorthPanel() {
+		return northPanel;
+	}
+
+	public void setNorthPanel(JPanel northPanel) {
+		this.northPanel = northPanel;
+	}
+
+	public JLabel getHeader() {
+		return header;
+	}
+
+	public void setHeader(JLabel header) {
+		this.header = header;
+	}
+
+	public JLabel getReiseBeginn() {
+		return reiseBeginn;
+	}
+
+	public void setReiseBeginn(JLabel reiseBeginn) {
+		this.reiseBeginn = reiseBeginn;
+	}
+
+	public Reise getTripContext() {
+		return tripContext;
+	}
+
+	public void setTripContext(Reise tripContext) {
+		this.tripContext = tripContext;
+	}
+
+	public JLabel getGruppenGroesse() {
+		return gruppenGroesse;
+	}
+
+	public void setGruppenGroesse(JLabel gruppenGroesse) {
+		this.gruppenGroesse = gruppenGroesse;
+	}
+
+	public JTextField getGruppenGroesseField() {
+		return gruppenGroesseField;
+	}
+
+	public void setGruppenGroesseField(JTextField gruppenGroesseField) {
+		this.gruppenGroesseField = gruppenGroesseField;
+	}
+
+	public JLabel getKontingent() {
+		return kontingent;
+	}
+
+	public void setKontingent(JLabel kontingent) {
+		this.kontingent = kontingent;
+	}
+
+	public JTextField getKontigentField() {
+		return kontigentField;
+	}
+
+	public void setKontigentField(JTextField kontigentField) {
+		this.kontigentField = kontigentField;
 	}
 	
 	
