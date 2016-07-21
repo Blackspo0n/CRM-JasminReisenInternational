@@ -18,7 +18,7 @@ public class EmailFunctions {
 	private static final String PASSWORD = "wnfzvaervfra";
 	private static final String SENDERNAME = "Jasmin Reisen International";
 	
-	public static void sendMultiPartMail (String recipient, String subject, String message, boolean birthday)
+	public static void sendMultiPartMail (String recipient, String subject, String message, boolean birthday, boolean newsletter)
 	{		
 		MultiPartEmail multiPartEmail = new MultiPartEmail();
 		multiPartEmail.setHostName(ServiceFunctions.String(SMTP_HOST));
@@ -35,6 +35,21 @@ public class EmailFunctions {
 			attachment.setPath("./images/jasmin.png");
 			attachment.setDisposition(EmailAttachment.ATTACHMENT);
 			attachment.setName("geburtstag.png");
+			// add the attachment
+			try 
+			{
+				multiPartEmail.attach(attachment);
+			} 
+			catch (EmailException e) 
+			{}	
+		}
+		else
+		if (newsletter)
+		{
+			System.out.println();
+			attachment.setPath("./documents/newsletter.pdf");
+			attachment.setDisposition(EmailAttachment.ATTACHMENT);
+			attachment.setName("newsletter.pdf");
 			// add the attachment
 			try 
 			{

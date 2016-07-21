@@ -24,7 +24,7 @@ public class EmailMessageListener implements ActionListener {
 		switch (event.getActionCommand()) {
 		case "Versenden":
 			EmailFunctions.sendMultiPartMail(
-					emf.getMail(), emf.getSubject(), emf.getSalutation().getSelectedItem() + " " + emf.getNameField().getText() + ",\n\n" + emf.getAreaMessage().getText(), false);
+					emf.getMail(), emf.getSubject(), emf.getSalutation().getSelectedItem() + " " + emf.getNameField().getText() + ",\n\n" + emf.getAreaMessage().getText(), false, false);
 		    
 			JOptionPane.showMessageDialog(null, "E-Mail versendet", "Bestätigung",
 		            JOptionPane.INFORMATION_MESSAGE);		   

@@ -38,7 +38,7 @@ public class EmailMessageFrame extends JDialog {
 		northPanel.setLayout(new GridLayout(2, 2, 30, 10));
 		northPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.add(northPanel, BorderLayout.NORTH);
-		String[] salutationArray = { "Sehr geehrte Frau", "Sehr geehrter Herr" };
+		String[] salutationArray = { "Sehr geehrte Frau", "Sehr geehrter Herr", "Hallo Frau" , "Hallo Herr", "Liebe Frau", "Lieber Herr"};
 		salutation = new JComboBox<String>(salutationArray);
 		JLabel subjectLabel = new JLabel("Betreff:");
 		subjectField = new JTextField();

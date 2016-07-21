@@ -11,6 +11,7 @@ import crm.JasminReisen.GUI.CustomerEntryFrame;
 import crm.JasminReisen.GUI.EmailMessageFrame;
 import crm.JasminReisen.GUI.LoginFrame;
 import crm.JasminReisen.GUI.MainFrame;
+import crm.JasminReisen.GUI.NewsletterMessageFrame;
 import crm.JasminReisen.GUI.SpecEntryFrame;
 import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.GUI.BirthdayMessageFrame;
@@ -61,6 +62,9 @@ public class MainFrameListener implements ActionListener {
 		case "eMail versenden":			
 			CoreDataFrame mail = new CoreDataFrame();
 			mail.getCoreDataTab().setSelectedIndex(1);			
+			break;
+		case "Newsletter versenden":			
+			new NewsletterMessageFrame();						
 			break;
 			}	
 	}

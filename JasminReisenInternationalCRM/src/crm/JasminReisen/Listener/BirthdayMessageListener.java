@@ -22,7 +22,7 @@ public class BirthdayMessageListener implements ActionListener {
 		switch (event.getActionCommand()) {
 		case "Versenden":
 			EmailFunctions.sendMultiPartMail(
-					bmf.getMail(),"Geburtstagsgrüße mit kleiner Aufmerksamkeit", bmf.getSalutation().getSelectedItem() + " " + bmf.getNameField().getText() + ",\n\n" + bmf.getAreaMessage().getText(), true);
+					bmf.getMail(),"Geburtstagsgrüße mit kleiner Aufmerksamkeit", bmf.getSalutation().getSelectedItem() + " " + bmf.getNameField().getText() + ",\n\n" + bmf.getAreaMessage().getText(), true, false);
 		    JOptionPane.showMessageDialog(null, "E-Mail versendet", "Bestätigung",
 		            JOptionPane.INFORMATION_MESSAGE);
 		    DbFunctions.safeVoucherCode(bmf.getKundenNummer(), bmf.getRabattCode());

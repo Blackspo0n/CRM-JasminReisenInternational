@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.Reise;
+import crm.JasminReisen.GUI.NewsletterMessageFrame;
 import crm.JasminReisen.GUI.SpecEntryFrame;
 import crm.JasminReisen.GUI.TripEntryFrame;
 import crm.JasminReisen.models.User;
@@ -531,5 +532,23 @@ public class DbFunctions {
 		  return reise; 
 		  
 		 }
+	
+	public static void sendNewsletter(NewsletterMessageFrame nmf) 
+	{
+		try 
+		{
+			rs = statement.executeQuery("SELECT * FROM Kunden");
+
+			while (rs.next())
+			{
+				EmailFunctions.sendMultiPartMail(rs.getString("EMail"), 
+						"Unser Newsletter mit tollen Angeboten", nmf.getAreaMessage().getText(), false, true);				
+			}
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 
 }
