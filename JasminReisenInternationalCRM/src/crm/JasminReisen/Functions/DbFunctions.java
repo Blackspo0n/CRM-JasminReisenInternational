@@ -59,7 +59,7 @@ public class DbFunctions {
 	}
 
 	public static DefaultTableModel getFilteredCustomers(String sql) {
-		String col[] = { "ID", "Name", "Vorname", "Strasse", "Ort", "PLZ", "Land", "Telefon", "Email", "Geburtstag" };
+		String col[] = { "ID", "Name", "Vorname", "Strasse", "PLZ", "Ort", "Land", "Telefon", "Email", "Geburtstag" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
@@ -476,10 +476,22 @@ public class DbFunctions {
 		}
 	}
 
-	public static void saveContactData(int customerID, int actionID, String review) {
+	public static void saveContactHistory(int customerID, int actionID, String review, String theme) {
 		connect();
-		sql = "INSERT INTO Kontakthistorien (KundenID, AktionsID, Wiedervorlage) VALUES ('" + customerID+ "','"
-				+ actionID + "','" + review + "');";
+		sql = "INSERT INTO Kontakthistorien (KundenID, AktionsID, Wiedervorlage, KontaktThema) VALUES ('" + customerID + "','"
+				+ actionID + "','" + review + "','" + theme + "');";
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveReminder(int customerID, int actionID, String review, String theme) {
+		connect();
+		sql = "INSERT INTO Wiedervorlagen (WiedervorlageTermin, AktionsID, KundenID, WiedervorlageThema) VALUES ('" + review+ "','"
+				+ actionID + "','" + customerID + "','" + theme + "');";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
