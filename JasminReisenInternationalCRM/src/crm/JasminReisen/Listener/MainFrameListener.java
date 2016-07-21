@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import crm.JasminReisen.GUI.MeistGebuchteReisenFrame;
 import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.CreateCustomerContactFrame;
 import crm.JasminReisen.GUI.CustomerEntryFrame;
@@ -53,6 +54,9 @@ public class MainFrameListener implements ActionListener {
 				Integer age = (Integer) mainFrame.getBirthdayTable().getValueAt(mainFrame.getBirthdayTable().getSelectedRow(), 3);
 				new BirthdayMessageFrame(kundenNummer, kundenName, kundenMail, age);	
 			} 
+			break;
+		case "Meistgebuchte Reisen":
+			new MeistGebuchteReisenFrame();
 			break;
 		case "Kontakt erfassen":
 			new CreateCustomerContactFrame();

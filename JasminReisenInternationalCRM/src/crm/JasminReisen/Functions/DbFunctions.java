@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.Reise;
@@ -520,4 +521,43 @@ public class DbFunctions {
 		  
 		 }
 
+	public static TableModel getTodoList(String sql) {
+		String col[] = { "Termin", "Thema"};
+		DefaultTableModel dtm = new DefaultTableModel(col, 0);
+
+		try {
+			rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Object[] objs = new Object[2];
+				objs[0] = new SimpleDateFormat("dd-MMM-yyyy hh:mm").format(rs.getDate("WiedervorlageTermin"));
+				objs[1] = rs.getString("WiederVorlageThema");
+				dtm.addRow(objs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dtm;
+	}
+
+	public static TableModel getMeistgebuchteReisen() {
+		String col[] = { "Name", "Zielort", "Preis","Buchungen", "Durchschnittliche Teilnehmerzahl"};
+		DefaultTableModel dtm = new DefaultTableModel(col, 0);
+
+		try {
+			String sql = "SELECT r.*, count(*) AS buchungen, AVG(b.Teilnehmerzahl) AS avgteilnehmer FROM Reisen AS r JOIN Buchungen AS b ON (r.ReiseID = b.ReiseID) GROUP BY r.Name";
+			rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Object[] objs = new Object[5];
+				objs[0] = rs.getString("Name");
+				objs[1] = rs.getString("Zielort");
+				objs[2] = rs.getDouble("Preis");
+				objs[3] = rs.getInt("buchungen");
+				objs[4] = rs.getInt("avgteilnehmer");
+				dtm.addRow(objs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dtm;
+	}
 }

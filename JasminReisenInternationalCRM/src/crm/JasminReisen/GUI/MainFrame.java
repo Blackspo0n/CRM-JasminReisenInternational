@@ -59,14 +59,14 @@ public class MainFrame extends JFrame {
 	private JMenuItem closeItem;
 	private JMenuItem coreDataItem;
 	private JMenuItem coreDataAnalyseItem;
-	
+
 	private JMenu actionsMenu;
 	private JMenuItem contactItem;
 	private JMenuItem newsletterItem;
 	private JMenuItem eMailItem;
 	private JMenu analysisMenu;
-	private JMenuItem mostBookedItem;	
-	
+	private JMenuItem mostBookedItem;
+
 	private User loggedUser;
 	private JPanel centerPanelNoLogin;
 	private JMenuItem specEntryItem;
@@ -76,11 +76,19 @@ public class MainFrame extends JFrame {
 	private JPanel birthdayPanel;
 	private JPanel upcomingBirthdayPanel;
 	private JButton rabattCodeSenden;
+	private JTabbedPane mainTabPanel;
+	private JPanel TodoPanel;
+	private JTable todotable;
+	private JLabel pleaseLogIn;
+	private JScrollPane todoScrollPane;
+	private JTable upcomingBirthdayTable;
+	private JScrollPane upcomingBirthdayScrollPane;
 
 	public MainFrame() {
 
 		try {
-			BufferedImage whsLogo = ImageIO.read(new File("images/whslogo.png"));
+			BufferedImage whsLogo = ImageIO
+					.read(new File("images/whslogo.png"));
 			this.setIconImage(whsLogo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,12 +100,12 @@ public class MainFrame extends JFrame {
 		setBackground(Config.getBACKGROUND());
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
-		
+
 		card = new CardLayout();
 		cardPanel = new JPanel();
 		cardPanel.setLayout(card);
 		this.add(cardPanel);
-		
+
 		// Images
 		try {
 
@@ -157,7 +165,7 @@ public class MainFrame extends JFrame {
 		contactItem = new JMenuItem("Kontakt erfassen");
 		contactItem.setFont(Config.getFONT());
 		actionsMenu.add(contactItem);
-		contactItem.addActionListener(new MainFrameListener(this));	
+		contactItem.addActionListener(new MainFrameListener(this));
 		newsletterItem = new JMenuItem("Newsletter versenden");
 		newsletterItem.setFont(Config.getFONT());
 		actionsMenu.add(newsletterItem);
@@ -166,14 +174,14 @@ public class MainFrame extends JFrame {
 		eMailItem.setFont(Config.getFONT());
 		actionsMenu.add(eMailItem);
 		eMailItem.addActionListener(new MainFrameListener(this));
-		
+
 		analysisMenu = new JMenu("Auswertungen");
 		analysisMenu.setFont(Config.getFONT());
 		menuBar.add(analysisMenu);
 		mostBookedItem = new JMenuItem("Meistgebuchte Reisen");
 		mostBookedItem.setFont(Config.getFONT());
 		analysisMenu.add(mostBookedItem);
-		mostBookedItem.addActionListener(new MainFrameListener(this));	
+		mostBookedItem.addActionListener(new MainFrameListener(this));
 
 		loginMenu.add(loginItem);
 		loginMenu.add(logoutItem);
@@ -193,7 +201,7 @@ public class MainFrame extends JFrame {
 
 		coreDataMenu.add(coreDataItem);
 		coreDataMenu.add(coreDataAnalyseItem);
-		
+
 		specEntryItem = new JMenuItem("Spezifikationen Hinzufügen");
 		specEntryItem.setFont(Config.getFONT());
 		specEntryItem.addActionListener(new MainFrameListener(this));
@@ -204,60 +212,88 @@ public class MainFrame extends JFrame {
 		centerPanel.setBackground(Config.getBACKGROUND());
 		cardPanel.add(centerPanel, "login");
 
-		JTabbedPane mainTabPanel = new JTabbedPane();
+		mainTabPanel = new JTabbedPane();
 		mainTabPanel.setFont(Config.getFONT());
 		centerPanel.add(mainTabPanel, BorderLayout.CENTER);
-		
+
 		birthdayPanel = new JPanel();
 		birthdayPanel.setBackground(Config.getBACKGROUND());
 		birthdayPanel.setLayout(new BorderLayout());
 		mainTabPanel.addTab("Geburtstag", null, birthdayPanel, null);
-		
+
 		JScrollPane birthdayScrollPane = new JScrollPane();
 		birthdayPanel.add(birthdayScrollPane, BorderLayout.CENTER);
-		
+
 		birthdayTable = new JTable();
 		birthdayTable.setShowGrid(false);
 		birthdayTable.setFont(Config.getFONT());
 		birthdayTable.setBackground(Config.getBACKGROUND());
 		birthdayTable.getTableHeader().setReorderingAllowed(false);
 		birthdayTable.setAutoCreateRowSorter(true);
-		birthdayTable.setPreferredScrollableViewportSize(birthdayTable.getPreferredSize());
+		birthdayTable.setPreferredScrollableViewportSize(birthdayTable
+				.getPreferredSize());
 		birthdayTable.setFillsViewportHeight(true);
 		birthdayTable.setRowHeight(21);
-		birthdayTable.setModel(DbFunctions.getCustomersWithBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden  WHERE MONTH(GebDat) = MONTH(CURDATE()) AND DAY(GebDat) = DAY(CURDATE())"));
+		birthdayTable
+				.setModel(DbFunctions
+						.getCustomersWithBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden  WHERE MONTH(GebDat) = MONTH(CURDATE()) AND DAY(GebDat) = DAY(CURDATE())"));
 		birthdayTable.getTableHeader().setFont(Config.getFONT());
 		birthdayScrollPane.setViewportView(birthdayTable);
-		
+
 		rabattCodeSenden = new JButton("Rabattcode versenden");
 		rabattCodeSenden.setFont(Config.getFONT());
 		rabattCodeSenden.addActionListener(new MainFrameListener(this));
 		birthdayPanel.add(rabattCodeSenden, BorderLayout.SOUTH);
-		
-		
+
 		upcomingBirthdayPanel = new JPanel();
 		upcomingBirthdayPanel.setBackground(Config.getBACKGROUND());
 		upcomingBirthdayPanel.setLayout(new BorderLayout());
-		mainTabPanel.addTab("Anstehende Geburtstage", null, upcomingBirthdayPanel, null);
 		
-		
-		JScrollPane upcomingBirthdayScrollPane = new JScrollPane();
-		upcomingBirthdayPanel.add(upcomingBirthdayScrollPane, BorderLayout.CENTER);
-		
-		JTable upcomingBirthdayTable = new JTable();
+		upcomingBirthdayScrollPane = new JScrollPane();
+		upcomingBirthdayPanel.add(upcomingBirthdayScrollPane,
+				BorderLayout.CENTER);
+
+		upcomingBirthdayTable = new JTable();
 		upcomingBirthdayTable.setShowGrid(false);
 		upcomingBirthdayTable.setFont(Config.getFONT());
 		upcomingBirthdayTable.setBackground(Config.getBACKGROUND());
 		upcomingBirthdayTable.getTableHeader().setReorderingAllowed(false);
 		upcomingBirthdayTable.setAutoCreateRowSorter(true);
-		upcomingBirthdayTable.setPreferredScrollableViewportSize(upcomingBirthdayTable.getPreferredSize());
+		upcomingBirthdayTable
+				.setPreferredScrollableViewportSize(upcomingBirthdayTable
+						.getPreferredSize());
 		upcomingBirthdayTable.setFillsViewportHeight(true);
 		upcomingBirthdayTable.setRowHeight(21);
-		upcomingBirthdayTable.setModel(DbFunctions.getCustomersWithUpcomingBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden WHERE  DATE_ADD(GebDat, INTERVAL YEAR(CURDATE())-YEAR(GebDat) + IF(DAYOFYEAR(CURDATE()) > DAYOFYEAR(GebDat),1,0)YEAR)BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)"));
+		upcomingBirthdayTable
+				.setModel(DbFunctions
+						.getCustomersWithUpcomingBirthdays("SELECT *, (YEAR(CURDATE()) - YEAR(GebDat)) AS Age FROM Kunden WHERE  DATE_ADD(GebDat, INTERVAL YEAR(CURDATE())-YEAR(GebDat) + IF(DAYOFYEAR(CURDATE()) > DAYOFYEAR(GebDat),1,0)YEAR)BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)"));
 		upcomingBirthdayTable.getTableHeader().setFont(Config.getFONT());
 		upcomingBirthdayScrollPane.setViewportView(upcomingBirthdayTable);
 
+		TodoPanel = new JPanel();
+		TodoPanel.setBackground(Config.getBACKGROUND());
+		TodoPanel.setLayout(new BorderLayout());
 		
+		mainTabPanel.addTab("Anstehende Geburtstage", null, upcomingBirthdayPanel, null);
+		mainTabPanel.addTab("Wiedervorlage", null, TodoPanel , null);
+		
+		
+		todoScrollPane = new JScrollPane();
+		TodoPanel.add(todoScrollPane, BorderLayout.CENTER);
+
+		todotable = new JTable();
+		todotable.setShowGrid(false);
+		todotable.setFont(Config.getFONT());
+		todotable.setBackground(Config.getBACKGROUND());
+		todotable.getTableHeader().setReorderingAllowed(false);
+		todotable.setAutoCreateRowSorter(true);
+		todotable.setPreferredScrollableViewportSize(todotable.getPreferredSize());
+		todotable.setFillsViewportHeight(true);
+		todotable.setRowHeight(21);
+		todotable.setModel(DbFunctions.getTodoList("SELECT * FROM Wiedervorlagen WHERE Erledigt = 0 AND WiedervorlageTermin < DATE_ADD(NOW(), INTERVAl 5 DAY) ORDER BY WiedervorlageTermin"));
+		todotable.getTableHeader().setFont(Config.getFONT());
+		todoScrollPane.setViewportView(todotable);
+
 		centerPanelNoLogin = new JPanel();
 		centerPanelNoLogin.setLayout(new BorderLayout());
 		centerPanelNoLogin.setBackground(Config.getBACKGROUND());
@@ -275,14 +311,14 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 
-		JLabel pleaseLogIn = new JLabel("Bitte melden Sie sich an um fortzufahren");
+		pleaseLogIn = new JLabel(
+				"Bitte melden Sie sich an um fortzufahren");
 		pleaseLogIn.setFont(Config.getFONT_SUPERSIZE());
 		pleaseLogIn.setBackground(Config.getBACKGROUND());
 		pleaseLogIn.setHorizontalAlignment(JLabel.CENTER);
 		centerPanelNoLogin.add(pleaseLogIn, BorderLayout.CENTER);
-		
-		if (loggedUser != null) {
 
+		if (loggedUser != null) {
 			card.show(cardPanel, "login");
 		} else {
 			card.show(cardPanel, "logout");
@@ -400,7 +436,8 @@ public class MainFrame extends JFrame {
 		return averageCustomerEffortField;
 	}
 
-	public void setAverageCustomerEffortField(JTextField averageCustomerEffortField) {
+	public void setAverageCustomerEffortField(
+			JTextField averageCustomerEffortField) {
 		this.averageCustomerEffortField = averageCustomerEffortField;
 	}
 
