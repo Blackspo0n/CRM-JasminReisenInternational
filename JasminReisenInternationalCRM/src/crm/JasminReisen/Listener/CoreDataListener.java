@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.CustomerEntryFrame;
+import crm.JasminReisen.GUI.EmailMessageFrame;
 
 public class CoreDataListener implements ActionListener {
 
@@ -105,6 +106,15 @@ public class CoreDataListener implements ActionListener {
 				Integer kundenNummer = (Integer) cdf.getCustomerTable()
 						.getValueAt(cdf.getCustomerTable().getSelectedRow(), 0);
 				CustomerEntryFrame.getInstanceWithCustomer(DbFunctions.getKunde(kundenNummer));
+			} else {
+				JOptionPane.showMessageDialog(null, "Bitte wählen Sie zuerst einen Kunden aus!");
+			}
+			break;
+		case "E-Mail versenden":
+			if (cdf.getCustomerTable().getSelectedRow() != -1) {
+				Integer kundenNummer = (Integer) cdf.getCustomerTable()
+						.getValueAt(cdf.getCustomerTable().getSelectedRow(), 0);
+				new EmailMessageFrame (DbFunctions.getKunde(kundenNummer));
 			} else {
 				JOptionPane.showMessageDialog(null, "Bitte wählen Sie zuerst einen Kunden aus!");
 			}
