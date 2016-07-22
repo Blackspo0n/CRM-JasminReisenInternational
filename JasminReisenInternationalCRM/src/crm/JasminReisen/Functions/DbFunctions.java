@@ -558,16 +558,25 @@ public class DbFunctions {
 		}
 	}
 
-	public static TableModel getTodoList(String sql) {
-		String col[] = { "Termin", "Thema"};
+	public static TableModel getTodoList() {
+		String col[] = {"Id", "Termin", "Wer", "Thema", "Aktion"};
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			rs = statement.executeQuery(sql);
+			rs = statement.executeQuery("SELECT * FROM Wiedervorlagen AS w "
+					+ "JOIN Kunden AS k ON w.KundenID = k.Kundennummer "
+					+ "JOIN Aktionen As a on w.AktionsID = a.AktionsID "
+					+ "WHERE Erledigt = 0 AND WiedervorlageTermin < DATE_ADD(NOW(), INTERVAL 5 DAY) "
+					+ "ORDER BY WiedervorlageTermin");
 			while (rs.next()) {
-				Object[] objs = new Object[2];
-				objs[0] = new SimpleDateFormat("dd-MMM-yyyy hh:mm").format(rs.getDate("WiedervorlageTermin"));
-				objs[1] = rs.getString("WiederVorlageThema");
+				Object[] objs = new Object[5];
+				objs[0] = rs.getInt("WiedervorlagenId");
+				objs[1] = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(rs.getDate("WiedervorlageTermin"));
+				String tempstr = rs.getString("WiedervorlageThema");
+				objs[2] = rs.getString("Vorname") + " " + rs.getString("Name");
+				objs[3] = tempstr.substring(7, tempstr.indexOf("Beschreibung:"));
+				objs[4] = rs.getString("AktionsName");
+				
 				dtm.addRow(objs);
 			}
 		} catch (Exception e) {
