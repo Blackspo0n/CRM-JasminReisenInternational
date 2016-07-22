@@ -60,8 +60,10 @@ public class LoginFrame extends JDialog
 		labelPassword.setFont(Config.getFONT());
 		gridpane.add(labelPassword);
 
-		txtPassword = new JPasswordField();
+		txtPassword = new JPasswordField(10);
 		txtPassword.setFont(Config.getFONT());
+		txtPassword.setActionCommand("Einloggen");
+		txtPassword.addActionListener(new LoginFrameListener(this));
 		gridpane.add(txtPassword);	
 		
 		resetButton = new JButton("Zurücksetzen");
