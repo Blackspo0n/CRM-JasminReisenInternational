@@ -481,7 +481,7 @@ public class CoreDataFrame extends JDialog {
 		centerOfNorthOfCustomerPanel.add(ageToField);
 
 		southPanel = new JPanel();
-		southPanel.setLayout(new GridLayout(1, 3, 5, 5));
+		southPanel.setLayout(new GridLayout(1, 4, 5, 5));
 		customerPanel.add(southPanel, BorderLayout.SOUTH);
 
 		bearbeitenButton = new JButton("Bearbeiten");
@@ -498,6 +498,11 @@ public class CoreDataFrame extends JDialog {
 		eMailButton.setFont(Config.getFONT());
 		eMailButton.addActionListener(new CoreDataListener(this));
 		southPanel.add(eMailButton);
+		
+		JButton historyButton = new JButton("Kontakthistorie einsehen");
+		historyButton.setFont(Config.getFONT());
+		historyButton.addActionListener(new CoreDataListener(this));
+		southPanel.add(historyButton);
 
 		customerTable = new JTable();
 		customerScrollPane = new JScrollPane();

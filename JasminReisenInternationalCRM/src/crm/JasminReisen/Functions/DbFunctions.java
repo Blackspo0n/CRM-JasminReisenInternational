@@ -14,10 +14,11 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import crm.JasminReisen.models.HistoryReise;
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.Reise;
+import crm.JasminReisen.GUI.ContactDescriptionFrame;
 import crm.JasminReisen.GUI.EmailMessageFrame;
-
 import crm.JasminReisen.GUI.NewsletterMessageFrame;
 import crm.JasminReisen.GUI.SpecEntryFrame;
 import crm.JasminReisen.GUI.TripEntryFrame;
@@ -33,6 +34,7 @@ public class DbFunctions {
 	private static final String db = "PEZ";
 	private static final String benutzerName = "juf";
 	private static final String password = "juf<:;\\";
+	private static ArrayList<String> listDescriptions;
 
 	public static Connection connect() {
 		try {
@@ -94,10 +96,8 @@ public class DbFunctions {
 
 	public static DefaultTableModel getFilteredTrips(String sql) {
 
-		String col[] = { "ID", 
-				"Name", "Preis", "Reise Beginn", "Reise Ende",
-				"Zielort", "Land", "Thema", "Hotel", 
-				"Transportmittel", "Kontingent"};
+		String col[] = { "ID", "Name", "Preis", "Reise Beginn", "Reise Ende", "Zielort", "Land", "Thema", "Hotel",
+				"Transportmittel", "Kontingent" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
@@ -117,7 +117,7 @@ public class DbFunctions {
 				if (Reiseende != null) {
 					objs[4] = new SimpleDateFormat("dd.MM.yyyy").format(Reiseende);
 				}
-				
+
 				objs[5] = rs.getString("Zielort");
 				objs[6] = rs.getString("Land");
 				objs[7] = rs.getString("ThemenName");
@@ -251,69 +251,49 @@ public class DbFunctions {
 
 		return vehicleList;
 	}
-	public static boolean createTrip(Reise trip) throws SQLException
-	{
+
+	public static boolean createTrip(Reise trip) throws SQLException {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		sql = "INSERT INTO Reisen (Reisebeginn, Reiseende, Zielort, TransportmittelID, "
-            + "Kontingent, VerfuegbarAb, Name, Beschreibung, RegionID, ThemaID, KlimaID, "
-            + "Preis, HotelID, GruppenGroesse) "
-            + "VALUES ("
-            + "'" + sdf.format(trip.getReiseBeginn()) + "', "
-            + "'" + sdf.format(trip.getReiseEnde()) + "', "
-            + "'" + trip.getZielOrt() + "', "
-            + trip.getTransportmittelID() + ", "
-            + trip.getKontingent() + ", "
-            + "'" +  sdf.format(trip.getVerfuegbarAb()) + "', "
-            + "'" + trip.getName() + "', "
-            + "'" + trip.getBeschreibung() + "', "
-            + trip.getRegionID() + ", "
-            + trip.getThemaID() + ", "
-            + trip.getKlimaID() + ", "
-            + "'" + trip.getPreis() + "', "
-            + trip.getHotelID() + ","
-            + "'" + trip.getGruppengroesse() + "'"
-            + ")";
-			System.out.println(sql);
-			
-		if(statement.executeUpdate(sql) != 0) {
+				+ "Kontingent, VerfuegbarAb, Name, Beschreibung, RegionID, ThemaID, KlimaID, "
+				+ "Preis, HotelID, GruppenGroesse) " + "VALUES (" + "'" + sdf.format(trip.getReiseBeginn()) + "', "
+				+ "'" + sdf.format(trip.getReiseEnde()) + "', " + "'" + trip.getZielOrt() + "', "
+				+ trip.getTransportmittelID() + ", " + trip.getKontingent() + ", " + "'"
+				+ sdf.format(trip.getVerfuegbarAb()) + "', " + "'" + trip.getName() + "', " + "'"
+				+ trip.getBeschreibung() + "', " + trip.getRegionID() + ", " + trip.getThemaID() + ", "
+				+ trip.getKlimaID() + ", " + "'" + trip.getPreis() + "', " + trip.getHotelID() + "," + "'"
+				+ trip.getGruppengroesse() + "'" + ")";
+		System.out.println(sql);
+
+		if (statement.executeUpdate(sql) != 0) {
 			return true;
 		}
 		return false;
- 	
-	}
-	
 
-	
-	public static boolean saveTrip(Reise trip) throws SQLException
-	{
+	}
+
+	public static boolean saveTrip(Reise trip) throws SQLException {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		sql = "UPDATE Reisen SET "
-				+ "Reisebeginn = '" + sdf.format(trip.getReiseBeginn()) + "',"
-				+ "Reiseende = '" + sdf.format(trip.getReiseEnde()) + "', "
-				+ "Zielort = '" + trip.getZielOrt() + "', "
-				+ "TransportmittelID = " + trip.getTransportmittelID() + ", "
-				+ "Kontingent = " + trip.getKontingent() + ", "
-				+ "VerfuegbarAb = '" +  sdf.format(trip.getVerfuegbarAb()) + "', "
-				+ "Name = '" + trip.getName() + "', "
-				+ "Beschreibung = '" + trip.getBeschreibung() + "', "
-				+ "RegionID = " + trip.getRegionID() + ", "
-				+ "ThemaID = " + trip.getThemaID() + ", "
-				+ "KlimaID = " + trip.getThemaID() + ", "
-				+ "Preis = " + trip.getPreis() + ", "
-				+ "HotelID = " + trip.getHotelID() + ", "
-				+ "GruppenGroesse = " + trip.getGruppengroesse() + " WHERE ReiseID = " + trip.getReiseID();
+		sql = "UPDATE Reisen SET " + "Reisebeginn = '" + sdf.format(trip.getReiseBeginn()) + "'," + "Reiseende = '"
+				+ sdf.format(trip.getReiseEnde()) + "', " + "Zielort = '" + trip.getZielOrt() + "', "
+				+ "TransportmittelID = " + trip.getTransportmittelID() + ", " + "Kontingent = " + trip.getKontingent()
+				+ ", " + "VerfuegbarAb = '" + sdf.format(trip.getVerfuegbarAb()) + "', " + "Name = '" + trip.getName()
+				+ "', " + "Beschreibung = '" + trip.getBeschreibung() + "', " + "RegionID = " + trip.getRegionID()
+				+ ", " + "ThemaID = " + trip.getThemaID() + ", " + "KlimaID = " + trip.getThemaID() + ", " + "Preis = "
+				+ trip.getPreis() + ", " + "HotelID = " + trip.getHotelID() + ", " + "GruppenGroesse = "
+				+ trip.getGruppengroesse() + " WHERE ReiseID = " + trip.getReiseID();
 
-			System.out.println(sql);
-			
-		if(statement.executeUpdate(sql) != 0) {
+		System.out.println(sql);
+
+		if (statement.executeUpdate(sql) != 0) {
 			return true;
 		}
 		return false;
- 	
+
 	}
 
 	public static boolean createCostumer(Kunde customer) throws SQLException {
@@ -482,8 +462,8 @@ public class DbFunctions {
 
 	public static void saveContactHistory(int customerID, int actionID, String review, String theme) {
 		connect();
-		sql = "INSERT INTO Kontakthistorien (KundenID, AktionsID, Wiedervorlage, KontaktThema) VALUES ('" + customerID + "','"
-				+ actionID + "','" + review + "','" + theme + "');";
+		sql = "INSERT INTO Kontakthistorien (KundenID, AktionsID, Wiedervorlage, KontaktThema) VALUES ('" + customerID
+				+ "','" + actionID + "','" + review + "','" + theme + "');";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -491,11 +471,11 @@ public class DbFunctions {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void saveReminder(int customerID, int actionID, String review, String theme) {
 		connect();
-		sql = "INSERT INTO Wiedervorlagen (WiedervorlageTermin, AktionsID, KundenID, WiedervorlageThema) VALUES ('" + review+ "','"
-				+ actionID + "','" + customerID + "','" + theme + "');";
+		sql = "INSERT INTO Wiedervorlagen (WiedervorlageTermin, AktionsID, KundenID, WiedervorlageThema) VALUES ('"
+				+ review + "','" + actionID + "','" + customerID + "','" + theme + "');";
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -503,40 +483,40 @@ public class DbFunctions {
 			e.printStackTrace();
 		}
 	}
-	
-	public static Reise getReise (int id) {
-		  Reise reise = new Reise();
-		  
-		  try {
-		   statement = connection.createStatement();
-		   rs = statement.executeQuery("SELECT * FROM Reisen WHERE ReiseID = '" + id + "'");
-		   
-		   while (rs.next()) {
-		    reise.setName(rs.getString("Name"));
-		    reise.setHotelID(rs.getInt("HotelID"));
-		    reise.setRegionID(rs.getInt("RegionID"));
-		    reise.setThemaID(rs.getInt("ThemaID"));
-		    reise.setTransportmittelID(rs.getInt("TransportmittelID"));
-		    reise.setKlimaID(rs.getInt("KlimaID"));
-		    reise.setBeschreibung(rs.getString("Beschreibung"));
-		    reise.setPreis(rs.getDouble("Preis"));
-		    reise.setGruppengroesse(rs.getInt("GruppenGroesse"));
-		    reise.setKontingent(rs.getInt("Kontingent"));
-		    reise.setVerfuegbarAb(rs.getDate("VerfuegbarAb"));
-		    reise.setReiseBeginn(rs.getDate("ReiseBeginn"));
-		    reise.setReiseEnde(rs.getDate("ReiseEnde"));
-		    reise.setZielOrt(rs.getString("Zielort"));
-		    reise.setReiseID(id);
-		   }
-		  } catch (SQLException e) {
-		   e.printStackTrace();
-		  }
-		  
-		  return reise; 
-		  
-		 }
-	
-	public static void sendNewsletter(NewsletterMessageFrame nmf) 
+
+	public static Reise getReise(int id) {
+		Reise reise = new Reise();
+
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Reisen WHERE ReiseID = '" + id + "'");
+
+			while (rs.next()) {
+				reise.setName(rs.getString("Name"));
+				reise.setHotelID(rs.getInt("HotelID"));
+				reise.setRegionID(rs.getInt("RegionID"));
+				reise.setThemaID(rs.getInt("ThemaID"));
+				reise.setTransportmittelID(rs.getInt("TransportmittelID"));
+				reise.setKlimaID(rs.getInt("KlimaID"));
+				reise.setBeschreibung(rs.getString("Beschreibung"));
+				reise.setPreis(rs.getDouble("Preis"));
+				reise.setGruppengroesse(rs.getInt("GruppenGroesse"));
+				reise.setKontingent(rs.getInt("Kontingent"));
+				reise.setVerfuegbarAb(rs.getDate("VerfuegbarAb"));
+				reise.setReiseBeginn(rs.getDate("ReiseBeginn"));
+				reise.setReiseEnde(rs.getDate("ReiseEnde"));
+				reise.setZielOrt(rs.getString("Zielort"));
+				reise.setReiseID(id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return reise;
+
+	}
+
+public static void sendNewsletter(NewsletterMessageFrame nmf) 
 	{
 		try 
 		{
@@ -586,7 +566,7 @@ public class DbFunctions {
 	}
 
 	public static TableModel getMeistgebuchteReisen() {
-		String col[] = { "Name", "Zielort", "Preis","Buchungen", "Durchschnittliche Teilnehmerzahl"};
+		String col[] = { "Name", "Zielort", "Preis", "Buchungen", "Durchschnittliche Teilnehmerzahl" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
@@ -606,7 +586,8 @@ public class DbFunctions {
 		}
 		return dtm;
 	}
-
+	
+	
 	public static void storeMail(EmailMessageFrame emf) {
 		
 		try {
@@ -645,6 +626,116 @@ public class DbFunctions {
 			e.printStackTrace();
 		}
 		return false;
+	}
+		public static DefaultTableModel getContactHistory(String sql) {
+		String col[] = { "Datum", "Art", "Thema" };
+		DefaultTableModel dtm = new DefaultTableModel(col, 0);
+		listDescriptions = new ArrayList<String>();;
+		try {
+			rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				String temp;
+				Object[] objs = new Object[3];
+				objs[0] = rs.getString("Datum");
+				objs[1] = rs.getString("Aktion");
+				temp = rs.getString("Thema");
+				String result = temp.substring(7, temp.indexOf("Beschreibung:"));
+				objs[2] = result;
+				dtm.addRow(objs);
+				listDescriptions.add(temp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return dtm;
+
+	}
+
+	public static DefaultTableModel getTripHistory(ArrayList<HistoryReise> hr) {
+		String col[] = { "Datum", "Zielort", "Hotel" };
+		DefaultTableModel dtm = new DefaultTableModel(col, 0);
+		try {
+			for (HistoryReise reise : hr) {
+				Object[] objs = new Object[3];
+				objs[0] = reise.getReiseBeginn();
+				objs[1] = reise.getZielOrt();
+				objs[2] = reise.getHotel();
+
+				dtm.addRow(objs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dtm;
+
+	}
+
+	public static ArrayList<HistoryReise> getHistoryReise(int customerID) {
+		ArrayList<HistoryReise> reiseList = new ArrayList<HistoryReise>();
+
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery("select b.KundenID as KundenID, r.Reisebeginn as Reisebeginn,"
+					+ " r.Reiseende as Reiseende, r.Name as Reisename, r.Zielort as Zielort, HotelName as Hotelname, r.Preis "
+					+ "from Buchungen as b, Reisen as r, Hotels as h where b.ReiseID = r.ReiseID and KundenID ="
+					+ customerID);
+			while (rs.next()) {
+				HistoryReise historyReise = new HistoryReise();
+				historyReise.setHotel(rs.getString("Hotelname"));
+				historyReise.setPreis(rs.getDouble("Preis"));
+				historyReise.setReiseBeginn(rs.getDate("Reisebeginn"));
+				historyReise.setReiseEnde(rs.getDate("Reiseende"));
+				historyReise.setReiseName(rs.getString("Reisename"));
+				historyReise.setZielOrt(rs.getString("Zielort"));
+				reiseList.add(historyReise);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return reiseList;
+
+	}
+
+	public static Statement getStatement() {
+		return statement;
+	}
+
+	public static void setStatement(Statement statement) {
+		DbFunctions.statement = statement;
+	}
+
+	public static Connection getConnection() {
+		return connection;
+	}
+
+	public static void setConnection(Connection connection) {
+		DbFunctions.connection = connection;
+	}
+
+	public static String getSql() {
+		return sql;
+	}
+
+	public static void setSql(String sql) {
+		DbFunctions.sql = sql;
+	}
+
+	public static ResultSet getRs() {
+		return rs;
+	}
+
+	public static void setRs(ResultSet rs) {
+		DbFunctions.rs = rs;
+	}
+
+	public static ArrayList<String> getListDescriptions() {
+		return listDescriptions;
+	}
+
+	public static void setListDescriptions(ArrayList<String> listDescriptions) {
+		DbFunctions.listDescriptions = listDescriptions;
 	}
 	
 	public static ArrayList<Object> getAverageData() {
