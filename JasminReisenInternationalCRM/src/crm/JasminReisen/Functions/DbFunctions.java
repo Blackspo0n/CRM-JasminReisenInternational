@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import crm.JasminReisen.models.HistoryReise;
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.Reise;
 import crm.JasminReisen.GUI.ContactDescriptionFrame;
