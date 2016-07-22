@@ -20,6 +20,7 @@ import crm.JasminReisen.models.Kunde;
 public class EmailMessageFrame extends JDialog {
 
 	String mail;
+	int kundennummer;
 	
 	private JTextField nameField;
 	private JTextField subjectField;
@@ -33,6 +34,7 @@ public class EmailMessageFrame extends JDialog {
 		this.setTitle("E-Mail versenden");
 
 		mail = kunde.getEMail();
+		kundennummer = kunde.getKundennummer();
 		
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new GridLayout(2, 2, 30, 10));
@@ -122,5 +124,14 @@ public class EmailMessageFrame extends JDialog {
 
 	public void setSubject(String subject) {
 		this.subjectField.setText(subject);
-	}	
+	}
+
+	public int getKundennummer() {
+		return kundennummer;
+	}
+
+	public void setKundennummer(int kundennummer) {
+		this.kundennummer = kundennummer;
+	}
+	
 }

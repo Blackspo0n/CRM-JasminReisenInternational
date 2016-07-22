@@ -14,10 +14,10 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import crm.JasminReisen.models.HistoryReise;
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.Reise;
 import crm.JasminReisen.GUI.ContactDescriptionFrame;
+import crm.JasminReisen.GUI.EmailMessageFrame;
 import crm.JasminReisen.GUI.NewsletterMessageFrame;
 import crm.JasminReisen.GUI.SpecEntryFrame;
 import crm.JasminReisen.GUI.TripEntryFrame;
@@ -514,29 +514,47 @@ public class DbFunctions {
 
 	}
 
-	public static void sendNewsletter(NewsletterMessageFrame nmf) {
-		try {
+public static void sendNewsletter(NewsletterMessageFrame nmf) 
+	{
+		try 
+		{
 			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Newsletter = 1");
+			Statement statement1 = connection.createStatement();
 
-			while (rs.next()) {
-				EmailFunctions.sendMultiPartMail(rs.getString("EMail"), "Unser Newsletter mit tollen Angeboten",
-						nmf.getAreaMessage().getText(), false, true);
+			while (rs.next())
+			{
+				EmailFunctions.sendMultiPartMail(rs.getString("EMail"), 
+						"Unser Newsletter mit tollen Angeboten", nmf.getAreaMessage().getText(), false, true);
+		
+				statement1.execute("INSERT INTO Kontakthistorien (KundenID, AktionsID, KontaktThema)"
+						+ " VALUES (" + rs.getInt("Kundennummer") + ", 5, 'Thema:" + " N" + nmf.getAreaMessage().getText() + "')");				
 			}
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public static TableModel getTodoList(String sql) {
-		String col[] = { "Termin", "Thema" };
+	public static TableModel getTodoList() {
+		String col[] = {"Id", "Termin", "Wer", "Thema", "Aktion"};
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 
 		try {
-			rs = statement.executeQuery(sql);
+			rs = statement.executeQuery("SELECT * FROM Wiedervorlagen AS w "
+					+ "JOIN Kunden AS k ON w.KundenID = k.Kundennummer "
+					+ "JOIN Aktionen As a on w.AktionsID = a.AktionsID "
+					+ "WHERE Erledigt = 0 AND WiedervorlageTermin < DATE_ADD(NOW(), INTERVAL 5 DAY) "
+					+ "ORDER BY WiedervorlageTermin");
 			while (rs.next()) {
-				Object[] objs = new Object[2];
-				objs[0] = new SimpleDateFormat("dd-MMM-yyyy hh:mm").format(rs.getDate("WiedervorlageTermin"));
-				objs[1] = rs.getString("WiederVorlageThema");
+				Object[] objs = new Object[5];
+				objs[0] = rs.getInt("WiedervorlagenId");
+				objs[1] = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(rs.getDate("WiedervorlageTermin"));
+				String tempstr = rs.getString("WiedervorlageThema");
+				objs[2] = rs.getString("Vorname") + " " + rs.getString("Name");
+				objs[3] = tempstr.substring(7, tempstr.indexOf("Beschreibung:"));
+				objs[4] = rs.getString("AktionsName");
+				
 				dtm.addRow(objs);
 			}
 		} catch (Exception e) {
@@ -566,6 +584,48 @@ public class DbFunctions {
 		}
 		return dtm;
 	}
+	
+	
+	public static void storeMail(EmailMessageFrame emf) {
+		
+		try {
+			statement.execute("INSERT INTO Kontakthistorien (KundenID, AktionsID, KontaktThema)"
+					+ " VALUES (" + emf.getKundennummer() + ", 3, 'Thema: " + emf.getSubject() + " Beschreibung: " + emf.getAreaMessage().getText() + "')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+			
+	}
+	
+	public static ResultSet getWiederVorlage(int ID) {
+		try {
+			rs = statement.executeQuery("SELECT * FROM Wiedervorlagen AS w "
+					+ "JOIN Kunden AS k ON w.KundenID = k.Kundennummer "
+					+ "JOIN Aktionen As a on w.AktionsID = a.AktionsID "
+					+ "WHERE w.WiedervorlagenID = " + ID);
+			rs.next();
+			return rs;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static boolean setWiederVorlageReaded(int ID) {
+		sql = "UPDATE Wiedervorlagen SET Erledigt = 1 WHERE WiedervorlagenId = " + ID;
+			
+		try {
+			System.out.println(sql);
+			if(statement.executeUpdate(sql) != 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 
 	public static DefaultTableModel getContactHistory(String sql) {
 		String col[] = { "Datum", "Art", "Thema" };
