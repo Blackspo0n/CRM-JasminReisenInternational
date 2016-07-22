@@ -84,6 +84,8 @@ public class MainFrame extends JFrame {
 	private JTable upcomingBirthdayTable;
 	private JScrollPane upcomingBirthdayScrollPane;
 	private JButton TodoAnzeigen;
+	private JMenuItem avgItem;
+	private JMenuItem contactHistoryItem;
 
 	public MainFrame() {
 
@@ -175,6 +177,8 @@ public class MainFrame extends JFrame {
 		eMailItem.setFont(Config.getFONT());
 		actionsMenu.add(eMailItem);
 		eMailItem.addActionListener(new MainFrameListener(this));
+		
+		
 
 		analysisMenu = new JMenu("Auswertungen");
 		analysisMenu.setFont(Config.getFONT());
@@ -184,6 +188,19 @@ public class MainFrame extends JFrame {
 		analysisMenu.add(mostBookedItem);
 		mostBookedItem.addActionListener(new MainFrameListener(this));
 
+
+		avgItem = new JMenuItem("Durchschnittsauswertung");
+		avgItem.setFont(Config.getFONT());
+		analysisMenu.add(avgItem);
+		avgItem.addActionListener(new MainFrameListener(this));
+
+		contactHistoryItem = new JMenuItem("Kontakt History");
+		contactHistoryItem.setFont(Config.getFONT());
+		analysisMenu.add(contactHistoryItem);
+		contactHistoryItem.addActionListener(new MainFrameListener(this));
+
+		
+		
 		loginMenu.add(loginItem);
 		loginMenu.add(logoutItem);
 		loginMenu.addSeparator();
