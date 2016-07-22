@@ -538,7 +538,7 @@ public class DbFunctions {
 	{
 		try 
 		{
-			rs = statement.executeQuery("SELECT * FROM Kunden");
+			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Newsletter = 1");
 
 			while (rs.next())
 			{
