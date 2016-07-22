@@ -25,7 +25,8 @@ public class EmailMessageListener implements ActionListener {
 		case "Versenden":
 			EmailFunctions.sendMultiPartMail(
 					emf.getMail(), emf.getSubject(), emf.getSalutation().getSelectedItem() + " " + emf.getNameField().getText() + ",\n\n" + emf.getAreaMessage().getText(), false, false);
-		    
+		    DbFunctions.storeMail(emf);
+			
 			JOptionPane.showMessageDialog(null, "E-Mail versendet", "Bestätigung",
 		            JOptionPane.INFORMATION_MESSAGE);		   
 			emf.dispose();

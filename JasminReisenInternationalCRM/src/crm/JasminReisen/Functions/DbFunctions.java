@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.Reise;
+import crm.JasminReisen.GUI.EmailMessageFrame;
 import crm.JasminReisen.GUI.NewsletterMessageFrame;
 import crm.JasminReisen.GUI.SpecEntryFrame;
 import crm.JasminReisen.GUI.TripEntryFrame;
@@ -539,11 +540,15 @@ public class DbFunctions {
 		try 
 		{
 			rs = statement.executeQuery("SELECT * FROM Kunden WHERE Newsletter = 1");
+			Statement statement1 = connection.createStatement();
 
 			while (rs.next())
 			{
 				EmailFunctions.sendMultiPartMail(rs.getString("EMail"), 
-						"Unser Newsletter mit tollen Angeboten", nmf.getAreaMessage().getText(), false, true);				
+						"Unser Newsletter mit tollen Angeboten", nmf.getAreaMessage().getText(), false, true);
+		
+				statement1.execute("INSERT INTO Kontakthistorien (KundenID, AktionsID, KontaktThema)"
+						+ " VALUES (" + rs.getInt("Kundennummer") + ", 5, 'Thema:" + " N" + nmf.getAreaMessage().getText() + "')");				
 			}
 		}
 		catch (SQLException e) 
@@ -590,5 +595,15 @@ public class DbFunctions {
 			e.printStackTrace();
 		}
 		return dtm;
+	}
+
+	public static void storeMail(EmailMessageFrame emf) {
+		
+		try {
+			statement.execute("INSERT INTO Kontakthistorien (KundenID, AktionsID, KontaktThema)"
+					+ " VALUES (" + emf.getKundennummer() + ", 3, 'Thema: " + emf.getSubject() + " Beschreibung: " + emf.getAreaMessage().getText() + "')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
 	}
 }
