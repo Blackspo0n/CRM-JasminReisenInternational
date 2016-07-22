@@ -2,6 +2,8 @@ package crm.JasminReisen.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -9,11 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import crm.JasminReisen.Functions.DbFunctions;
+
 public class AverageWindowFrame extends JDialog {
 	
-	public static void main(String[] args) {
-		new AverageWindowFrame();
-	}
 	
 	public AverageWindowFrame() {
 
@@ -46,6 +47,11 @@ public class AverageWindowFrame extends JDialog {
 		centerPanel.add(avgCostPerDayLabel);
 		centerPanel.add(txtavgCostPerDay);
 		add(centerPanel);
+		
+		ArrayList<Object> tmp = DbFunctions.getAverageData();
+		txtavgAge.setText((String)tmp.get(0) + " Jahre");
+		txtavgTimespan.setText((String)tmp.get(1) + " Tage");
+		txtavgCostPerDay.setText((String)tmp.get(2) + " €/Tag");
 		
 		setVisible(true);
 	}

@@ -646,5 +646,28 @@ public class DbFunctions {
 		}
 		return false;
 	}
+	
+	public static ArrayList<Object> getAverageData() {
+		String sql = "SELECT ROUND(SUM(Preis/Day(TIMEDIFF(ReiseEnde,ReiseBeginn)))/COUNT(*)) AS avgPreis, ROUND(SUM(Day(TIMEDIFF(ReiseEnde,ReiseBeginn)))/COUNT(*)) AS avgTimeSpan, Count(*) AS affectedTravels FROM Reisen AS r JOIN Buchungen AS b ON b.ReiseID = r.ReiseID";
+		ArrayList<Object> list = new ArrayList<Object>();
+		
+		try {
+			rs = statement.executeQuery(sql);
+			rs.next();
+			list.add(rs.getString("avgPreis"));
+			list.add(rs.getString("avgTimeSpan"));
+			
+			sql = "SELECT round(avg(YEAR(CURDATE()) - YEAR(GebDat))) AS avgAge FROM Kunden";
 
+			rs = statement.executeQuery(sql);
+			rs.next();
+			list.add(rs.getString("avgAge"));
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 }
