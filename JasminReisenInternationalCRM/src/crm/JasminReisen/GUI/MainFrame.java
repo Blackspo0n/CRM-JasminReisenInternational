@@ -209,8 +209,6 @@ public class MainFrame extends JFrame {
 		coreDataItem = new JMenuItem("Stammdatenpflege");
 		coreDataItem.setFont(Config.getFONT());
 		coreDataItem.addActionListener(new MainFrameListener(this));
-		coreDataAnalyseItem = new JMenuItem("Stammdaten Auswertung");
-		coreDataAnalyseItem.setFont(Config.getFONT());
 
 		// Menue Action Listener
 		loginItem.addActionListener(new MainFrameListener(this));
@@ -218,7 +216,6 @@ public class MainFrame extends JFrame {
 		closeItem.addActionListener(new MainFrameListener(this));
 
 		coreDataMenu.add(coreDataItem);
-		coreDataMenu.add(coreDataAnalyseItem);
 
 		specEntryItem = new JMenuItem("Spezifikationen Hinzufügen");
 		specEntryItem.setFont(Config.getFONT());
@@ -571,7 +568,6 @@ public class MainFrame extends JFrame {
 			loginItem.setVisible(false);
 			westPanel.setVisible(true);
 			coreDataItem.setVisible(true);
-			coreDataAnalyseItem.setVisible(true);
 			actionsMenu.setEnabled(true);
 			analysisMenu.setEnabled(true);
 		} else {
@@ -586,7 +582,6 @@ public class MainFrame extends JFrame {
 			eastPanel.setVisible(false);
 			westPanel.setVisible(false);
 			coreDataItem.setVisible(false);
-			coreDataAnalyseItem.setVisible(false);
 			actionsMenu.setEnabled(false);
 			analysisMenu.setEnabled(false);
 		}
