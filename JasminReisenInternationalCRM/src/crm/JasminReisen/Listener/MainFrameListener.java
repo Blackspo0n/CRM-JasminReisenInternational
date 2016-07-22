@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import crm.JasminReisen.GUI.AverageWindowFrame;
 import crm.JasminReisen.GUI.MeistGebuchteReisenFrame;
 import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.CreateCustomerContactFrame;
@@ -64,13 +65,16 @@ public class MainFrameListener implements ActionListener {
 		case "Kontakt erfassen":
 			new CreateCustomerContactFrame();
 			break;
-		case "Kontakt History":	
+		case "Kontakthistorie":	
 		case "eMail versenden":			
 			CoreDataFrame mail = new CoreDataFrame();
 			mail.getCoreDataTab().setSelectedIndex(1);			
 			break;
 		case "Newsletter versenden":			
 			new NewsletterMessageFrame();						
+			break;
+		case "Durchschnittsauswertung":
+			new AverageWindowFrame();
 			break;
 		case "Wiedervorlage anzeigen":
 			if (mainFrame.getTodotable().getSelectedRow() != -1) {

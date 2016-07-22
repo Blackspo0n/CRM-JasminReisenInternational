@@ -62,7 +62,7 @@ public class WiederVorlageFrame extends JFrame {
 		setLayout(new BorderLayout());
 		setSize(400, 250);
 		setLocationRelativeTo(null);
-		setTitle("WiederVorlage Anzeigen");
+		setTitle("Wiedervorlage Anzeigen");
 		
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(0,2,5,5));

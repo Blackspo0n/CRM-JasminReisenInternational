@@ -627,9 +627,7 @@ public static void sendNewsletter(NewsletterMessageFrame nmf)
 		}
 		return false;
 	}
-	
-
-	public static DefaultTableModel getContactHistory(String sql) {
+		public static DefaultTableModel getContactHistory(String sql) {
 		String col[] = { "Datum", "Art", "Thema" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
 		listDescriptions = new ArrayList<String>();;
@@ -738,5 +736,29 @@ public static void sendNewsletter(NewsletterMessageFrame nmf)
 
 	public static void setListDescriptions(ArrayList<String> listDescriptions) {
 		DbFunctions.listDescriptions = listDescriptions;
+	}
+	
+	public static ArrayList<Object> getAverageData() {
+		String sql = "SELECT ROUND(SUM(Preis/Day(TIMEDIFF(ReiseEnde,ReiseBeginn)))/COUNT(*)) AS avgPreis, ROUND(SUM(Day(TIMEDIFF(ReiseEnde,ReiseBeginn)))/COUNT(*)) AS avgTimeSpan, Count(*) AS affectedTravels FROM Reisen AS r JOIN Buchungen AS b ON b.ReiseID = r.ReiseID";
+		ArrayList<Object> list = new ArrayList<Object>();
+		
+		try {
+			rs = statement.executeQuery(sql);
+			rs.next();
+			list.add(rs.getString("avgPreis"));
+			list.add(rs.getString("avgTimeSpan"));
+			
+			sql = "SELECT round(avg(YEAR(CURDATE()) - YEAR(GebDat))) AS avgAge FROM Kunden";
+
+			rs = statement.executeQuery(sql);
+			rs.next();
+			list.add(rs.getString("avgAge"));
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 }

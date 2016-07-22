@@ -194,7 +194,7 @@ public class MainFrame extends JFrame {
 		analysisMenu.add(avgItem);
 		avgItem.addActionListener(new MainFrameListener(this));
 
-		contactHistoryItem = new JMenuItem("Kontakt History");
+		contactHistoryItem = new JMenuItem("Kontakthistorie");
 		contactHistoryItem.setFont(Config.getFONT());
 		analysisMenu.add(contactHistoryItem);
 		contactHistoryItem.addActionListener(new MainFrameListener(this));
