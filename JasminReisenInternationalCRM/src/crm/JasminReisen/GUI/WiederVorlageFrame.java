@@ -16,7 +16,7 @@ import javax.swing.border.LineBorder;
 
 import crm.JasminReisen.Config;
 import crm.JasminReisen.Functions.DbFunctions;
-import crm.JasminReisen.Listener.WiederVorlageFrameLisener;
+import crm.JasminReisen.Listener.WiederVorlageFrameListener;
 
 public class WiederVorlageFrame extends JFrame {
 	private int IdConext = 0;
@@ -120,11 +120,11 @@ public class WiederVorlageFrame extends JFrame {
 		
 		southPanel = new JPanel();
 		btnCancle = new JButton("Abbrechen");
-		btnCancle.addActionListener(new WiederVorlageFrameLisener(this));
+		btnCancle.addActionListener(new WiederVorlageFrameListener(this));
 		
 		southPanel.add(btnCancle);
 		btnErledigt = new JButton("Auf Erledigt setzen");
-		btnErledigt.addActionListener(new WiederVorlageFrameLisener(this));
+		btnErledigt.addActionListener(new WiederVorlageFrameListener(this));
 		
 		southPanel.add(btnErledigt);
 		
