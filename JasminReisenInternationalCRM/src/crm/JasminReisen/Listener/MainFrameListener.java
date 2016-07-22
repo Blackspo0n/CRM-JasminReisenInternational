@@ -14,6 +14,7 @@ import crm.JasminReisen.GUI.LoginFrame;
 import crm.JasminReisen.GUI.MainFrame;
 import crm.JasminReisen.GUI.NewsletterMessageFrame;
 import crm.JasminReisen.GUI.SpecEntryFrame;
+import crm.JasminReisen.GUI.WiederVorlageFrame;
 import crm.JasminReisen.Functions.DbFunctions;
 import crm.JasminReisen.GUI.BirthdayMessageFrame;
 
@@ -70,7 +71,14 @@ public class MainFrameListener implements ActionListener {
 		case "Newsletter versenden":			
 			new NewsletterMessageFrame();						
 			break;
-			}	
+		case "Wiedervorlage anzeigen":
+			if (mainFrame.getTodotable().getSelectedRow() != -1) {
+				Integer WiederVorlage = (Integer) mainFrame.getTodotable()
+						.getValueAt(mainFrame.getTodotable().getSelectedRow(), 0);
+				new WiederVorlageFrame(mainFrame, WiederVorlage);
+			}
+			break;
+		}	
 	}
 }
 
