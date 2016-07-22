@@ -135,7 +135,7 @@ public class WiederVorlageFrame extends JFrame {
 		northPanel.setAlignmentX(LEFT_ALIGNMENT);
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		header = new JLabel("Wiedevorlage anzeigen:");
+		header = new JLabel("Wiedervorlage anzeigen:");
 		header.setHorizontalAlignment(SwingConstants.LEFT);
 		header.setFont(new Font("Calibri Light", Font.BOLD, 22));
 		northPanel.add(header);

@@ -529,7 +529,7 @@ public static void sendNewsletter(NewsletterMessageFrame nmf)
 						"Unser Newsletter mit tollen Angeboten", nmf.getAreaMessage().getText(), false, true);
 		
 				statement1.execute("INSERT INTO Kontakthistorien (KundenID, AktionsID, KontaktThema)"
-						+ " VALUES (" + rs.getInt("Kundennummer") + ", 5, 'Thema:" + " N" + nmf.getAreaMessage().getText() + "')");				
+						+ " VALUES (" + rs.getInt("Kundennummer") + ", 5, 'Thema: \n\nBeschreibung:\n" + nmf.getAreaMessage().getText() + "')");				
 			}
 		}
 		catch (SQLException e) 
@@ -592,7 +592,7 @@ public static void sendNewsletter(NewsletterMessageFrame nmf)
 		
 		try {
 			statement.execute("INSERT INTO Kontakthistorien (KundenID, AktionsID, KontaktThema)"
-					+ " VALUES (" + emf.getKundennummer() + ", 3, 'Thema: " + emf.getSubject() + " Beschreibung: " + emf.getAreaMessage().getText() + "')");
+					+ " VALUES (" + emf.getKundennummer() + ", 3, 'Thema:\n" + emf.getSubject() + "\n\nBeschreibung:\n" + emf.getAreaMessage().getText() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
