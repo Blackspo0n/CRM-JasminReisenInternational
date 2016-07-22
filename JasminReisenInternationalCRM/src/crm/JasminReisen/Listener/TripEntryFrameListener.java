@@ -35,7 +35,9 @@ public class TripEntryFrameListener implements ActionListener
 				try {
 					DbFunctions.createTrip(this.tripentryframe.getTripContext());
 					this.tripentryframe.dispose();
-					new TripEntryFrame(new Reise());
+
+					TripEntryFrame.setInstance(null);
+					TripEntryFrame.setInstance(new TripEntryFrame(new Reise()));
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -49,6 +51,8 @@ public class TripEntryFrameListener implements ActionListener
 				try {
 					DbFunctions.saveTrip(this.tripentryframe.getTripContext());
 					this.tripentryframe.dispose();
+
+					TripEntryFrame.setInstance(null);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
