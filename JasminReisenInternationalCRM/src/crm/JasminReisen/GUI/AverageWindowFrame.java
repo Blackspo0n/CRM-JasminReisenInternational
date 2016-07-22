@@ -19,7 +19,7 @@ public class AverageWindowFrame extends JDialog {
 	public AverageWindowFrame() {
 
 		setLayout(new BorderLayout());
-		setSize(400, 250);
+		setSize(600, 250);
 		setLocationRelativeTo(null);
 		setTitle("Durchschnittsauswertung");
 		setResizable(false);

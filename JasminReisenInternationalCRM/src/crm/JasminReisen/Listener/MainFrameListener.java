@@ -65,7 +65,7 @@ public class MainFrameListener implements ActionListener {
 		case "Kontakt erfassen":
 			new CreateCustomerContactFrame();
 			break;
-		case "Kontakt History":	
+		case "Kontakthistorie":	
 		case "eMail versenden":			
 			CoreDataFrame mail = new CoreDataFrame();
 			mail.getCoreDataTab().setSelectedIndex(1);			
