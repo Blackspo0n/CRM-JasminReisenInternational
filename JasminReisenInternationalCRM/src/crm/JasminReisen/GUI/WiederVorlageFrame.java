@@ -16,7 +16,7 @@ import javax.swing.border.LineBorder;
 
 import crm.JasminReisen.Config;
 import crm.JasminReisen.Functions.DbFunctions;
-import crm.JasminReisen.Listener.WiederVorlageFrameLisener;
+import crm.JasminReisen.Listener.WiederVorlageFrameListener;
 
 public class WiederVorlageFrame extends JFrame {
 	private int IdConext = 0;
@@ -62,7 +62,7 @@ public class WiederVorlageFrame extends JFrame {
 		setLayout(new BorderLayout());
 		setSize(400, 250);
 		setLocationRelativeTo(null);
-		setTitle("WiederVorlage Anzeigen");
+		setTitle("Wiedervorlage Anzeigen");
 		
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(0,2,5,5));
@@ -120,11 +120,11 @@ public class WiederVorlageFrame extends JFrame {
 		
 		southPanel = new JPanel();
 		btnCancle = new JButton("Abbrechen");
-		btnCancle.addActionListener(new WiederVorlageFrameLisener(this));
+		btnCancle.addActionListener(new WiederVorlageFrameListener(this));
 		
 		southPanel.add(btnCancle);
 		btnErledigt = new JButton("Auf Erledigt setzen");
-		btnErledigt.addActionListener(new WiederVorlageFrameLisener(this));
+		btnErledigt.addActionListener(new WiederVorlageFrameListener(this));
 		
 		southPanel.add(btnErledigt);
 		
@@ -135,7 +135,7 @@ public class WiederVorlageFrame extends JFrame {
 		northPanel.setAlignmentX(LEFT_ALIGNMENT);
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		header = new JLabel("Wiedevorlage anzeigen:");
+		header = new JLabel("Wiedervorlage anzeigen:");
 		header.setHorizontalAlignment(SwingConstants.LEFT);
 		header.setFont(new Font("Calibri Light", Font.BOLD, 22));
 		northPanel.add(header);

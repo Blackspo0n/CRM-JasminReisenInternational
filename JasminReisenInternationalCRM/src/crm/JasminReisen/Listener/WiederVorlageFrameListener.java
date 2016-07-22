@@ -15,11 +15,11 @@ import crm.JasminReisen.GUI.LoginFrame;
 import crm.JasminReisen.GUI.WiederVorlageFrame;
 import crm.JasminReisen.models.Reise;
 
-public class WiederVorlageFrameLisener implements ActionListener
+public class WiederVorlageFrameListener implements ActionListener
 {
 	WiederVorlageFrame WiederVorlageFrame;
 	
-	public WiederVorlageFrameLisener(WiederVorlageFrame tripentryframe)
+	public WiederVorlageFrameListener(WiederVorlageFrame tripentryframe)
 	{
 		this.WiederVorlageFrame = tripentryframe;
 	}

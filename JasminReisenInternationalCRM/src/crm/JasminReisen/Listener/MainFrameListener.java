@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import crm.JasminReisen.GUI.AverageWindowFrame;
 import crm.JasminReisen.GUI.MeistGebuchteReisenFrame;
 import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.CreateCustomerContactFrame;
@@ -71,6 +72,9 @@ public class MainFrameListener implements ActionListener {
 			break;
 		case "Newsletter versenden":			
 			new NewsletterMessageFrame();						
+			break;
+		case "Durchschnittsauswertung":
+			new AverageWindowFrame();
 			break;
 		case "Wiedervorlage anzeigen":
 			if (mainFrame.getTodotable().getSelectedRow() != -1) {
