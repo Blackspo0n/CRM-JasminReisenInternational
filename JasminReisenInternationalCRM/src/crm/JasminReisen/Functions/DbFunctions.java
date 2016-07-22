@@ -17,6 +17,7 @@ import javax.swing.table.TableModel;
 import crm.JasminReisen.models.Kunde;
 import crm.JasminReisen.models.Reise;
 import crm.JasminReisen.GUI.EmailMessageFrame;
+
 import crm.JasminReisen.GUI.NewsletterMessageFrame;
 import crm.JasminReisen.GUI.SpecEntryFrame;
 import crm.JasminReisen.GUI.TripEntryFrame;
@@ -604,6 +605,37 @@ public class DbFunctions {
 					+ " VALUES (" + emf.getKundennummer() + ", 3, 'Thema: " + emf.getSubject() + " Beschreibung: " + emf.getAreaMessage().getText() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}	
+			
 	}
+	
+	public static ResultSet getWiederVorlage(int ID) {
+		try {
+			rs = statement.executeQuery("SELECT * FROM Wiedervorlagen AS w "
+					+ "JOIN Kunden AS k ON w.KundenID = k.Kundennummer "
+					+ "JOIN Aktionen As a on w.AktionsID = a.AktionsID "
+					+ "WHERE w.WiedervorlagenID = " + ID);
+			rs.next();
+			return rs;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static boolean setWiederVorlageReaded(int ID) {
+		sql = "UPDATE Wiedervorlagen SET Erledigt = 1 WHERE WiedervorlagenId = " + ID;
+			
+		try {
+			System.out.println(sql);
+			if(statement.executeUpdate(sql) != 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

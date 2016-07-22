@@ -83,6 +83,9 @@ public class MainFrame extends JFrame {
 	private JScrollPane todoScrollPane;
 	private JTable upcomingBirthdayTable;
 	private JScrollPane upcomingBirthdayScrollPane;
+	private JButton TodoAnzeigen;
+	private JMenuItem avgItem;
+	private JMenuItem contactHistoryItem;
 
 	public MainFrame() {
 
@@ -174,6 +177,8 @@ public class MainFrame extends JFrame {
 		eMailItem.setFont(Config.getFONT());
 		actionsMenu.add(eMailItem);
 		eMailItem.addActionListener(new MainFrameListener(this));
+		
+		
 
 		analysisMenu = new JMenu("Auswertungen");
 		analysisMenu.setFont(Config.getFONT());
@@ -183,6 +188,19 @@ public class MainFrame extends JFrame {
 		analysisMenu.add(mostBookedItem);
 		mostBookedItem.addActionListener(new MainFrameListener(this));
 
+
+		avgItem = new JMenuItem("Durchschnittsauswertung");
+		avgItem.setFont(Config.getFONT());
+		analysisMenu.add(avgItem);
+		avgItem.addActionListener(new MainFrameListener(this));
+
+		contactHistoryItem = new JMenuItem("Kontakt History");
+		contactHistoryItem.setFont(Config.getFONT());
+		analysisMenu.add(contactHistoryItem);
+		contactHistoryItem.addActionListener(new MainFrameListener(this));
+
+		
+		
 		loginMenu.add(loginItem);
 		loginMenu.add(logoutItem);
 		loginMenu.addSeparator();
@@ -290,10 +308,16 @@ public class MainFrame extends JFrame {
 		todotable.setPreferredScrollableViewportSize(todotable.getPreferredSize());
 		todotable.setFillsViewportHeight(true);
 		todotable.setRowHeight(21);
-		todotable.setModel(DbFunctions.getTodoList("SELECT * FROM Wiedervorlagen WHERE Erledigt = 0 AND WiedervorlageTermin < DATE_ADD(NOW(), INTERVAl 5 DAY) ORDER BY WiedervorlageTermin"));
+		todotable.setModel(DbFunctions.getTodoList());
 		todotable.getTableHeader().setFont(Config.getFONT());
 		todoScrollPane.setViewportView(todotable);
 
+		TodoAnzeigen = new JButton("Wiedervorlage anzeigen");
+		TodoAnzeigen.setFont(Config.getFONT());
+		TodoAnzeigen.addActionListener(new MainFrameListener(this));
+		TodoPanel.add(TodoAnzeigen, BorderLayout.SOUTH);
+
+		
 		centerPanelNoLogin = new JPanel();
 		centerPanelNoLogin.setLayout(new BorderLayout());
 		centerPanelNoLogin.setBackground(Config.getBACKGROUND());
@@ -620,4 +644,131 @@ public class MainFrame extends JFrame {
 		this.birthdayPanel = birthdayPanel;
 	}
 
+	public JMenu getActionsMenu() {
+		return actionsMenu;
+	}
+
+	public void setActionsMenu(JMenu actionsMenu) {
+		this.actionsMenu = actionsMenu;
+	}
+
+	public JMenuItem getContactItem() {
+		return contactItem;
+	}
+
+	public void setContactItem(JMenuItem contactItem) {
+		this.contactItem = contactItem;
+	}
+
+	public JMenuItem getNewsletterItem() {
+		return newsletterItem;
+	}
+
+	public void setNewsletterItem(JMenuItem newsletterItem) {
+		this.newsletterItem = newsletterItem;
+	}
+
+	public JMenuItem geteMailItem() {
+		return eMailItem;
+	}
+
+	public void seteMailItem(JMenuItem eMailItem) {
+		this.eMailItem = eMailItem;
+	}
+
+	public JMenu getAnalysisMenu() {
+		return analysisMenu;
+	}
+
+	public void setAnalysisMenu(JMenu analysisMenu) {
+		this.analysisMenu = analysisMenu;
+	}
+
+	public JMenuItem getMostBookedItem() {
+		return mostBookedItem;
+	}
+
+	public void setMostBookedItem(JMenuItem mostBookedItem) {
+		this.mostBookedItem = mostBookedItem;
+	}
+
+	public JPanel getUpcomingBirthdayPanel() {
+		return upcomingBirthdayPanel;
+	}
+
+	public void setUpcomingBirthdayPanel(JPanel upcomingBirthdayPanel) {
+		this.upcomingBirthdayPanel = upcomingBirthdayPanel;
+	}
+
+	public JButton getRabattCodeSenden() {
+		return rabattCodeSenden;
+	}
+
+	public void setRabattCodeSenden(JButton rabattCodeSenden) {
+		this.rabattCodeSenden = rabattCodeSenden;
+	}
+
+	public JTabbedPane getMainTabPanel() {
+		return mainTabPanel;
+	}
+
+	public void setMainTabPanel(JTabbedPane mainTabPanel) {
+		this.mainTabPanel = mainTabPanel;
+	}
+
+	public JPanel getTodoPanel() {
+		return TodoPanel;
+	}
+
+	public void setTodoPanel(JPanel todoPanel) {
+		TodoPanel = todoPanel;
+	}
+
+	public JTable getTodotable() {
+		return todotable;
+	}
+
+	public void setTodotable(JTable todotable) {
+		this.todotable = todotable;
+	}
+
+	public JLabel getPleaseLogIn() {
+		return pleaseLogIn;
+	}
+
+	public void setPleaseLogIn(JLabel pleaseLogIn) {
+		this.pleaseLogIn = pleaseLogIn;
+	}
+
+	public JScrollPane getTodoScrollPane() {
+		return todoScrollPane;
+	}
+
+	public void setTodoScrollPane(JScrollPane todoScrollPane) {
+		this.todoScrollPane = todoScrollPane;
+	}
+
+	public JTable getUpcomingBirthdayTable() {
+		return upcomingBirthdayTable;
+	}
+
+	public void setUpcomingBirthdayTable(JTable upcomingBirthdayTable) {
+		this.upcomingBirthdayTable = upcomingBirthdayTable;
+	}
+
+	public JScrollPane getUpcomingBirthdayScrollPane() {
+		return upcomingBirthdayScrollPane;
+	}
+
+	public void setUpcomingBirthdayScrollPane(JScrollPane upcomingBirthdayScrollPane) {
+		this.upcomingBirthdayScrollPane = upcomingBirthdayScrollPane;
+	}
+
+	public JButton getTodoAnzeigen() {
+		return TodoAnzeigen;
+	}
+
+	public void setTodoAnzeigen(JButton todoAnzeigen) {
+		TodoAnzeigen = todoAnzeigen;
+	}
 }
