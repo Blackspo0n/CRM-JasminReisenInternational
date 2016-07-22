@@ -34,6 +34,7 @@ public class DbFunctions {
 	private static final String db = "PEZ";
 	private static final String benutzerName = "juf";
 	private static final String password = "juf<:;\\";
+	private static ArrayList<String> listDescriptions;
 
 	public static Connection connect() {
 		try {
@@ -631,17 +632,19 @@ public static void sendNewsletter(NewsletterMessageFrame nmf)
 	public static DefaultTableModel getContactHistory(String sql) {
 		String col[] = { "Datum", "Art", "Thema" };
 		DefaultTableModel dtm = new DefaultTableModel(col, 0);
-		String temp;
+		listDescriptions = new ArrayList<String>();;
 		try {
 			rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
+				String temp;
 				Object[] objs = new Object[3];
 				objs[0] = rs.getString("Datum");
 				objs[1] = rs.getString("Aktion");
 				temp = rs.getString("Thema");
-				String result = temp.substring(temp.indexOf("Thema:"), temp.indexOf("Beschreibung:"));
+				String result = temp.substring(7, temp.indexOf("Beschreibung:"));
 				objs[2] = result;
 				dtm.addRow(objs);
+				listDescriptions.add(temp);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -697,4 +700,43 @@ public static void sendNewsletter(NewsletterMessageFrame nmf)
 
 	}
 
+	public static Statement getStatement() {
+		return statement;
+	}
+
+	public static void setStatement(Statement statement) {
+		DbFunctions.statement = statement;
+	}
+
+	public static Connection getConnection() {
+		return connection;
+	}
+
+	public static void setConnection(Connection connection) {
+		DbFunctions.connection = connection;
+	}
+
+	public static String getSql() {
+		return sql;
+	}
+
+	public static void setSql(String sql) {
+		DbFunctions.sql = sql;
+	}
+
+	public static ResultSet getRs() {
+		return rs;
+	}
+
+	public static void setRs(ResultSet rs) {
+		DbFunctions.rs = rs;
+	}
+
+	public static ArrayList<String> getListDescriptions() {
+		return listDescriptions;
+	}
+
+	public static void setListDescriptions(ArrayList<String> listDescriptions) {
+		DbFunctions.listDescriptions = listDescriptions;
+	}
 }

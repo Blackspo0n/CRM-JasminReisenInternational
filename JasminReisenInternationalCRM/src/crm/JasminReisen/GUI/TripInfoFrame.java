@@ -22,6 +22,7 @@ public class TripInfoFrame extends JFrame {
 		this.setTitle("Reise Daten");
 		this.setSize(1000,200);
 		this.setLayout(new BorderLayout());
+		this.setLocationRelativeTo(null);
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(3,4,10,10));

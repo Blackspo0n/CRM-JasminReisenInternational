@@ -19,11 +19,12 @@ public class ContactDescriptionFrame extends JFrame {
 	
 	String description;
 	
-	public ContactDescriptionFrame() {
+	public ContactDescriptionFrame(String text) {
 		
 		this.setSize(600,400);
 		this.setLayout(new BorderLayout());
 		this.setTitle("Kontakthistorien Beschreibung");
+		this.setLocationRelativeTo(null);
 		
 		JPanel gridPanel = new JPanel();
 		gridPanel.setLayout(new GridLayout(1,4,10,10));
@@ -39,11 +40,10 @@ public class ContactDescriptionFrame extends JFrame {
 		centerPanel.setBackground(Config.getBACKGROUND());
 		this.add(centerPanel, BorderLayout.CENTER);
 		
-		JTextArea areaPanel = new JTextArea();
+		JTextArea areaPanel = new JTextArea(text);
 		areaPanel.setEditable(false);
 		areaPanel.setFont(Config.getFONT_TEXTFIELD());
 		centerPanel.add(areaPanel, BorderLayout.CENTER);
-		
 		
 		this.setVisible(true);
 		

@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import crm.JasminReisen.Functions.DbFunctions;
+import crm.JasminReisen.GUI.ContactDescriptionFrame;
 import crm.JasminReisen.GUI.ContactHistoryFrame;
 import crm.JasminReisen.GUI.TripEntryFrame;
 import crm.JasminReisen.GUI.TripInfoFrame;
@@ -28,8 +29,16 @@ public class ContactHistoryFrameListener implements ActionListener {
 		case "Öffnen":
 			if (chf.getHistoryTable().getSelectedRow() != -1) {
 				
+				String giveAwayReise = "";
 				
+				String theme = (String) chf.getHistoryTable().getValueAt(chf.getHistoryTable().getSelectedRow(), 2);
 				
+				for (String description :DbFunctions.getListDescriptions()) {
+					if (description.substring(7, description.indexOf("Beschreibung:")).equals(theme)) {
+						giveAwayReise = description;
+					}
+				}
+				new ContactDescriptionFrame(giveAwayReise);
 			} else if (chf.getHistoryTripTable().getSelectedRow() != -1) {
 				HistoryReise giveAwayReise = new HistoryReise();
 				ArrayList<HistoryReise> hr = chf.getReiseList();

@@ -28,6 +28,7 @@ public class ContactHistoryFrame extends JFrame {
 		this.setTitle("Kontakthistorie");
 		this.setSize(600, 400);
 		this.setLayout(new BorderLayout());
+		this.setLocationRelativeTo(null);
 		
 		JTabbedPane tabPanel = new JTabbedPane();
 		tabPanel.setFont(Config.getFONT());
