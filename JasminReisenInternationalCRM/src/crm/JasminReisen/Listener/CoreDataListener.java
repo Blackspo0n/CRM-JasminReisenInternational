@@ -7,6 +7,7 @@ import java.sql.Date;
 import javax.swing.JOptionPane;
 
 import crm.JasminReisen.Functions.DbFunctions;
+import crm.JasminReisen.GUI.ContactHistoryFrame;
 import crm.JasminReisen.GUI.CoreDataFrame;
 import crm.JasminReisen.GUI.CustomerEntryFrame;
 import crm.JasminReisen.GUI.EmailMessageFrame;
@@ -119,7 +120,15 @@ public class CoreDataListener implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Bitte wählen Sie zuerst einen Kunden aus!");
 			}
 			break;
-
+		case "Kontakthistorie einsehen":
+			if (cdf.getCustomerTable().getSelectedRow() != -1) {
+				Integer kundenNummer = (Integer) cdf.getCustomerTable()
+						.getValueAt(cdf.getCustomerTable().getSelectedRow(), 0);
+				new ContactHistoryFrame (kundenNummer);
+			} else {
+				JOptionPane.showMessageDialog(null, "Bitte wählen Sie zuerst einen Kunden aus!");
+			}
+			break;
 		}
 	}
 }
