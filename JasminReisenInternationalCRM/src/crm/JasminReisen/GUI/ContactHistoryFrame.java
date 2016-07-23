@@ -22,6 +22,7 @@ public class ContactHistoryFrame extends JFrame {
 	private ArrayList<HistoryReise> reiseList;
 	private JTable historyTable;
 	private JTable historyTripTable;
+	private JTabbedPane tabPanel;
 
 	public ContactHistoryFrame(int customerID) {
 		
@@ -30,7 +31,7 @@ public class ContactHistoryFrame extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
 		
-		JTabbedPane tabPanel = new JTabbedPane();
+		tabPanel = new JTabbedPane();
 		tabPanel.setFont(Config.getFONT());
 		tabPanel.setBackground(Config.getBACKGROUND());
 		this.add(tabPanel, BorderLayout.CENTER);
@@ -113,6 +114,14 @@ public class ContactHistoryFrame extends JFrame {
 
 	public void setHistoryTripTable(JTable historyTripTable) {
 		this.historyTripTable = historyTripTable;
+	}
+
+	public JTabbedPane getTabPanel() {
+		return tabPanel;
+	}
+
+	public void setTabPanel(JTabbedPane tabPanel) {
+		this.tabPanel = tabPanel;
 	}
 
 }

@@ -27,7 +27,7 @@ public class ContactHistoryFrameListener implements ActionListener {
 		// TODO Auto-generated method stub
 		switch (event.getActionCommand()) {
 		case "Öffnen":
-			if (chf.getHistoryTable().getSelectedRow() != -1) {
+			if (chf.getHistoryTable().getSelectedRow() != -1 && chf.getTabPanel().getSelectedIndex() == 0) {
 				
 				String giveAwayReise = "";
 				
@@ -39,7 +39,7 @@ public class ContactHistoryFrameListener implements ActionListener {
 					}
 				}
 				new ContactDescriptionFrame(giveAwayReise);
-			} else if (chf.getHistoryTripTable().getSelectedRow() != -1) {
+			} else if (chf.getHistoryTripTable().getSelectedRow() != -1 && chf.getTabPanel().getSelectedIndex() == 1) {
 				HistoryReise giveAwayReise = new HistoryReise();
 				ArrayList<HistoryReise> hr = chf.getReiseList();
 				Date reiseBeginn = (Date) chf.getHistoryTripTable().getValueAt(chf.getHistoryTripTable().getSelectedRow(), 0);
